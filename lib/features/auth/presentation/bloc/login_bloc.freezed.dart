@@ -255,6 +255,7 @@ mixin _$LoginState {
   bool get isLoading => throw _privateConstructorUsedError;
   bool get isError => throw _privateConstructorUsedError;
   String get message => throw _privateConstructorUsedError;
+  Map<String, String> get loginResult => throw _privateConstructorUsedError;
 
   /// Create a copy of LoginState
   /// with the given fields replaced by the non-null parameter values.
@@ -270,7 +271,12 @@ abstract class $LoginStateCopyWith<$Res> {
     $Res Function(LoginState) then,
   ) = _$LoginStateCopyWithImpl<$Res, LoginState>;
   @useResult
-  $Res call({bool isLoading, bool isError, String message});
+  $Res call({
+    bool isLoading,
+    bool isError,
+    String message,
+    Map<String, String> loginResult,
+  });
 }
 
 /// @nodoc
@@ -291,6 +297,7 @@ class _$LoginStateCopyWithImpl<$Res, $Val extends LoginState>
     Object? isLoading = null,
     Object? isError = null,
     Object? message = null,
+    Object? loginResult = null,
   }) {
     return _then(
       _value.copyWith(
@@ -309,6 +316,11 @@ class _$LoginStateCopyWithImpl<$Res, $Val extends LoginState>
                     ? _value.message
                     : message // ignore: cast_nullable_to_non_nullable
                         as String,
+            loginResult:
+                null == loginResult
+                    ? _value.loginResult
+                    : loginResult // ignore: cast_nullable_to_non_nullable
+                        as Map<String, String>,
           )
           as $Val,
     );
@@ -324,7 +336,12 @@ abstract class _$$LoginStateImplCopyWith<$Res>
   ) = __$$LoginStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool isLoading, bool isError, String message});
+  $Res call({
+    bool isLoading,
+    bool isError,
+    String message,
+    Map<String, String> loginResult,
+  });
 }
 
 /// @nodoc
@@ -344,6 +361,7 @@ class __$$LoginStateImplCopyWithImpl<$Res>
     Object? isLoading = null,
     Object? isError = null,
     Object? message = null,
+    Object? loginResult = null,
   }) {
     return _then(
       _$LoginStateImpl(
@@ -362,6 +380,11 @@ class __$$LoginStateImplCopyWithImpl<$Res>
                 ? _value.message
                 : message // ignore: cast_nullable_to_non_nullable
                     as String,
+        loginResult:
+            null == loginResult
+                ? _value._loginResult
+                : loginResult // ignore: cast_nullable_to_non_nullable
+                    as Map<String, String>,
       ),
     );
   }
@@ -374,7 +397,12 @@ class _$LoginStateImpl implements _LoginState {
     this.isLoading = false,
     this.isError = false,
     this.message = '',
-  });
+    final Map<String, String> loginResult = const {
+      'id': '',
+      'email': '',
+      'newUser': 'true',
+    },
+  }) : _loginResult = loginResult;
 
   @override
   @JsonKey()
@@ -385,10 +413,18 @@ class _$LoginStateImpl implements _LoginState {
   @override
   @JsonKey()
   final String message;
+  final Map<String, String> _loginResult;
+  @override
+  @JsonKey()
+  Map<String, String> get loginResult {
+    if (_loginResult is EqualUnmodifiableMapView) return _loginResult;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_loginResult);
+  }
 
   @override
   String toString() {
-    return 'LoginState(isLoading: $isLoading, isError: $isError, message: $message)';
+    return 'LoginState(isLoading: $isLoading, isError: $isError, message: $message, loginResult: $loginResult)';
   }
 
   @override
@@ -399,11 +435,21 @@ class _$LoginStateImpl implements _LoginState {
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading) &&
             (identical(other.isError, isError) || other.isError == isError) &&
-            (identical(other.message, message) || other.message == message));
+            (identical(other.message, message) || other.message == message) &&
+            const DeepCollectionEquality().equals(
+              other._loginResult,
+              _loginResult,
+            ));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, isLoading, isError, message);
+  int get hashCode => Object.hash(
+    runtimeType,
+    isLoading,
+    isError,
+    message,
+    const DeepCollectionEquality().hash(_loginResult),
+  );
 
   /// Create a copy of LoginState
   /// with the given fields replaced by the non-null parameter values.
@@ -419,6 +465,7 @@ abstract class _LoginState implements LoginState {
     final bool isLoading,
     final bool isError,
     final String message,
+    final Map<String, String> loginResult,
   }) = _$LoginStateImpl;
 
   @override
@@ -427,6 +474,8 @@ abstract class _LoginState implements LoginState {
   bool get isError;
   @override
   String get message;
+  @override
+  Map<String, String> get loginResult;
 
   /// Create a copy of LoginState
   /// with the given fields replaced by the non-null parameter values.

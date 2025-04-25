@@ -67,4 +67,24 @@ class InputValidator {
 
     return null;
   }
+
+  static Type? checkType(dynamic value) {
+    if (value == null) {
+      return null;
+    } else if (value is String) {
+      return String;
+    } else if (value is int) {
+      return int;
+    } else if (value is double) {
+      return double;
+    } else if (value is bool) {
+      return bool;
+    } else if (value is List<String>) {
+      return List<String>;
+    } else {
+      throw ArgumentError(
+        'Unsupported type for SharedPreferences: ${value.runtimeType}',
+      );
+    }
+  }
 }
