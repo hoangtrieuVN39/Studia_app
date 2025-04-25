@@ -6,6 +6,6 @@ class LoginState with _$LoginState {
     @Default(false) bool isLoading,
     @Default(false) bool isError,
     @Default('') String message,
-    // Add specific login state fields if needed
+    @Default({'id': '', 'email': '', 'newUser': 'true'}) Map<String, String> loginResult,
   }) = _LoginState;
 }
