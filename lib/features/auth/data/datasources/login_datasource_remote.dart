@@ -1,19 +1,30 @@
+import 'dart:math';
+
 import 'package:studia/core/data/datasources/remote/datasource_remote.dart';
 import 'package:studia/core/domain/entities/user.dart';
-import 'package:studia/features/auth/data/models/user_model.dart';
 
-abstract class LoginDatasourceRemote {
-  Future<User> getUser(String userId);
-}
-
-class LoginDatasourceRemoteImpl implements LoginDatasourceRemote {
+class LoginDatasourceRemote {
   final DatasourceRemote datasourceRemote;
 
-  LoginDatasourceRemoteImpl({required this.datasourceRemote});
+  LoginDatasourceRemote({required this.datasourceRemote});
 
-  @override
   Future<User> getUser(String userId) async {
-    final response = await datasourceRemote.get('/users/$userId');
-    return UserModel.fromJson(response.data);
+    // final response = await datasourceRemote.get('/users/$userId');
+    // return UserModel.fromJson(response.data);
+
+    return User(
+      id: 1,
+      firstName: 'John',
+      lastName: 'Doe',
+      gender: 'male',
+      email: 'john.doe@example.com',
+      avatar: 'https://via.placeholder.com/150',
+      level: 4,
+      birthYear: 1990,
+      performance: [
+        for (var i = 0; i < 300; i++)
+          [for (var j = 0; j < 4; j++) Random().nextDouble()],
+      ],
+    );
   }
 }

@@ -36,14 +36,14 @@ class LoginPage extends StatelessWidget {
               (context) => LoginBloc(
                 loginUsecase: LoginUsecase(
                   loginRepositoryLocal: LoginRepositoryLocalImpl(
-                    loginDatasourceLocal: LoginDatasourceLocalImpl(
+                    loginDatasourceLocal: LoginDatasourceLocal(
                       datasourceLocal: DatasourceLocal(
                         sharedPreferences: sharedPreferences,
                       ),
                     ),
                   ),
                   loginRepositoryRemote: LoginRepositoryRemoteImpl(
-                    loginDatasourceRemote: LoginDatasourceRemoteImpl(
+                    loginDatasourceRemote: LoginDatasourceRemote(
                       datasourceRemote: DatasourceRemote(dio: Dio()),
                     ),
                   ),

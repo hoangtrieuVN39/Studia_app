@@ -1,5 +1,3 @@
-import 'package:studia/core/domain/entities/standard.dart';
-
 class User {
   final int id;
   final String firstName;
@@ -9,7 +7,7 @@ class User {
   final String avatar;
   final int level;
   final int birthYear;
-  final List<Map<Standard, dynamic>> performance;
+  final List<List<double>> performance;
 
   User({
     required this.id,
