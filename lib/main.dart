@@ -1,31 +1,43 @@
-import 'package:drift/drift.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:studia/core/core.dart';
-import 'package:studia/core/data/services/drift/database.dart';
-import 'package:studia/core/provider.dart';
+import 'package:studia/core/data/datasources/local/drift/database.dart';
+import 'package:studia/core/data/datasources/local/shared-prefs_manager.dart';
+
+import 'package:studia/firebase_options.dart';
+
+final getIt = GetIt.instance;
+
+void setup() async {
+  getIt.registerSingleton<SharedPreferences>(
+    await SharedPreferences.getInstance(),
+  );
+  await getIt.isReady<SharedPreferences>();
+  getIt.registerLazySingleton<SharedPrefsManager>(
+    () => SharedPrefsManager(getIt<SharedPreferences>()),
+  );
+  await getIt<SharedPrefsManager>().init();
+
+  getIt.registerLazySingleton<UserProvider>(() => UserProvider());
+  getIt.registerLazySingleton<AppDatabase>(() => AppDatabase());
+  getIt.registerLazySingleton<AppDatabaseProvider>(
+    () => AppDatabaseProvider(database: getIt<AppDatabase>()),
+  );
+}
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  runApp(const MyApp());
   FlutterNativeSplash.remove();
+  WidgetsFlutterBinding.ensureInitialized();
 
-  // final database = AppDatabase();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  // await database
-  //     .into(database.standardsTable)
-  //     .insert(
-  //       StandardsTableCompanion.insert(
-  //         name: 'todo: finish drift setup',
-  //         description: Value(
-  //           'We can now write queries and define our own tables.',
-  //         ),
-  //         level: 1,
-  //         domain: 1,
-  //         skill: 1,
-  //       ),
-  //     );
+  setup();
+
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -33,14 +45,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [ChangeNotifierProvider(create: (context) => UserProvider())],
-      child: MaterialApp(
-        title: 'Studia',
-        theme: AppTheme.lightTheme,
-        initialRoute: AppRoutes.initialRoute,
-        routes: AppRoutes.routes,
-      ),
+    return MaterialApp(
+      title: 'Studia',
+      theme: AppTheme.lightTheme,
+      initialRoute: AppRoutes.initialRoute,
+      routes: AppRoutes.routes(),
     );
   }
 }

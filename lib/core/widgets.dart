@@ -1,3 +1,10 @@
 export 'package:studia/core/widgets/app_button.dart';
 export 'package:studia/core/widgets/error_widget.dart';
 export 'package:studia/core/widgets/loading_widget.dart';
+export 'package:studia/core/widgets/app_bar.dart';
+export 'package:studia/core/widgets/app_chip.dart';
+export 'package:studia/core/widgets/app_icon.dart';
+export 'package:studia/core/widgets/app_text_field.dart';
+export 'package:studia/core/widgets/app_picker.dart';
+export 'package:studia/core/widgets/app_bottom_sheet.dart';
+export 'package:studia/core/widgets/app_progress_bar.dart';

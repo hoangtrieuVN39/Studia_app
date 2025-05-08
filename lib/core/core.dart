@@ -6,3 +6,4 @@ export 'package:studia/core/theme.dart';
 export 'package:studia/core/util.dart';
 export 'package:studia/core/usecase.dart';
 export 'package:studia/core/widgets.dart';
+export 'package:studia/core/di.dart';

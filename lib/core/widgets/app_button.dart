@@ -8,9 +8,9 @@ enum AppButtonWidth { fit, fill }
 
 enum AppButtonColor { orange, gray }
 
-enum AppButtonType { primary, secondary, outlined, text }
+enum AppButtonType { primary, secondary, outlined, transparent }
 
-class AppButton extends StatelessWidget {
+class CustomButton extends StatelessWidget {
   final AppButtonType type;
   final VoidCallback? onPressed;
   final bool isLoading;
@@ -21,8 +21,8 @@ class AppButton extends StatelessWidget {
   final AppButtonColor color;
   final AppButtonWidth width;
 
-  const AppButton({
-    Key? key,
+  const CustomButton({
+    super.key,
     required this.onPressed,
     this.color = AppButtonColor.orange,
     this.type = AppButtonType.primary,
@@ -32,38 +32,109 @@ class AppButton extends StatelessWidget {
     this.trailing,
     this.width = AppButtonWidth.fit,
     this.text,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
-    final bgColor =
-        color == AppButtonColor.orange
-            ? AppColors.powerorange
-            : AppColors.coolgray;
-    final txtColor =
-        color == AppButtonColor.orange ? AppColors.snow : AppColors.darkgray;
+    final dynamic bgColor;
+    final dynamic txtColor;
+    final dynamic borderColor;
 
     final double height;
     final EdgeInsets buttonPadding;
     final TextStyle textStyle;
 
-    switch (size) {
-      case AppButtonSize.small:
-        height = 36;
-        buttonPadding = const EdgeInsets.symmetric(horizontal: 16);
-        textStyle = AppTextStyles.body.copyWith(color: txtColor);
+    switch (type) {
+      case AppButtonType.primary:
+        bgColor =
+            color == AppButtonColor.orange
+                ? AppColors.orange
+                : AppColors.darkgray;
+        txtColor =
+            color == AppButtonColor.orange ? AppColors.snow : AppColors.snow;
+        borderColor = null;
+        switch (size) {
+          case AppButtonSize.small:
+            buttonPadding = const EdgeInsets.symmetric(horizontal: 8);
+            height = 36;
+            textStyle = AppTextStyles.body.copyWith(color: txtColor);
+            break;
+          case AppButtonSize.regular:
+            buttonPadding = const EdgeInsets.symmetric(horizontal: 12);
+            height = 48;
+            textStyle = AppTextStyles.subheading.copyWith(color: txtColor);
+            break;
+        }
         break;
-      case AppButtonSize.regular:
-        height = 48;
-        buttonPadding = const EdgeInsets.symmetric(horizontal: 24);
-        textStyle = AppTextStyles.subheading.copyWith(color: txtColor);
+      case AppButtonType.secondary:
+        bgColor =
+            color == AppButtonColor.orange
+                ? AppColors.lightorange
+                : AppColors.coolgray;
+        txtColor =
+            color == AppButtonColor.orange
+                ? AppColors.powerorange
+                : AppColors.darkgray;
+        borderColor = null;
+        switch (size) {
+          case AppButtonSize.small:
+            buttonPadding = const EdgeInsets.symmetric(horizontal: 8);
+            height = 36;
+            textStyle = AppTextStyles.body.copyWith(color: txtColor);
+            break;
+          case AppButtonSize.regular:
+            buttonPadding = const EdgeInsets.symmetric(horizontal: 12);
+            height = 48;
+            textStyle = AppTextStyles.subheading.copyWith(color: txtColor);
+            break;
+        }
+        break;
+      case AppButtonType.outlined:
+        bgColor = null;
+        txtColor =
+            color == AppButtonColor.orange
+                ? AppColors.orange
+                : AppColors.darkgray;
+        borderColor =
+            color == AppButtonColor.orange ? AppColors.orange : AppColors.gray;
+        switch (size) {
+          case AppButtonSize.small:
+            buttonPadding = const EdgeInsets.symmetric(horizontal: 8);
+            height = 36;
+            textStyle = AppTextStyles.body.copyWith(color: txtColor);
+            break;
+          case AppButtonSize.regular:
+            buttonPadding = const EdgeInsets.symmetric(horizontal: 12);
+            height = 48;
+            textStyle = AppTextStyles.subheading.copyWith(color: txtColor);
+            break;
+        }
+
+        break;
+      case AppButtonType.transparent:
+        bgColor = null;
+        txtColor =
+            color == AppButtonColor.orange
+                ? AppColors.orange
+                : AppColors.darkgray;
+        borderColor = null;
+        buttonPadding = const EdgeInsets.all(0);
+        height = 0;
+
+        switch (size) {
+          case AppButtonSize.small:
+            textStyle = AppTextStyles.body.copyWith(color: txtColor);
+            break;
+          case AppButtonSize.regular:
+            textStyle = AppTextStyles.subheading.copyWith(color: txtColor);
+            break;
+        }
         break;
     }
 
     final finalPadding = buttonPadding;
 
     final child = Row(
-      mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         if (isLoading)
@@ -76,30 +147,98 @@ class AppButton extends StatelessWidget {
             ),
           )
         else ...[
-          if (leading != null) ...[leading!, const SizedBox(width: 8)],
-          if (text != null) ...[Text(text!, style: textStyle)],
-          if (trailing != null) ...[const SizedBox(width: 8), trailing!],
+          if (leading != null) ...[leading!],
+          if (text != null) ...[
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: Text(text!, style: textStyle),
+            ),
+          ],
+          if (trailing != null) ...[trailing!],
         ],
       ],
     );
 
-    return SizedBox(
-      height: height,
-      width: width == AppButtonWidth.fit ? null : double.infinity,
-      child: ElevatedButton(
-        onPressed: isLoading ? null : onPressed,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: bgColor,
-          foregroundColor: txtColor,
-          padding: finalPadding,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(height / 2)),
-          ),
-          elevation: 0,
-          disabledBackgroundColor: bgColor.withOpacity(0.7),
-          disabledForegroundColor: txtColor.withOpacity(0.7),
+    return TextButton(
+      onPressed: onPressed,
+      style: TextButton.styleFrom(
+        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        minimumSize: Size(
+          width == AppButtonWidth.fit ? 0 : double.infinity,
+          height,
         ),
-        child: child,
+        backgroundColor: bgColor,
+        foregroundColor: txtColor,
+        padding: finalPadding,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(height / 2),
+          side: BorderSide(
+            color: borderColor ?? Colors.transparent,
+            width: borderColor != null ? 1 : 0,
+          ),
+        ),
+        elevation: 0,
+        disabledBackgroundColor:
+            bgColor != null ? bgColor!.withOpacity(0.7) : AppColors.snow,
+        disabledForegroundColor: txtColor.withOpacity(0.7),
+      ),
+      child: child,
+    );
+  }
+}
+
+class CustomElevatedButton extends StatelessWidget {
+  final String? text;
+  final Icon? icon;
+  final VoidCallback onPressed;
+  final AppButtonColor color;
+  final AppButtonSize size;
+  final AppButtonWidth width;
+  final bool active;
+
+  const CustomElevatedButton({
+    Key? key,
+    this.text,
+    this.icon,
+    required this.onPressed,
+    this.color = AppButtonColor.orange,
+    this.size = AppButtonSize.regular,
+    this.width = AppButtonWidth.fit,
+    this.active = true,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final bgColor =
+        color == AppButtonColor.orange
+            ? AppColors.powerorange
+            : AppColors.coolgray;
+    final txtColor =
+        color == AppButtonColor.orange ? AppColors.snow : AppColors.darkgray;
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: bgColor,
+        foregroundColor: txtColor,
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+        elevation: 0,
+        minimumSize: Size(double.infinity, 48),
+        disabledBackgroundColor: bgColor.withOpacity(0.7),
+        disabledForegroundColor: txtColor.withOpacity(0.7),
+      ),
+      onPressed: active ? onPressed : null,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          if (icon != null) ...[icon!, const SizedBox(width: 0)],
+          if (text != null) ...[
+            Text(
+              text!,
+              style: AppTextStyles.subheading.copyWith(color: txtColor),
+              textAlign: icon != null ? TextAlign.start : TextAlign.center,
+            ),
+          ],
+        ],
       ),
     );
   }

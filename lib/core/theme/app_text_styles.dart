@@ -39,7 +39,7 @@ class AppTextStyles {
   static const TextStyle h4 = TextStyle(
     fontFamily: 'SF Pro',
     fontSize: 18,
-    fontWeight: FontWeight.w500, // Medium
+    fontWeight: FontWeight.w600, // Medium
     color: AppColors.textPrimary,
     letterSpacing: 0,
     height: 1,
@@ -49,7 +49,7 @@ class AppTextStyles {
   static const TextStyle subheading = TextStyle(
     fontFamily: 'SF Pro',
     fontSize: 16,
-    fontWeight: FontWeight.w500, // Medium
+    fontWeight: FontWeight.w600, // Medium
     color: AppColors.textPrimary,
     letterSpacing: 0,
     height: 1,
@@ -69,7 +69,7 @@ class AppTextStyles {
   static const TextStyle caption = TextStyle(
     fontFamily: 'SF Pro',
     fontSize: 12,
-    fontWeight: FontWeight.w400, // Regular
+    fontWeight: FontWeight.w500, // Regular
     color: AppColors.textSecondary,
     letterSpacing: 0.25, // Letter spacing 0.25
     height: 1,

@@ -1,25 +1,31 @@
-import 'dart:convert';
-
-import 'package:studia/core/data/datasources/local/datasource_local.dart';
-import 'package:studia/core/domain/entities/user.dart';
-import 'package:studia/features/auth/data/models/user_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginDatasourceLocal {
-  final DatasourceLocal datasourceLocal;
-  LoginDatasourceLocal({required this.datasourceLocal});
+  final SharedPreferences prefs;
 
-  Future<User> getUser() async {
+  LoginDatasourceLocal({required SharedPreferences prefs}) : prefs = prefs;
+
+  Future<Map<String, dynamic>> getUser() async {
     try {
-      final user = await datasourceLocal.getInstance('user');
-      return UserModel.fromJson(jsonDecode(user));
+      final id = await prefs.getString('user_id');
+      final email = await prefs.getString('user_email');
+      final isNewUser = await prefs.getBool('user_isNewUser');
+      return {'id': id, 'email': email, 'isNewUser': isNewUser};
     } catch (e) {
-      throw UserNotFoundException(e.toString());
+      return {'id': '', 'email': '', 'isNewUser': true};
     }
   }
 
-  Future<void> saveUser(User user) async {
-    final userModel = UserModel.copyWith(user);
-    await datasourceLocal.saveInstance('user', userModel.toJson());
+  Future<void> saveUser(String id, String email, bool isNewUser) async {
+    await prefs.setString('user_id', id);
+    await prefs.setString('user_email', email);
+    await prefs.setBool('user_isNewUser', isNewUser);
+  }
+
+  Future<void> removeUser() async {
+    await prefs.remove('user_id');
+    await prefs.remove('user_email');
+    await prefs.remove('user_isNewUser');
   }
 }
 

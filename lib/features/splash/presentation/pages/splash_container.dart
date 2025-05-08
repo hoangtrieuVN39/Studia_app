@@ -14,7 +14,7 @@ class SplashContainer extends StatelessWidget {
     return BlocConsumer<SplashBloc, SplashState>(
       listener: (context, state) {
         if (state.done) {
-          NavigatorService.navigateTo(context, RouteConstants.login);
+          NavigatorService.pushReplacement(context, RouteConstants.login);
         }
       },
       builder: (context, state) {
@@ -26,7 +26,7 @@ class SplashContainer extends StatelessWidget {
                 end: Alignment.bottomRight,
                 colors: [
                   AppColors.snow,
-                  AppColors.lightorange,
+                  AppColors.orange,
                   AppColors.powerorange,
                 ],
                 stops: [0.0, 0.5, 1.0],

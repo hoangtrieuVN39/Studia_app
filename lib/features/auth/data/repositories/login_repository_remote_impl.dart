@@ -12,4 +12,9 @@ class LoginRepositoryRemoteImpl extends LoginRepositoryRemote {
     final user = await loginDatasourceRemote.getUser(userId);
     return user;
   }
+
+  @override
+  Future<void> register(Map<String, dynamic> data) async {
+    await loginDatasourceRemote.register(data);
+  }
 }

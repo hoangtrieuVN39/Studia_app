@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 class AppColors {
   // Primary brand colors
   static const Color powerorange = Color(0xFFFF5001);
-  static const Color lightorange = Color(0xFFF67011);
+  static const Color orange = Color(0xFFF67011);
+  static const Color lightorange = Color(0xFFFFCDA9);
 
   // Neutral colors
   static const Color snow = Color(0xFFFBFBFB);
   static const Color coolgray = Color(0xFFEEEEEE);
   static const Color darkgray = Color(0xFF262626);
+  static const Color gray = Color(0xFFD5D5D5);
   static const Color void_ = Color(0xFF16151A);
 
   // Semantic colors - Base

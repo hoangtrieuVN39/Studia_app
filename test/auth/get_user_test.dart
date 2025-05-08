@@ -5,7 +5,7 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:studia/core/domain/entities/user.dart';
 import 'package:studia/features/auth/domain/repositories/login_repository_remote.dart';
-import 'package:studia/features/auth/domain/usecases/get_user.dart';
+import 'package:studia/features/auth/domain/usecases/get_user_usecase.dart';
 
 @GenerateMocks([LoginRepositoryRemote])
 import 'get_user_test.mocks.dart';
