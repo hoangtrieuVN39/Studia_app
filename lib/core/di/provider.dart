@@ -1,25 +1,34 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:dio/dio.dart';
 import 'package:studia/core/data/datasources/local/drift/database.dart';
 import 'package:studia/core/domain/entities/user.dart';
+import 'package:injectable/injectable.dart';
 
-class UserProvider extends ChangeNotifier {
+class UserProvider {
   User? _user;
   User? get user => _user;
 
   void setUser(User user) {
     _user = user;
-    notifyListeners();
   }
 }
 
-class AppDatabaseProvider extends InheritedProvider<AppDatabase> {
-  AppDatabase database;
+@module
+abstract class UserModule {
+  @preResolve
+  @lazySingleton
+  UserProvider get userProvider => UserProvider();
+}
 
-  AppDatabaseProvider({super.key, required this.database})
-    : super(create: (context) => database);
+@module
+abstract class AppDatabaseModule {
+  @preResolve
+  @lazySingleton
+  Future<AppDatabase> get appDatabase async => AppDatabase();
+}
 
-  void closeDatabase() async {
-    await database.close();
-  }
+@module
+abstract class DioServiceModule {
+  @preResolve
+  @lazySingleton
+  Future<Dio> get dioService async => Dio();
 }

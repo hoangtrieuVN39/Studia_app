@@ -17,6 +17,7 @@ class CustomAppBar {
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         child: leading,
       ),
+      scrolledUnderElevation: 0,
       actionsPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       title: ShaderMask(
         shaderCallback:

@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:studia/core/data/datasources/local/shared-prefs_manager.dart';
 import 'package:studia/core/data/datasources/remote/datasource_remote.dart';
 import 'package:studia/features/auth/data/datasources/login_datasource_local.dart';
 import 'package:studia/features/auth/data/datasources/login_datasource_remote.dart';
@@ -41,7 +40,7 @@ class LoginPage extends StatelessWidget {
                     loginRepositoryRemote: LoginRepositoryRemoteImpl(
                       loginDatasourceRemote: LoginDatasourceRemote(
                         datasourceRemote: DatasourceRemote(
-                          dio: getIt<Dio>(),
+                          dio: getIt.get<Dio>(),
                         ),
                       ),
                     ),

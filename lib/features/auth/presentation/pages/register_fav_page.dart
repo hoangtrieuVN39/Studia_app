@@ -1,5 +1,7 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:studia/core/data/datasources/local/drift/database.dart';
 import 'package:studia/core/data/datasources/local/shared-prefs_manager.dart';
 import 'package:studia/core/data/datasources/remote/datasource_remote.dart';
 import 'package:studia/core/data/datasources/remote/dio_service.dart';
@@ -23,13 +25,13 @@ class RegisterFavPage extends StatelessWidget {
     return BlocProvider(
       create:
           (context) => RegisterFavBloc(
-            FetchDomainsUsecase(getIt.get<AppDatabaseProvider>().database),
+            FetchDomainsUsecase(getIt.get<AppDatabase>()),
             data,
             RegisterUsecase(
               LoginRepositoryRemoteImpl(
                 loginDatasourceRemote: LoginDatasourceRemote(
                   datasourceRemote: DatasourceRemote(
-                    dio: getIt.get<DioService>().dio,
+                    dio: getIt.get<Dio>(),
                   ),
                 ),
               ),

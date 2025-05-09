@@ -7,27 +7,26 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:studia/core/core.dart';
 import 'package:studia/core/data/datasources/local/drift/database.dart';
 import 'package:studia/core/data/datasources/local/shared-prefs_manager.dart';
+import 'package:studia/core/di/injection.dart';
 
 import 'package:studia/firebase_options.dart';
 
 final getIt = GetIt.instance;
 
-void setup() async {
-  getIt.registerSingleton<SharedPreferences>(
-    await SharedPreferences.getInstance(),
-  );
-  await getIt.isReady<SharedPreferences>();
-  getIt.registerLazySingleton<SharedPrefsManager>(
-    () => SharedPrefsManager(getIt<SharedPreferences>()),
-  );
-  await getIt<SharedPrefsManager>().init();
-
-  getIt.registerLazySingleton<UserProvider>(() => UserProvider());
-  getIt.registerLazySingleton<AppDatabase>(() => AppDatabase());
-  getIt.registerLazySingleton<AppDatabaseProvider>(
-    () => AppDatabaseProvider(database: getIt<AppDatabase>()),
-  );
-}
+// setup() async {
+//   getIt.registerSingleton<SharedPreferences>(
+//     await SharedPreferences.getInstance(),
+//   );
+//   await getIt.isReady<SharedPreferences>();
+//   getIt.registerSingleton<UserProvider>(await UserProvider());
+//   await getIt.isReady<UserProvider>();
+//   getIt.registerSingleton<AppDatabaseProvider>(await AppDatabaseProvider());
+//   await getIt.isReady<AppDatabaseProvider>();
+//   getIt.registerSingleton<SharedPrefsManager>(
+//     SharedPrefsManager(getIt<SharedPreferences>()),
+//   );
+//   await getIt.isReady();
+// }
 
 void main() async {
   FlutterNativeSplash.remove();
@@ -35,8 +34,7 @@ void main() async {
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  setup();
-
+  await configureDependencies();
   runApp(const MyApp());
 }
 

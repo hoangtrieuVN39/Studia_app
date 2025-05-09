@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:studia/core/data/datasources/local/drift/database.dart';
 import 'package:studia/core/data/datasources/local/shared-prefs_manager.dart';
 import 'package:studia/features/auth/data/datasources/login_datasource_local.dart';
 import 'package:studia/features/auth/data/repositories/login_repository_local_impl.dart';
@@ -18,9 +19,9 @@ class RegisterPage extends StatelessWidget {
     return BlocProvider(
       create:
           (context) => RegisterBloc(
-            FetchLevelsUsecase(getIt.get<AppDatabaseProvider>().database),
+            FetchLevelsUsecase(getIt.get<AppDatabase>()),
             LogoutUsecase(
-              getIt.get<AppDatabaseProvider>().database,
+              getIt.get<AppDatabase>(),
               loginRepositoryLocal: LoginRepositoryLocalImpl(
                 loginDatasourceLocal: LoginDatasourceLocal(
                   prefs: getIt.get<SharedPrefsManager>().prefs,

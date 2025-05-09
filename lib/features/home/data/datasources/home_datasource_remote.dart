@@ -16,10 +16,11 @@ class HomeRemoteDataSource {
     // return response.data;
 
     return {
-      for (var i = 0; i < 46; i++)
+      for (var i = 0; i < 300; i++)
         '$i': {
           'performance': Random().nextDouble(),
-          'prerequisite': Random().nextInt(46),
+          'prerequisite':
+              Random().nextInt(300) - 150 < 0 ? 0 : Random().nextInt(300) - 150,
         },
     };
   }

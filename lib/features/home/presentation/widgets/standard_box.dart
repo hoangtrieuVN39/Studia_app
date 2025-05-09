@@ -9,6 +9,7 @@ class StandardBox extends StatefulWidget {
   final StandardBoxType type;
   final Standards standard;
   final Standards? prerequisite;
+  final double performance;
   final bool isMinimized;
   final void Function() onTapViewInfo;
   final void Function() onTapPlay;
@@ -21,6 +22,7 @@ class StandardBox extends StatefulWidget {
     required this.onTapViewInfo,
     required this.onTapPlay,
     this.prerequisite,
+    required this.performance,
   });
 
   @override
@@ -39,7 +41,7 @@ class _StandardBoxState extends State<StandardBox> {
                 width: double.infinity,
                 height: 16,
                 child: CustomProgress(
-                  progress: 0.5,
+                  progress: widget.performance,
                   color: AppColors.orange,
                   size: ProgressBarSize.small,
                 ),

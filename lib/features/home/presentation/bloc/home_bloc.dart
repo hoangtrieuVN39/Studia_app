@@ -31,7 +31,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     for (var standard in standards) {
       standards_performance[standard] =
           performance[standard.standard_id.toString()]['performance'];
-      print(standards_performance[standard]);
     }
     emit(
       state.copyWith(

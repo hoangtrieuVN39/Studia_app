@@ -15,7 +15,7 @@ class HomeContainer extends StatelessWidget {
     return BlocConsumer<HomeBloc, HomeState>(
       listener: (context, state) {},
       builder: (context, state) {
-        if (state.isLoading) {
+        if (state.isLoading || state.standards_performance.isEmpty) {
           return const Center(child: CircularProgressIndicator());
         }
         int num = 3;
@@ -99,6 +99,9 @@ class HomeContainer extends StatelessWidget {
                         isMinimized: false,
                         onTapViewInfo: () {},
                         onTapPlay: () {},
+                        performance:
+                            state.standards_performance[state
+                                .selectedStandard]!,
                       ),
                     ),
                 ],

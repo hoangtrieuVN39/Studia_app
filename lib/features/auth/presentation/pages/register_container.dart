@@ -1,20 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:studia/core/widgets/app_bar.dart';
 import 'package:studia/features/auth/presentation/pages/register_fav_page.dart';
 import '../../../../core/core.dart';
-import '../../../../core/theme/app_text_styles.dart';
-import '../../../../core/theme/app_colors.dart';
 import '../bloc/register/register_bloc.dart';
 
 class RegisterContainer extends StatelessWidget {
-  RegisterContainer({super.key});
-
-  late RegisterBloc registerBloc;
+  const RegisterContainer({super.key});
 
   @override
   Widget build(BuildContext context) {
-    registerBloc = context.read<RegisterBloc>();
+    final registerBloc = context.read<RegisterBloc>();
 
     return BlocConsumer<RegisterBloc, RegisterState>(
       listener: (context, state) {
@@ -141,6 +136,11 @@ class RegisterContainer extends StatelessWidget {
                                 context,
                                 Gender.Male,
                                 Gender.Male == registerBloc.state.gender,
+                                () {
+                                  registerBloc.add(
+                                    RegisterEvent.setGender(Gender.Male),
+                                  );
+                                },
                               ),
                             ),
                             const SizedBox(width: 8),
@@ -149,6 +149,11 @@ class RegisterContainer extends StatelessWidget {
                                 context,
                                 Gender.Female,
                                 Gender.Female == registerBloc.state.gender,
+                                () {
+                                  registerBloc.add(
+                                    RegisterEvent.setGender(Gender.Female),
+                                  );
+                                },
                               ),
                             ),
                             const SizedBox(width: 8),
@@ -157,6 +162,11 @@ class RegisterContainer extends StatelessWidget {
                                 context,
                                 Gender.Other,
                                 Gender.Other == registerBloc.state.gender,
+                                () {
+                                  registerBloc.add(
+                                    RegisterEvent.setGender(Gender.Other),
+                                  );
+                                },
                               ),
                             ),
                           ],
@@ -216,6 +226,7 @@ class RegisterContainer extends StatelessWidget {
     BuildContext context,
     Gender gender,
     bool isSelected,
+    void Function() onPressed,
   ) {
     return TextButton(
       style: TextButton.styleFrom(
@@ -230,9 +241,7 @@ class RegisterContainer extends StatelessWidget {
         alignment: Alignment.centerLeft,
         minimumSize: Size.fromHeight(48),
       ),
-      onPressed: () {
-        registerBloc.add(RegisterEvent.setGender(gender));
-      },
+      onPressed: () => onPressed,
       child: Text(
         gender.name,
         style: AppTextStyles.body.copyWith(
