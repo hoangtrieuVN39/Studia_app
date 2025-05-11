@@ -31,23 +31,23 @@ class HomeContainer extends StatelessWidget {
           offsets.add(Offset(x.toDouble(), y.toDouble()));
         }
         return Scaffold(
-          appBar: CustomAppBar.build(context, 'Home'),
+          appBar: CustomAppBarTitle.build(context, 'Home'),
           body: Container(
             width: double.infinity,
-            child: Padding(
-              padding: EdgeInsets.all(padding),
-              child: Stack(
-                children: [
-                  SingleChildScrollView(
-                    child: Stack(
-                      children: [
-                        CustomPaint(
-                          size: Size(width, MediaQuery.of(context).size.height),
-                          painter: StandardLinesPainter(offsets: offsets),
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: List<Widget>.generate(
+            padding: EdgeInsets.all(padding),
+            child: Stack(
+              children: [
+                SingleChildScrollView(
+                  child: Stack(
+                    children: [
+                      CustomPaint(
+                        size: Size(width, MediaQuery.of(context).size.height),
+                        painter: StandardLinesPainter(offsets: offsets),
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          ...List<Widget>.generate(
                             state.standards_performance.length,
                             (index) => Container(
                               height: 50,
@@ -84,28 +84,38 @@ class HomeContainer extends StatelessWidget {
                               ),
                             ),
                           ),
-                        ),
-                      ],
+                          if (state.selectedStandard != null)
+                            SizedBox(height: 200),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                if (state.selectedStandard != null)
+                  Positioned(
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    child: StandardBox(
+                      state.selectedStandard!,
+                      type: StandardBoxType.progress,
+                      isMinimized: false,
+                      onTapViewInfo: () {},
+                      onTapPlay: () {
+                        context.read<HomeBloc>().add(
+                          HomeEvent.onPlayButtonTapped(),
+                        );
+                        NavigatorService.push(
+                          context,
+                          AppRoutes.play,
+                          data: {'questions': state.questions},
+                        );
+                      },
+                      performance:
+                          state.standards_performance[state.selectedStandard]!,
                     ),
                   ),
-                  if (state.selectedStandard != null)
-                    Positioned(
-                      left: 0,
-                      right: 0,
-                      bottom: 0,
-                      child: StandardBox(
-                        state.selectedStandard!,
-                        type: StandardBoxType.progress,
-                        isMinimized: false,
-                        onTapViewInfo: () {},
-                        onTapPlay: () {},
-                        performance:
-                            state.standards_performance[state
-                                .selectedStandard]!,
-                      ),
-                    ),
-                ],
-              ),
+              ],
             ),
           ),
         );

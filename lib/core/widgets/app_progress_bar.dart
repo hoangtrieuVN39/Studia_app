@@ -15,32 +15,29 @@ class CustomProgressBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      alignment: Alignment.centerLeft,
-      children: [
-        Positioned(
-          left: 0,
-          right: 0,
+    double barHeight = switch (size) {
+      ProgressBarSize.small => 8,
+      ProgressBarSize.regular => 16,
+    };
+    return Container(
+      height: barHeight,
+      clipBehavior: Clip.antiAlias,
+      decoration: BoxDecoration(
+        color: AppColors.coolgray,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: FractionallySizedBox(
+          widthFactor: progress.clamp(0.0, 1.0),
           child: Container(
-            height: size == ProgressBarSize.small ? 8 : 16,
-            decoration: BoxDecoration(
-              color: AppColors.coolgray,
-              borderRadius: BorderRadius.circular(8),
-            ),
-          ),
-        ),
-        Positioned(
-          left: 0,
-          child: Container(
-            width: MediaQuery.of(context).size.width * progress,
-            height: size == ProgressBarSize.small ? 8 : 16,
             decoration: BoxDecoration(
               color: color,
               borderRadius: BorderRadius.circular(8),
             ),
           ),
         ),
-      ],
+      ),
     );
   }
 }
@@ -49,8 +46,8 @@ enum ProgressBarSize { small, regular }
 
 class CustomProgress extends StatelessWidget {
   final double progress;
-  final Color color;
   final ProgressBarSize size;
+  final bool showPercentage;
 
   static const _LowMark = 0.33;
   static const _HighMark = 0.66;
@@ -58,8 +55,8 @@ class CustomProgress extends StatelessWidget {
   const CustomProgress({
     super.key,
     required this.progress,
-    required this.color,
     required this.size,
+    this.showPercentage = false,
   });
 
   @override
@@ -87,10 +84,11 @@ class CustomProgress extends StatelessWidget {
             size: size,
           ),
         ),
-        Text(
-          '${(progress * 100).toInt()}%',
-          style: AppTextStyles.body.copyWith(color: textColor),
-        ),
+        if (showPercentage)
+          Text(
+            '${(progress * 100).toInt()}%',
+            style: AppTextStyles.body.copyWith(color: textColor),
+          ),
       ],
     );
   }

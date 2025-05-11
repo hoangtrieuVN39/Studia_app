@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:studia/core/data/datasources/local/drift/database.dart';
 import 'package:studia/core/data/datasources/local/shared-prefs_manager.dart';
 import 'package:studia/core/data/datasources/remote/datasource_remote.dart';
@@ -30,17 +31,15 @@ class RegisterFavPage extends StatelessWidget {
             RegisterUsecase(
               LoginRepositoryRemoteImpl(
                 loginDatasourceRemote: LoginDatasourceRemote(
-                  datasourceRemote: DatasourceRemote(
-                    dio: getIt.get<Dio>(),
-                  ),
+                  datasourceRemote: DatasourceRemote(dio: getIt.get<Dio>()),
                 ),
               ),
               LoginRepositoryLocalImpl(
                 loginDatasourceLocal: LoginDatasourceLocal(
-                  prefs: getIt.get<SharedPrefsManager>().prefs,
+                  prefs: SharedPrefsManager(getIt.get<SharedPreferences>()),
                 ),
               ),
-            ),
+            )
           ),
       child: RegisterFavContainer(),
     );

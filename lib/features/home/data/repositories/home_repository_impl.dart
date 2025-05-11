@@ -1,6 +1,7 @@
 import 'package:studia/core/data/datasources/local/drift/database.dart';
 import 'package:studia/features/home/data/datasources/home_datasource_remote.dart';
 import 'package:studia/features/home/domain/repositories/home_repository.dart';
+import 'package:studia/features/playground/domain/entities/questions.dart';
 
 class HomeRepositoryImpl extends HomeRepository {
   final AppDatabase appDatabase;
@@ -21,5 +22,10 @@ class HomeRepositoryImpl extends HomeRepository {
     required String userId,
   }) async {
     return await remoteDataSource.fetchPerformance(userId: userId);
+  }
+
+  @override
+  Future<List<Question>> selectQuestions({required int standard}) async {
+    return await remoteDataSource.selectQuestions(standard: standard);
   }
 }

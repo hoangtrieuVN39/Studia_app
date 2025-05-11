@@ -8,5 +8,8 @@ abstract class HomeState with _$HomeState {
     @Default('') String message,
     @Default(null) Standards? selectedStandard,
     @Default({}) Map<Standards, double> standards_performance,
+    @Default([]) List<Question> questions,
+    @Default(false) bool isPlayTapped,
+    @Default(false) bool isViewInfoTapped,
   }) = _HomeState;
 }

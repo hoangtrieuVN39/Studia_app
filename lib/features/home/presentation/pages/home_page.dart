@@ -7,6 +7,7 @@ import 'package:studia/core/di/provider.dart';
 import 'package:studia/features/home/data/datasources/home_datasource_remote.dart';
 import 'package:studia/features/home/data/repositories/home_repository_impl.dart';
 import 'package:studia/features/home/domain/usecases/fetch_performance_usecase.dart';
+import 'package:studia/features/home/domain/usecases/fetch_questions_usecase.dart';
 import 'package:studia/features/home/domain/usecases/fetch_standards_usecase.dart';
 import 'package:studia/features/home/presentation/bloc/home_bloc.dart';
 import 'package:studia/features/home/presentation/pages/home_container.dart';
@@ -31,6 +32,14 @@ class HomePage extends StatelessWidget {
                   ),
                 ),
                 fetchPerformanceUsecase: FetchPerformanceUsecase(
+                  homeRepository: HomeRepositoryImpl(
+                    appDatabase: getIt.get<AppDatabase>(),
+                    remoteDataSource: HomeRemoteDataSource(
+                      dio: getIt.get<Dio>(),
+                    ),
+                  ),
+                ),
+                fetchQuestionsUsecase: FetchQuestionsUsecase(
                   homeRepository: HomeRepositoryImpl(
                     appDatabase: getIt.get<AppDatabase>(),
                     remoteDataSource: HomeRemoteDataSource(

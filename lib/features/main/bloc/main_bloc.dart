@@ -15,10 +15,6 @@ class MainBloc extends Bloc<MainEvent, MainState> {
     add(const Initial());
   }
 
-  Future<void> _onMainEvent(MainEvent event, Emitter<MainState> emit) async {
-    emit(state.copyWith(isLoading: true));
-  }
-
   Future<void> _onInitialEvent(Initial event, Emitter<MainState> emit) async {
     emit(state.copyWith(isLoading: true));
   }

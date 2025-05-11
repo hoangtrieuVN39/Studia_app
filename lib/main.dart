@@ -13,21 +13,6 @@ import 'package:studia/firebase_options.dart';
 
 final getIt = GetIt.instance;
 
-// setup() async {
-//   getIt.registerSingleton<SharedPreferences>(
-//     await SharedPreferences.getInstance(),
-//   );
-//   await getIt.isReady<SharedPreferences>();
-//   getIt.registerSingleton<UserProvider>(await UserProvider());
-//   await getIt.isReady<UserProvider>();
-//   getIt.registerSingleton<AppDatabaseProvider>(await AppDatabaseProvider());
-//   await getIt.isReady<AppDatabaseProvider>();
-//   getIt.registerSingleton<SharedPrefsManager>(
-//     SharedPrefsManager(getIt<SharedPreferences>()),
-//   );
-//   await getIt.isReady();
-// }
-
 void main() async {
   FlutterNativeSplash.remove();
   WidgetsFlutterBinding.ensureInitialized();

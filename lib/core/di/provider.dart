@@ -7,6 +7,8 @@ class UserProvider {
   User? _user;
   User? get user => _user;
 
+  UserProvider() {}
+
   void setUser(User user) {
     _user = user;
   }
@@ -16,7 +18,7 @@ class UserProvider {
 abstract class UserModule {
   @preResolve
   @lazySingleton
-  UserProvider get userProvider => UserProvider();
+  Future<UserProvider> get userProvider async => UserProvider();
 }
 
 @module

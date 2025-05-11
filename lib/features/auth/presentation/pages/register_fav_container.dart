@@ -25,9 +25,12 @@ class RegisterFavContainer extends StatelessWidget {
             body: Center(child: CircularProgressIndicator()),
           );
         }
+        if (state.isContinuePressed) {
+          return NavigatorService.pushAndRemoveUntil(context, AppRoutes.login);
+        }
         return Scaffold(
           backgroundColor: AppColors.snow,
-          appBar: CustomAppBar.build(
+          appBar: CustomAppBarTitle.build(
             context,
             'Setup',
             leading: CustomButton(

@@ -42,7 +42,6 @@ class _StandardBoxState extends State<StandardBox> {
                 height: 16,
                 child: CustomProgress(
                   progress: widget.performance,
-                  color: AppColors.orange,
                   size: ProgressBarSize.small,
                 ),
               ),

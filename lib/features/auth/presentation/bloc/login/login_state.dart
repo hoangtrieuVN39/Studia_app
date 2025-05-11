@@ -6,6 +6,6 @@ abstract class LoginState with _$LoginState {
     @Default(false) bool isLoading,
     @Default(false) bool isError,
     @Default('') String message,
-    @Default(null) Map<String, dynamic>? loginResult,
+    @Default(false) bool isRegister,
   }) = _LoginState;
 }

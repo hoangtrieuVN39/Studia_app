@@ -12,7 +12,7 @@ class ChatContainer extends StatelessWidget {
       listener: (context, state) {},
       builder: (context, state) {
         return Scaffold(
-          appBar: CustomAppBar.build(context, 'Chat'),
+          appBar: CustomAppBarTitle.build(context, 'Chat'),
           body: Container(child: Column(children: [Text('Chat')])),
         );
       },

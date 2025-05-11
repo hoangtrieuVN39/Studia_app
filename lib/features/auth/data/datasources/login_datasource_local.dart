@@ -1,15 +1,16 @@
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:studia/core/data/datasources/local/shared-prefs_manager.dart';
 
 class LoginDatasourceLocal {
-  final SharedPreferences prefs;
+  final SharedPrefsManager prefs;
 
-  LoginDatasourceLocal({required SharedPreferences prefs}) : prefs = prefs;
+  LoginDatasourceLocal({required SharedPrefsManager prefs}) : prefs = prefs;
 
   Future<Map<String, dynamic>> getUser() async {
     try {
-      final id = await prefs.getString('user_id');
-      final email = await prefs.getString('user_email');
-      final isNewUser = await prefs.getBool('user_isNewUser');
+      final id = await prefs.get('user_id');
+      final email = await prefs.get('user_email');
+      final isNewUser = await prefs.get('user_isNewUser');
       return {'id': id, 'email': email, 'isNewUser': isNewUser};
     } catch (e) {
       return {'id': '', 'email': '', 'isNewUser': true};
@@ -17,15 +18,15 @@ class LoginDatasourceLocal {
   }
 
   Future<void> saveUser(String id, String email, bool isNewUser) async {
-    await prefs.setString('user_id', id);
-    await prefs.setString('user_email', email);
-    await prefs.setBool('user_isNewUser', isNewUser);
+    prefs.save('user_id', id);
+    prefs.save('user_email', email);
+    prefs.save('user_isNewUser', isNewUser);
   }
 
   Future<void> removeUser() async {
-    await prefs.remove('user_id');
-    await prefs.remove('user_email');
-    await prefs.remove('user_isNewUser');
+    prefs.remove('user_id');
+    prefs.remove('user_email');
+    prefs.remove('user_isNewUser');
   }
 }
 

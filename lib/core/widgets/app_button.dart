@@ -20,6 +20,7 @@ class CustomButton extends StatelessWidget {
   final Widget? trailing;
   final AppButtonColor color;
   final AppButtonWidth width;
+  final bool isDisabled;
 
   const CustomButton({
     super.key,
@@ -32,13 +33,14 @@ class CustomButton extends StatelessWidget {
     this.trailing,
     this.width = AppButtonWidth.fit,
     this.text,
+    this.isDisabled = false,
   });
 
   @override
   Widget build(BuildContext context) {
-    final dynamic bgColor;
-    final dynamic txtColor;
-    final dynamic borderColor;
+    dynamic bgColor;
+    dynamic txtColor;
+    dynamic borderColor;
 
     final double height;
     final EdgeInsets buttonPadding;
@@ -53,18 +55,7 @@ class CustomButton extends StatelessWidget {
         txtColor =
             color == AppButtonColor.orange ? AppColors.snow : AppColors.snow;
         borderColor = null;
-        switch (size) {
-          case AppButtonSize.small:
-            buttonPadding = const EdgeInsets.symmetric(horizontal: 8);
-            height = 36;
-            textStyle = AppTextStyles.body.copyWith(color: txtColor);
-            break;
-          case AppButtonSize.regular:
-            buttonPadding = const EdgeInsets.symmetric(horizontal: 12);
-            height = 48;
-            textStyle = AppTextStyles.subheading.copyWith(color: txtColor);
-            break;
-        }
+
         break;
       case AppButtonType.secondary:
         bgColor =
@@ -76,18 +67,7 @@ class CustomButton extends StatelessWidget {
                 ? AppColors.powerorange
                 : AppColors.darkgray;
         borderColor = null;
-        switch (size) {
-          case AppButtonSize.small:
-            buttonPadding = const EdgeInsets.symmetric(horizontal: 8);
-            height = 36;
-            textStyle = AppTextStyles.body.copyWith(color: txtColor);
-            break;
-          case AppButtonSize.regular:
-            buttonPadding = const EdgeInsets.symmetric(horizontal: 12);
-            height = 48;
-            textStyle = AppTextStyles.subheading.copyWith(color: txtColor);
-            break;
-        }
+
         break;
       case AppButtonType.outlined:
         bgColor = null;
@@ -97,38 +77,28 @@ class CustomButton extends StatelessWidget {
                 : AppColors.darkgray;
         borderColor =
             color == AppButtonColor.orange ? AppColors.orange : AppColors.gray;
-        switch (size) {
-          case AppButtonSize.small:
-            buttonPadding = const EdgeInsets.symmetric(horizontal: 8);
-            height = 36;
-            textStyle = AppTextStyles.body.copyWith(color: txtColor);
-            break;
-          case AppButtonSize.regular:
-            buttonPadding = const EdgeInsets.symmetric(horizontal: 12);
-            height = 48;
-            textStyle = AppTextStyles.subheading.copyWith(color: txtColor);
-            break;
-        }
 
         break;
       case AppButtonType.transparent:
-        bgColor = null;
+        bgColor = AppColors.snow.withOpacity(0);
         txtColor =
             color == AppButtonColor.orange
                 ? AppColors.orange
                 : AppColors.darkgray;
         borderColor = null;
-        buttonPadding = const EdgeInsets.all(0);
-        height = 0;
+        break;
+    }
 
-        switch (size) {
-          case AppButtonSize.small:
-            textStyle = AppTextStyles.body.copyWith(color: txtColor);
-            break;
-          case AppButtonSize.regular:
-            textStyle = AppTextStyles.subheading.copyWith(color: txtColor);
-            break;
-        }
+    switch (size) {
+      case AppButtonSize.small:
+        buttonPadding = const EdgeInsets.symmetric(horizontal: 8);
+        height = 36;
+        textStyle = AppTextStyles.body.copyWith(color: txtColor);
+        break;
+      case AppButtonSize.regular:
+        buttonPadding = const EdgeInsets.symmetric(horizontal: 12);
+        height = 48;
+        textStyle = AppTextStyles.subheading.copyWith(color: txtColor);
         break;
     }
 
@@ -158,6 +128,12 @@ class CustomButton extends StatelessWidget {
         ],
       ],
     );
+
+    if (isDisabled) {
+      bgColor = bgColor?.withOpacity(0.7);
+      txtColor = txtColor?.withOpacity(0.7);
+      borderColor = borderColor?.withOpacity(0.7);
+    }
 
     return TextButton(
       onPressed: onPressed,

@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:studia/core/data/datasources/local/drift/database.dart';
+import 'package:studia/core/di/provider.dart';
 import 'package:studia/features/auth/domain/usecases/fetch_domains_usecase.dart';
 import 'package:studia/features/auth/domain/usecases/register_usecase.dart';
 part 'register_fav_event.dart';
@@ -64,6 +65,6 @@ class RegisterFavBloc extends Bloc<RegisterFavEvent, RegisterFavState> {
   ) async {
     emit(state.copyWith(isLoading: true));
     await registerUsecase(userData);
-    emit(state.copyWith(isLoading: false));
+    emit(state.copyWith(isLoading: false, isContinuePressed: true));
   }
 }

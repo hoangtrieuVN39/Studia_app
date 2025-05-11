@@ -13,24 +13,24 @@ class LoginDatasourceRemote {
     // final response = await datasourceRemote.get('/users/$userId');
     // return UserModel.fromJson(response.data);
 
-    // return User(
-    //   id: 1,
-    //   firstName: 'John',
-    //   lastName: 'Doe',
-    //   gender: 'male',
-    //   email: 'john.doe@example.com',
-    //   avatar: 'https://via.placeholder.com/150',
-    //   level: 4,
-    //   birthYear: 1990,
-    //   performance: [
-    //     for (var i = 0; i < 300; i++)
-    //       [for (var j = 0; j < 4; j++) Random().nextDouble()],
-    //   ],
-    // );
+    return User(
+      id: 1,
+      firstName: 'John',
+      lastName: 'Doe',
+      gender: 'male',
+      email: 'john.doe@example.com',
+      avatar: 'https://via.placeholder.com/150',
+      level: 4,
+      birthYear: 1990,
+      performance: [
+        for (var i = 0; i < 300; i++)
+          [for (var j = 0; j < 4; j++) Random().nextDouble()],
+      ],
+    );
     return null;
   }
 
   Future<void> register(Map<String, dynamic> data) async {
-    await datasourceRemote.post('/users', data);
+    // await datasourceRemote.post('/users', data);
   }
 }

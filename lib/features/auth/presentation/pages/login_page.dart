@@ -1,7 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:studia/core/data/datasources/local/shared-prefs_manager.dart';
 import 'package:studia/core/data/datasources/remote/datasource_remote.dart';
+import 'package:studia/core/di/provider.dart';
 import 'package:studia/features/auth/data/datasources/login_datasource_local.dart';
 import 'package:studia/features/auth/data/datasources/login_datasource_remote.dart';
 import 'package:studia/features/auth/data/repositories/login_repository_local_impl.dart';
@@ -17,40 +20,31 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: Future.wait([]),
-      builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          return BlocProvider(
-            create:
-                (context) => LoginBloc(
-                  loginSharedPrefsUsecase: LoginSharedPrefsUsecase(
-                    loginRepositoryLocal: LoginRepositoryLocalImpl(
-                      loginDatasourceLocal: LoginDatasourceLocal(
-                        prefs: snapshot.data![0],
-                      ),
-                    ),
-                  ),
-                  loginGoogleUsecase: LoginGoogleUsecase(
-                    loginRepositoryLocal: LoginRepositoryLocalImpl(
-                      loginDatasourceLocal: LoginDatasourceLocal(
-                        prefs: snapshot.data![0],
-                      ),
-                    ),
-                    loginRepositoryRemote: LoginRepositoryRemoteImpl(
-                      loginDatasourceRemote: LoginDatasourceRemote(
-                        datasourceRemote: DatasourceRemote(
-                          dio: getIt.get<Dio>(),
-                        ),
-                      ),
-                    ),
-                  ),
+    return BlocProvider(
+      create:
+          (context) => LoginBloc(
+            loginSharedPrefsUsecase: LoginSharedPrefsUsecase(
+              loginRepositoryLocal: LoginRepositoryLocalImpl(
+                loginDatasourceLocal: LoginDatasourceLocal(
+                  prefs: SharedPrefsManager(getIt.get<SharedPreferences>()),
                 ),
-            child: const LoginContainer(),
-          );
-        }
-        return const Scaffold(body: Center(child: CircularProgressIndicator()));
-      },
+              ),
+            ),
+            loginGoogleUsecase: LoginGoogleUsecase(
+              loginRepositoryLocal: LoginRepositoryLocalImpl(
+                loginDatasourceLocal: LoginDatasourceLocal(
+                  prefs: SharedPrefsManager(getIt.get<SharedPreferences>()),
+                ),
+              ),
+              loginRepositoryRemote: LoginRepositoryRemoteImpl(
+                loginDatasourceRemote: LoginDatasourceRemote(
+                  datasourceRemote: DatasourceRemote(dio: getIt.get<Dio>()),
+                ),
+              ),
+            ),
+            userProvider: getIt.get<UserProvider>(),
+          ),
+      child: const LoginContainer(),
     );
   }
 }

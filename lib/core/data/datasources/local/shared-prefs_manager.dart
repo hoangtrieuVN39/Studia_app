@@ -2,7 +2,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:studia/core/util/input_validator.dart';
 import 'package:injectable/injectable.dart';
 
-@injectable
 class SharedPrefsManager {
   SharedPreferences? _sharedPreferences;
 

@@ -86,7 +86,7 @@ class RegisterContainer extends StatelessWidget {
         }
         return Scaffold(
           backgroundColor: AppColors.snow,
-          appBar: CustomAppBar.build(
+          appBar: CustomAppBarTitle.build(
             context,
             'Setup',
             leading: CustomButton(

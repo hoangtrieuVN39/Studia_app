@@ -4,6 +4,30 @@ import 'package:studia/core/core.dart';
 class CustomAppBar {
   static AppBar build(
     BuildContext context,
+    Widget middle, {
+    Widget? leading,
+    Widget? actions,
+  }) {
+    return AppBar(
+      toolbarHeight: 64,
+      backgroundColor: AppColors.snow,
+      elevation: 0,
+      leadingWidth: 80,
+      leading: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        child: leading,
+      ),
+      scrolledUnderElevation: 0,
+      actionsPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      title: middle,
+      actions: [actions != null ? actions : const SizedBox.shrink()],
+    );
+  }
+}
+
+class CustomAppBarTitle extends CustomAppBar {
+  static AppBar build(
+    BuildContext context,
     String title, {
     Widget? leading,
     Widget? actions,

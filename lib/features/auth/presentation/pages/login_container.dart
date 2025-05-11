@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:studia/core/navigation/navigator.dart';
+import 'package:studia/core/navigation/route.dart';
 import 'package:studia/core/widgets/app_button.dart';
 import 'package:studia/features/auth/presentation/pages/register_page.dart';
 import '../../../../core/theme/app_text_styles.dart';
@@ -15,16 +17,12 @@ class LoginContainer extends StatelessWidget {
     final loginBloc = context.read<LoginBloc>();
     return BlocConsumer<LoginBloc, LoginState>(
       listener: (context, state) {
-        if (state.loginResult != null && state.loginResult!['newUser']) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const RegisterPage()),
-          );
-        } else {
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(builder: (context) => const HomePage()),
-          // );
+        if (state.loginResult != null) {
+          if (state.loginResult!['newUser']) {
+            NavigatorService.push(context, AppRoutes.register);
+          } else {
+            NavigatorService.pushReplacement(context, AppRoutes.main);
+          }
         }
       },
       builder: (context, state) {
@@ -70,7 +68,8 @@ class LoginContainer extends StatelessWidget {
                             begin: Alignment.topCenter,
                             end: Alignment.bottomCenter,
                             colors: [
-                              AppColors.lightorange.withOpacity(0.0),
+                              AppColors.orange.withOpacity(0.0),
+                              AppColors.orange,
                               AppColors.powerorange,
                             ],
                             stops: const [0.0, 0.5, 1.0],

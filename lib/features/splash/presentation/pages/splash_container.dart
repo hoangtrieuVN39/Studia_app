@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:studia/core/core.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../bloc/splash_bloc.dart';
-import 'package:studia/core/core.dart';
 
 class SplashContainer extends StatelessWidget {
   const SplashContainer({super.key});
@@ -14,7 +14,7 @@ class SplashContainer extends StatelessWidget {
     return BlocConsumer<SplashBloc, SplashState>(
       listener: (context, state) {
         if (state.done) {
-          NavigatorService.pushReplacement(context, RouteConstants.login);
+          NavigatorService.pushReplacement(context, AppRoutes.login);
         }
       },
       builder: (context, state) {
