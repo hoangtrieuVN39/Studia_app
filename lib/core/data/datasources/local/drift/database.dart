@@ -51,7 +51,7 @@ class AppDatabase extends _$AppDatabase {
 
   Future<List<Standards>> selectStandards({
     int? standard_id,
-    int? parent_id,
+    int? parent,
     int? level,
     int? domain,
     int? skill,
@@ -59,17 +59,15 @@ class AppDatabase extends _$AppDatabase {
     final query = select(standardsTable);
     if (standard_id != null)
       query.where((t) => t.standard_id.equals(standard_id));
-    if (parent_id != null) query.where((t) => t.parent_id.equals(parent_id));
+    if (parent != null) query.where((t) => t.parent_id.equals(parent));
     if (level != null) query.where((t) => t.level.equals(level));
     if (domain != null) query.where((t) => t.domain.equals(domain));
     if (skill != null) query.where((t) => t.skill.equals(skill));
     return await query.get();
   }
 
-  Future<List<Domains>> selectDomains({int? standard_id}) async {
+  Future<List<Domains>> selectDomains() async {
     final query = select(domainsTable);
-    if (standard_id != null)
-      query.where((t) => t.domain_id.equals(standard_id));
     return await query.get();
   }
 
@@ -80,6 +78,8 @@ class AppDatabase extends _$AppDatabase {
   }) async {
     final query = select(skillsTable);
     if (skill_id != null) query.where((t) => t.skill_id.equals(skill_id));
+    if (domain != null) query.where((t) => t.domain.equals(domain));
+    if (level != null) query.where((t) => t.level.equals(level));
     return await query.get();
   }
 

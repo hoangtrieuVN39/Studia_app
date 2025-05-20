@@ -6,6 +6,10 @@ abstract class ChatState with _$ChatState {
     @Default(false) bool isLoading,
     @Default(false) bool isError,
     @Default('') String message,
-    // @Default([]) List<Message> messages,
+    @Default([]) List<String> messageChips,
+    @Default([]) List<Message> messageHistory,
+    @Default('') String? messageContent,
+    @Default(false) bool isSending,
+    String? error,
   }) = _ChatState;
 }

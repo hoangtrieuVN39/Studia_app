@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:studia/features/auth/presentation/pages/register_fav_page.dart';
+import 'package:studia/features/auth/presentation/pages/register_fav_container.dart';
 import '../../../../core/core.dart';
 import '../bloc/register/register_bloc.dart';
 
@@ -13,6 +13,9 @@ class RegisterContainer extends StatelessWidget {
 
     return BlocConsumer<RegisterBloc, RegisterState>(
       listener: (context, state) {
+        if (state.isBackPressed) {
+          NavigatorService.pushReplacement(context, AppRoutes.login);
+        }
         if (state.showYearOfBirthPicker) {
           CustomBottomSheet.show(
             context,
@@ -37,6 +40,9 @@ class RegisterContainer extends StatelessWidget {
             ).reversed.toList(),
           );
         }
+        if (state.isContinueFavPressed) {
+          NavigatorService.pushReplacement(context, AppRoutes.login);
+        }
         if (state.showLevelPicker) {
           CustomBottomSheet.show(
             context,
@@ -54,35 +60,13 @@ class RegisterContainer extends StatelessWidget {
                 .toList(),
           );
         }
-        if (state.isContinuePressed) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder:
-                  (context) => RegisterFavPage(
-                    data: {
-                      'first_name': state.firstName,
-                      'last_name': state.lastName,
-                      'gender': state.gender,
-                      'year_of_birth': state.yearOfBirth,
-                      'level': state.selectedLevel,
-                    },
-                  ),
-            ),
-          );
-        }
-        if (state.isBackPressed) {
-          NavigatorService.pop(context);
-        }
       },
       builder: (context, state) {
         final isStep1Valid =
             registerBloc.state.firstName.isNotEmpty &&
             registerBloc.state.lastName.isNotEmpty;
         if (state.isLoading) {
-          return const Scaffold(
-            body: Center(child: CircularProgressIndicator()),
-          );
+          return const LoadingWidget();
         }
         return Scaffold(
           backgroundColor: AppColors.snow,
@@ -91,7 +75,7 @@ class RegisterContainer extends StatelessWidget {
             'Setup',
             leading: CustomButton(
               onPressed: () {
-                Navigator.pop(context);
+                registerBloc.add(RegisterEvent.backPressed());
               },
               leading: CustomIcon(icon: Icons.arrow_back),
               size: AppButtonSize.small,
@@ -99,123 +83,150 @@ class RegisterContainer extends StatelessWidget {
               type: AppButtonType.transparent,
               width: AppButtonWidth.fit,
             ),
-            actions: CustomFractionChip(numerator: 1, denominator: 2),
+            actions: CustomFractionChip(
+              numerator: state.pageIndex + 1,
+              denominator: 2,
+            ),
           ),
-          body: Padding(
+          body: Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Column(
+            child:
+                state.isContinuePressed
+                    ? RegisterFavContainer(state: state)
+                    : Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        CustomTextField(
-                          label: 'First Name',
-                          hint: 'Input your first name',
-                          onChanged: (value) {
-                            registerBloc.add(RegisterEvent.setFirstName(value));
-                          },
-                        ),
-                        const SizedBox(height: 16),
-                        CustomTextField(
-                          label: 'Last Name',
-                          hint: 'Input your last name',
-                          onChanged: (value) {
-                            registerBloc.add(RegisterEvent.setLastName(value));
-                          },
-                        ),
-                        const SizedBox(height: 16),
-                        Text('Gender', style: AppTextStyles.h3),
-                        const SizedBox(height: 8),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: _buildGenderField(
-                                context,
-                                Gender.Male,
-                                Gender.Male == registerBloc.state.gender,
-                                () {
-                                  registerBloc.add(
-                                    RegisterEvent.setGender(Gender.Male),
-                                  );
-                                },
-                              ),
+                        Expanded(
+                          child: SingleChildScrollView(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                CustomTextField(
+                                  label: 'First Name',
+                                  hint: 'Input your first name',
+                                  onChanged: (value) {
+                                    registerBloc.add(
+                                      RegisterEvent.setFirstName(value),
+                                    );
+                                  },
+                                ),
+                                const SizedBox(height: 16),
+                                CustomTextField(
+                                  label: 'Last Name',
+                                  hint: 'Input your last name',
+                                  onChanged: (value) {
+                                    registerBloc.add(
+                                      RegisterEvent.setLastName(value),
+                                    );
+                                  },
+                                ),
+                                const SizedBox(height: 16),
+                                Text('Gender', style: AppTextStyles.h3),
+                                const SizedBox(height: 8),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: _buildGenderField(
+                                        context,
+                                        Gender.Male,
+                                        Gender.Male ==
+                                            registerBloc.state.gender,
+                                        () {
+                                          registerBloc.add(
+                                            RegisterEvent.setGender(
+                                              Gender.Male,
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                    const SizedBox(width: 8),
+                                    Expanded(
+                                      child: _buildGenderField(
+                                        context,
+                                        Gender.Female,
+                                        Gender.Female ==
+                                            registerBloc.state.gender,
+                                        () {
+                                          registerBloc.add(
+                                            RegisterEvent.setGender(
+                                              Gender.Female,
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                    const SizedBox(width: 8),
+                                    Expanded(
+                                      child: _buildGenderField(
+                                        context,
+                                        Gender.Other,
+                                        Gender.Other ==
+                                            registerBloc.state.gender,
+                                        () {
+                                          registerBloc.add(
+                                            RegisterEvent.setGender(
+                                              Gender.Other,
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 16),
+                                Text('Year of Birth', style: AppTextStyles.h3),
+                                const SizedBox(height: 8),
+                                CustomPicker(
+                                  label: 'Year of Birth',
+                                  value:
+                                      registerBloc.state.yearOfBirth.toString(),
+                                  onTap: () {
+                                    registerBloc.add(
+                                      const PickYearOfBirthRequested(),
+                                    );
+                                  },
+                                ),
+                                const SizedBox(height: 16),
+                                Text(
+                                  'Current school level',
+                                  style: AppTextStyles.h3,
+                                ),
+                                const SizedBox(height: 8),
+                                CustomPicker(
+                                  label: 'Current school level',
+                                  value:
+                                      state.selectedLevel != null
+                                          ? state.selectedLevel!.level_name
+                                          : '',
+                                  onTap: () {
+                                    registerBloc.add(
+                                      const PickGradeRequested(),
+                                    );
+                                  },
+                                ),
+                              ],
                             ),
-                            const SizedBox(width: 8),
-                            Expanded(
-                              child: _buildGenderField(
-                                context,
-                                Gender.Female,
-                                Gender.Female == registerBloc.state.gender,
-                                () {
-                                  registerBloc.add(
-                                    RegisterEvent.setGender(Gender.Female),
-                                  );
-                                },
-                              ),
-                            ),
-                            const SizedBox(width: 8),
-                            Expanded(
-                              child: _buildGenderField(
-                                context,
-                                Gender.Other,
-                                Gender.Other == registerBloc.state.gender,
-                                () {
-                                  registerBloc.add(
-                                    RegisterEvent.setGender(Gender.Other),
-                                  );
-                                },
-                              ),
-                            ),
-                          ],
+                          ),
                         ),
                         const SizedBox(height: 16),
-                        Text('Year of Birth', style: AppTextStyles.h3),
-                        const SizedBox(height: 8),
-                        CustomPicker(
-                          label: 'Year of Birth',
-                          value: registerBloc.state.yearOfBirth.toString(),
-                          onTap: () {
-                            registerBloc.add(const PickYearOfBirthRequested());
-                          },
-                        ),
-                        const SizedBox(height: 16),
-                        Text('Current school level', style: AppTextStyles.h3),
-                        const SizedBox(height: 8),
-                        CustomPicker(
-                          label: 'Current school level',
-                          value:
-                              state.selectedLevel != null
-                                  ? state.selectedLevel!.level_name
-                                  : '',
-                          onTap: () {
-                            registerBloc.add(const PickGradeRequested());
-                          },
+                        Container(
+                          padding: const EdgeInsets.only(
+                            left: 16,
+                            right: 16,
+                            bottom: 24,
+                            top: 8,
+                          ),
+                          child: CustomElevatedButton(
+                            text: 'Continue',
+                            onPressed: () {
+                              registerBloc.add(const ContinuePressed());
+                            },
+                            active: isStep1Valid,
+                          ),
                         ),
                       ],
                     ),
-                  ),
-                ),
-                const SizedBox(height: 16),
-                Container(
-                  padding: const EdgeInsets.only(
-                    left: 16,
-                    right: 16,
-                    bottom: 24,
-                    top: 8,
-                  ),
-                  child: CustomElevatedButton(
-                    text: 'Continue',
-                    onPressed: () {
-                      registerBloc.add(const ContinuePressed());
-                    },
-                    active: isStep1Valid,
-                  ),
-                ),
-              ],
-            ),
           ),
         );
       },

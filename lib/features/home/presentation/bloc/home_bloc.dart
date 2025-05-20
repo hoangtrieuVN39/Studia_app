@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:studia/core/data/datasources/local/drift/database.dart';
-import 'package:studia/features/home/domain/usecases/fetch_performance_usecase.dart';
+import 'package:studia/core/domain/entities/user.dart';
 import 'package:studia/features/home/domain/usecases/fetch_questions_usecase.dart';
 import 'package:studia/features/home/domain/usecases/fetch_standards_usecase.dart';
 import 'package:studia/features/playground/domain/entities/questions.dart';
@@ -12,12 +12,12 @@ part 'home_bloc.freezed.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final FetchStandardsUsecase fetchStandardsUsecase;
-  final FetchPerformanceUsecase fetchPerformanceUsecase;
   final FetchQuestionsUsecase fetchQuestionsUsecase;
+  final User user;
 
   HomeBloc({
     required this.fetchStandardsUsecase,
-    required this.fetchPerformanceUsecase,
+    required this.user,
     required this.fetchQuestionsUsecase,
   }) : super(const HomeState()) {
     on<Initial>((event, emit) => _onInitialEvent(event, emit));
@@ -35,12 +35,13 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   Future<void> _onInitialEvent(Initial event, Emitter<HomeState> emit) async {
     emit(state.copyWith(isLoading: true));
-    final standards = await fetchStandardsUsecase.call(level: 10);
-    final performance = await fetchPerformanceUsecase.call(userId: '1');
+    final standards = await fetchStandardsUsecase.call(
+      level: user.level!.level_id,
+    );
+    final performance = user.performance;
     final Map<Standards, double> standards_performance = {};
     for (var standard in standards) {
-      standards_performance[standard] =
-          performance[standard.standard_id.toString()]['performance'];
+      standards_performance[standard] = performance[standard.standard_id];
     }
     emit(
       state.copyWith(

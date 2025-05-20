@@ -17,6 +17,10 @@ abstract class RegisterState with _$RegisterState {
     @Default(false) bool showLevelPicker,
     @Default(false) bool isContinuePressed,
     @Default(false) bool isBackPressed,
+    @Default(0) int pageIndex,
+    @Default([]) List<Domains> domains,
+    @Default([]) List<Domains> selectedDomains,
+    @Default(false) bool isContinueFavPressed,
   }) = _RegisterState;
 }
 

@@ -51,7 +51,7 @@ class PlayContainer extends StatelessWidget {
         if (state.isLoading ||
             state.questions.isEmpty ||
             state.selectedChoices.isEmpty) {
-          return const Center(child: CircularProgressIndicator());
+          return const LoadingWidget();
         }
 
         Widget container;

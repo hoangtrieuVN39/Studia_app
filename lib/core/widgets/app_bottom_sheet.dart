@@ -4,6 +4,7 @@ import 'package:studia/core/core.dart';
 class CustomBottomSheet {
   static void show(BuildContext context, List<BottomSheetItem> items) {
     showModalBottomSheet(
+      useSafeArea: true,
       context: context,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
@@ -11,12 +12,18 @@ class CustomBottomSheet {
       isScrollControlled: true,
       builder: (context) {
         return Container(
-          height: MediaQuery.of(context).size.height * 0.8,
+          constraints: BoxConstraints(
+            maxHeight: MediaQuery.of(context).size.height * 0.8,
+          ),
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom + 24,
+          ),
           decoration: const BoxDecoration(
             color: AppColors.snow,
             borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
           ),
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
               Container(
                 margin: const EdgeInsets.symmetric(vertical: 12),
@@ -28,23 +35,38 @@ class CustomBottomSheet {
                 ),
               ),
 
-              Expanded(
-                child: ListView(
+              if (items.length > 9)
+                Expanded(
+                  child: ListView.builder(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 8,
+                    ),
+                    shrinkWrap: true,
+                    itemCount: items.length,
+                    itemBuilder:
+                        (context, index) => BottomSheetItem(
+                          text: items[index].text,
+                          isSelected: items[index].isSelected,
+                          onTap: items[index].onTap,
+                        ),
+                  ),
+                )
+              else
+                ListView.builder(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 16,
                     vertical: 8,
                   ),
-                  children: [
-                    ...items.map(
-                      (item) => BottomSheetItem(
-                        text: item.text,
-                        isSelected: item.isSelected,
-                        onTap: item.onTap,
+                  shrinkWrap: true,
+                  itemCount: items.length,
+                  itemBuilder:
+                      (context, index) => BottomSheetItem(
+                        text: items[index].text,
+                        isSelected: items[index].isSelected,
+                        onTap: items[index].onTap,
                       ),
-                    ),
-                  ],
                 ),
-              ),
             ],
           ),
         );

@@ -533,9 +533,205 @@ String toString() {
 
 
 /// @nodoc
+
+
+class InitialFav implements RegisterEvent {
+  const InitialFav();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is InitialFav);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'RegisterEvent.initialFav()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class DomainSelected implements RegisterEvent {
+  const DomainSelected(this.domain);
+  
+
+ final  Domains domain;
+
+/// Create a copy of RegisterEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$DomainSelectedCopyWith<DomainSelected> get copyWith => _$DomainSelectedCopyWithImpl<DomainSelected>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DomainSelected&&(identical(other.domain, domain) || other.domain == domain));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,domain);
+
+@override
+String toString() {
+  return 'RegisterEvent.domainSelected(domain: $domain)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $DomainSelectedCopyWith<$Res> implements $RegisterEventCopyWith<$Res> {
+  factory $DomainSelectedCopyWith(DomainSelected value, $Res Function(DomainSelected) _then) = _$DomainSelectedCopyWithImpl;
+@useResult
+$Res call({
+ Domains domain
+});
+
+
+
+
+}
+/// @nodoc
+class _$DomainSelectedCopyWithImpl<$Res>
+    implements $DomainSelectedCopyWith<$Res> {
+  _$DomainSelectedCopyWithImpl(this._self, this._then);
+
+  final DomainSelected _self;
+  final $Res Function(DomainSelected) _then;
+
+/// Create a copy of RegisterEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? domain = null,}) {
+  return _then(DomainSelected(
+null == domain ? _self.domain : domain // ignore: cast_nullable_to_non_nullable
+as Domains,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class DomainUnselected implements RegisterEvent {
+  const DomainUnselected(this.domain);
+  
+
+ final  Domains domain;
+
+/// Create a copy of RegisterEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$DomainUnselectedCopyWith<DomainUnselected> get copyWith => _$DomainUnselectedCopyWithImpl<DomainUnselected>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DomainUnselected&&(identical(other.domain, domain) || other.domain == domain));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,domain);
+
+@override
+String toString() {
+  return 'RegisterEvent.domainUnselected(domain: $domain)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $DomainUnselectedCopyWith<$Res> implements $RegisterEventCopyWith<$Res> {
+  factory $DomainUnselectedCopyWith(DomainUnselected value, $Res Function(DomainUnselected) _then) = _$DomainUnselectedCopyWithImpl;
+@useResult
+$Res call({
+ Domains domain
+});
+
+
+
+
+}
+/// @nodoc
+class _$DomainUnselectedCopyWithImpl<$Res>
+    implements $DomainUnselectedCopyWith<$Res> {
+  _$DomainUnselectedCopyWithImpl(this._self, this._then);
+
+  final DomainUnselected _self;
+  final $Res Function(DomainUnselected) _then;
+
+/// Create a copy of RegisterEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? domain = null,}) {
+  return _then(DomainUnselected(
+null == domain ? _self.domain : domain // ignore: cast_nullable_to_non_nullable
+as Domains,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class ContinueFavPressed implements RegisterEvent {
+  const ContinueFavPressed();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ContinueFavPressed);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'RegisterEvent.continueFavPressed()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
 mixin _$RegisterState {
 
- bool get isLoading; bool get isError; String get message; bool get showGradePicker; Levels? get selectedLevel; List<Levels> get levels; String get firstName; String get lastName; Gender get gender; int get yearOfBirth; bool get showYearOfBirthPicker; bool get showLevelPicker; bool get isContinuePressed; bool get isBackPressed;
+ bool get isLoading; bool get isError; String get message; bool get showGradePicker; Levels? get selectedLevel; List<Levels> get levels; String get firstName; String get lastName; Gender get gender; int get yearOfBirth; bool get showYearOfBirthPicker; bool get showLevelPicker; bool get isContinuePressed; bool get isBackPressed; int get pageIndex; List<Domains> get domains; List<Domains> get selectedDomains; bool get isContinueFavPressed;
 /// Create a copy of RegisterState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -546,16 +742,16 @@ $RegisterStateCopyWith<RegisterState> get copyWith => _$RegisterStateCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is RegisterState&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.isError, isError) || other.isError == isError)&&(identical(other.message, message) || other.message == message)&&(identical(other.showGradePicker, showGradePicker) || other.showGradePicker == showGradePicker)&&(identical(other.selectedLevel, selectedLevel) || other.selectedLevel == selectedLevel)&&const DeepCollectionEquality().equals(other.levels, levels)&&(identical(other.firstName, firstName) || other.firstName == firstName)&&(identical(other.lastName, lastName) || other.lastName == lastName)&&(identical(other.gender, gender) || other.gender == gender)&&(identical(other.yearOfBirth, yearOfBirth) || other.yearOfBirth == yearOfBirth)&&(identical(other.showYearOfBirthPicker, showYearOfBirthPicker) || other.showYearOfBirthPicker == showYearOfBirthPicker)&&(identical(other.showLevelPicker, showLevelPicker) || other.showLevelPicker == showLevelPicker)&&(identical(other.isContinuePressed, isContinuePressed) || other.isContinuePressed == isContinuePressed)&&(identical(other.isBackPressed, isBackPressed) || other.isBackPressed == isBackPressed));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is RegisterState&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.isError, isError) || other.isError == isError)&&(identical(other.message, message) || other.message == message)&&(identical(other.showGradePicker, showGradePicker) || other.showGradePicker == showGradePicker)&&(identical(other.selectedLevel, selectedLevel) || other.selectedLevel == selectedLevel)&&const DeepCollectionEquality().equals(other.levels, levels)&&(identical(other.firstName, firstName) || other.firstName == firstName)&&(identical(other.lastName, lastName) || other.lastName == lastName)&&(identical(other.gender, gender) || other.gender == gender)&&(identical(other.yearOfBirth, yearOfBirth) || other.yearOfBirth == yearOfBirth)&&(identical(other.showYearOfBirthPicker, showYearOfBirthPicker) || other.showYearOfBirthPicker == showYearOfBirthPicker)&&(identical(other.showLevelPicker, showLevelPicker) || other.showLevelPicker == showLevelPicker)&&(identical(other.isContinuePressed, isContinuePressed) || other.isContinuePressed == isContinuePressed)&&(identical(other.isBackPressed, isBackPressed) || other.isBackPressed == isBackPressed)&&(identical(other.pageIndex, pageIndex) || other.pageIndex == pageIndex)&&const DeepCollectionEquality().equals(other.domains, domains)&&const DeepCollectionEquality().equals(other.selectedDomains, selectedDomains)&&(identical(other.isContinueFavPressed, isContinueFavPressed) || other.isContinueFavPressed == isContinueFavPressed));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,isLoading,isError,message,showGradePicker,selectedLevel,const DeepCollectionEquality().hash(levels),firstName,lastName,gender,yearOfBirth,showYearOfBirthPicker,showLevelPicker,isContinuePressed,isBackPressed);
+int get hashCode => Object.hash(runtimeType,isLoading,isError,message,showGradePicker,selectedLevel,const DeepCollectionEquality().hash(levels),firstName,lastName,gender,yearOfBirth,showYearOfBirthPicker,showLevelPicker,isContinuePressed,isBackPressed,pageIndex,const DeepCollectionEquality().hash(domains),const DeepCollectionEquality().hash(selectedDomains),isContinueFavPressed);
 
 @override
 String toString() {
-  return 'RegisterState(isLoading: $isLoading, isError: $isError, message: $message, showGradePicker: $showGradePicker, selectedLevel: $selectedLevel, levels: $levels, firstName: $firstName, lastName: $lastName, gender: $gender, yearOfBirth: $yearOfBirth, showYearOfBirthPicker: $showYearOfBirthPicker, showLevelPicker: $showLevelPicker, isContinuePressed: $isContinuePressed, isBackPressed: $isBackPressed)';
+  return 'RegisterState(isLoading: $isLoading, isError: $isError, message: $message, showGradePicker: $showGradePicker, selectedLevel: $selectedLevel, levels: $levels, firstName: $firstName, lastName: $lastName, gender: $gender, yearOfBirth: $yearOfBirth, showYearOfBirthPicker: $showYearOfBirthPicker, showLevelPicker: $showLevelPicker, isContinuePressed: $isContinuePressed, isBackPressed: $isBackPressed, pageIndex: $pageIndex, domains: $domains, selectedDomains: $selectedDomains, isContinueFavPressed: $isContinueFavPressed)';
 }
 
 
@@ -566,7 +762,7 @@ abstract mixin class $RegisterStateCopyWith<$Res>  {
   factory $RegisterStateCopyWith(RegisterState value, $Res Function(RegisterState) _then) = _$RegisterStateCopyWithImpl;
 @useResult
 $Res call({
- bool isLoading, bool isError, String message, bool showGradePicker, Levels? selectedLevel, List<Levels> levels, String firstName, String lastName, Gender gender, int yearOfBirth, bool showYearOfBirthPicker, bool showLevelPicker, bool isContinuePressed, bool isBackPressed
+ bool isLoading, bool isError, String message, bool showGradePicker, Levels? selectedLevel, List<Levels> levels, String firstName, String lastName, Gender gender, int yearOfBirth, bool showYearOfBirthPicker, bool showLevelPicker, bool isContinuePressed, bool isBackPressed, int pageIndex, List<Domains> domains, List<Domains> selectedDomains, bool isContinueFavPressed
 });
 
 
@@ -583,7 +779,7 @@ class _$RegisterStateCopyWithImpl<$Res>
 
 /// Create a copy of RegisterState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? isLoading = null,Object? isError = null,Object? message = null,Object? showGradePicker = null,Object? selectedLevel = freezed,Object? levels = null,Object? firstName = null,Object? lastName = null,Object? gender = null,Object? yearOfBirth = null,Object? showYearOfBirthPicker = null,Object? showLevelPicker = null,Object? isContinuePressed = null,Object? isBackPressed = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? isLoading = null,Object? isError = null,Object? message = null,Object? showGradePicker = null,Object? selectedLevel = freezed,Object? levels = null,Object? firstName = null,Object? lastName = null,Object? gender = null,Object? yearOfBirth = null,Object? showYearOfBirthPicker = null,Object? showLevelPicker = null,Object? isContinuePressed = null,Object? isBackPressed = null,Object? pageIndex = null,Object? domains = null,Object? selectedDomains = null,Object? isContinueFavPressed = null,}) {
   return _then(_self.copyWith(
 isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
 as bool,isError: null == isError ? _self.isError : isError // ignore: cast_nullable_to_non_nullable
@@ -599,6 +795,10 @@ as int,showYearOfBirthPicker: null == showYearOfBirthPicker ? _self.showYearOfBi
 as bool,showLevelPicker: null == showLevelPicker ? _self.showLevelPicker : showLevelPicker // ignore: cast_nullable_to_non_nullable
 as bool,isContinuePressed: null == isContinuePressed ? _self.isContinuePressed : isContinuePressed // ignore: cast_nullable_to_non_nullable
 as bool,isBackPressed: null == isBackPressed ? _self.isBackPressed : isBackPressed // ignore: cast_nullable_to_non_nullable
+as bool,pageIndex: null == pageIndex ? _self.pageIndex : pageIndex // ignore: cast_nullable_to_non_nullable
+as int,domains: null == domains ? _self.domains : domains // ignore: cast_nullable_to_non_nullable
+as List<Domains>,selectedDomains: null == selectedDomains ? _self.selectedDomains : selectedDomains // ignore: cast_nullable_to_non_nullable
+as List<Domains>,isContinueFavPressed: null == isContinueFavPressed ? _self.isContinueFavPressed : isContinueFavPressed // ignore: cast_nullable_to_non_nullable
 as bool,
   ));
 }
@@ -610,7 +810,7 @@ as bool,
 
 
 class _RegisterState implements RegisterState {
-  const _RegisterState({this.isLoading = false, this.isError = false, this.message = '', this.showGradePicker = false, this.selectedLevel = null, final  List<Levels> levels = const [], this.firstName = '', this.lastName = '', this.gender = Gender.Male, this.yearOfBirth = AppTextConstants.yearOfBirthDefault, this.showYearOfBirthPicker = false, this.showLevelPicker = false, this.isContinuePressed = false, this.isBackPressed = false}): _levels = levels;
+  const _RegisterState({this.isLoading = false, this.isError = false, this.message = '', this.showGradePicker = false, this.selectedLevel = null, final  List<Levels> levels = const [], this.firstName = '', this.lastName = '', this.gender = Gender.Male, this.yearOfBirth = AppTextConstants.yearOfBirthDefault, this.showYearOfBirthPicker = false, this.showLevelPicker = false, this.isContinuePressed = false, this.isBackPressed = false, this.pageIndex = 0, final  List<Domains> domains = const [], final  List<Domains> selectedDomains = const [], this.isContinueFavPressed = false}): _levels = levels,_domains = domains,_selectedDomains = selectedDomains;
   
 
 @override@JsonKey() final  bool isLoading;
@@ -633,6 +833,22 @@ class _RegisterState implements RegisterState {
 @override@JsonKey() final  bool showLevelPicker;
 @override@JsonKey() final  bool isContinuePressed;
 @override@JsonKey() final  bool isBackPressed;
+@override@JsonKey() final  int pageIndex;
+ final  List<Domains> _domains;
+@override@JsonKey() List<Domains> get domains {
+  if (_domains is EqualUnmodifiableListView) return _domains;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_domains);
+}
+
+ final  List<Domains> _selectedDomains;
+@override@JsonKey() List<Domains> get selectedDomains {
+  if (_selectedDomains is EqualUnmodifiableListView) return _selectedDomains;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_selectedDomains);
+}
+
+@override@JsonKey() final  bool isContinueFavPressed;
 
 /// Create a copy of RegisterState
 /// with the given fields replaced by the non-null parameter values.
@@ -644,16 +860,16 @@ _$RegisterStateCopyWith<_RegisterState> get copyWith => __$RegisterStateCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _RegisterState&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.isError, isError) || other.isError == isError)&&(identical(other.message, message) || other.message == message)&&(identical(other.showGradePicker, showGradePicker) || other.showGradePicker == showGradePicker)&&(identical(other.selectedLevel, selectedLevel) || other.selectedLevel == selectedLevel)&&const DeepCollectionEquality().equals(other._levels, _levels)&&(identical(other.firstName, firstName) || other.firstName == firstName)&&(identical(other.lastName, lastName) || other.lastName == lastName)&&(identical(other.gender, gender) || other.gender == gender)&&(identical(other.yearOfBirth, yearOfBirth) || other.yearOfBirth == yearOfBirth)&&(identical(other.showYearOfBirthPicker, showYearOfBirthPicker) || other.showYearOfBirthPicker == showYearOfBirthPicker)&&(identical(other.showLevelPicker, showLevelPicker) || other.showLevelPicker == showLevelPicker)&&(identical(other.isContinuePressed, isContinuePressed) || other.isContinuePressed == isContinuePressed)&&(identical(other.isBackPressed, isBackPressed) || other.isBackPressed == isBackPressed));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _RegisterState&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.isError, isError) || other.isError == isError)&&(identical(other.message, message) || other.message == message)&&(identical(other.showGradePicker, showGradePicker) || other.showGradePicker == showGradePicker)&&(identical(other.selectedLevel, selectedLevel) || other.selectedLevel == selectedLevel)&&const DeepCollectionEquality().equals(other._levels, _levels)&&(identical(other.firstName, firstName) || other.firstName == firstName)&&(identical(other.lastName, lastName) || other.lastName == lastName)&&(identical(other.gender, gender) || other.gender == gender)&&(identical(other.yearOfBirth, yearOfBirth) || other.yearOfBirth == yearOfBirth)&&(identical(other.showYearOfBirthPicker, showYearOfBirthPicker) || other.showYearOfBirthPicker == showYearOfBirthPicker)&&(identical(other.showLevelPicker, showLevelPicker) || other.showLevelPicker == showLevelPicker)&&(identical(other.isContinuePressed, isContinuePressed) || other.isContinuePressed == isContinuePressed)&&(identical(other.isBackPressed, isBackPressed) || other.isBackPressed == isBackPressed)&&(identical(other.pageIndex, pageIndex) || other.pageIndex == pageIndex)&&const DeepCollectionEquality().equals(other._domains, _domains)&&const DeepCollectionEquality().equals(other._selectedDomains, _selectedDomains)&&(identical(other.isContinueFavPressed, isContinueFavPressed) || other.isContinueFavPressed == isContinueFavPressed));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,isLoading,isError,message,showGradePicker,selectedLevel,const DeepCollectionEquality().hash(_levels),firstName,lastName,gender,yearOfBirth,showYearOfBirthPicker,showLevelPicker,isContinuePressed,isBackPressed);
+int get hashCode => Object.hash(runtimeType,isLoading,isError,message,showGradePicker,selectedLevel,const DeepCollectionEquality().hash(_levels),firstName,lastName,gender,yearOfBirth,showYearOfBirthPicker,showLevelPicker,isContinuePressed,isBackPressed,pageIndex,const DeepCollectionEquality().hash(_domains),const DeepCollectionEquality().hash(_selectedDomains),isContinueFavPressed);
 
 @override
 String toString() {
-  return 'RegisterState(isLoading: $isLoading, isError: $isError, message: $message, showGradePicker: $showGradePicker, selectedLevel: $selectedLevel, levels: $levels, firstName: $firstName, lastName: $lastName, gender: $gender, yearOfBirth: $yearOfBirth, showYearOfBirthPicker: $showYearOfBirthPicker, showLevelPicker: $showLevelPicker, isContinuePressed: $isContinuePressed, isBackPressed: $isBackPressed)';
+  return 'RegisterState(isLoading: $isLoading, isError: $isError, message: $message, showGradePicker: $showGradePicker, selectedLevel: $selectedLevel, levels: $levels, firstName: $firstName, lastName: $lastName, gender: $gender, yearOfBirth: $yearOfBirth, showYearOfBirthPicker: $showYearOfBirthPicker, showLevelPicker: $showLevelPicker, isContinuePressed: $isContinuePressed, isBackPressed: $isBackPressed, pageIndex: $pageIndex, domains: $domains, selectedDomains: $selectedDomains, isContinueFavPressed: $isContinueFavPressed)';
 }
 
 
@@ -664,7 +880,7 @@ abstract mixin class _$RegisterStateCopyWith<$Res> implements $RegisterStateCopy
   factory _$RegisterStateCopyWith(_RegisterState value, $Res Function(_RegisterState) _then) = __$RegisterStateCopyWithImpl;
 @override @useResult
 $Res call({
- bool isLoading, bool isError, String message, bool showGradePicker, Levels? selectedLevel, List<Levels> levels, String firstName, String lastName, Gender gender, int yearOfBirth, bool showYearOfBirthPicker, bool showLevelPicker, bool isContinuePressed, bool isBackPressed
+ bool isLoading, bool isError, String message, bool showGradePicker, Levels? selectedLevel, List<Levels> levels, String firstName, String lastName, Gender gender, int yearOfBirth, bool showYearOfBirthPicker, bool showLevelPicker, bool isContinuePressed, bool isBackPressed, int pageIndex, List<Domains> domains, List<Domains> selectedDomains, bool isContinueFavPressed
 });
 
 
@@ -681,7 +897,7 @@ class __$RegisterStateCopyWithImpl<$Res>
 
 /// Create a copy of RegisterState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? isLoading = null,Object? isError = null,Object? message = null,Object? showGradePicker = null,Object? selectedLevel = freezed,Object? levels = null,Object? firstName = null,Object? lastName = null,Object? gender = null,Object? yearOfBirth = null,Object? showYearOfBirthPicker = null,Object? showLevelPicker = null,Object? isContinuePressed = null,Object? isBackPressed = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? isLoading = null,Object? isError = null,Object? message = null,Object? showGradePicker = null,Object? selectedLevel = freezed,Object? levels = null,Object? firstName = null,Object? lastName = null,Object? gender = null,Object? yearOfBirth = null,Object? showYearOfBirthPicker = null,Object? showLevelPicker = null,Object? isContinuePressed = null,Object? isBackPressed = null,Object? pageIndex = null,Object? domains = null,Object? selectedDomains = null,Object? isContinueFavPressed = null,}) {
   return _then(_RegisterState(
 isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
 as bool,isError: null == isError ? _self.isError : isError // ignore: cast_nullable_to_non_nullable
@@ -697,6 +913,10 @@ as int,showYearOfBirthPicker: null == showYearOfBirthPicker ? _self.showYearOfBi
 as bool,showLevelPicker: null == showLevelPicker ? _self.showLevelPicker : showLevelPicker // ignore: cast_nullable_to_non_nullable
 as bool,isContinuePressed: null == isContinuePressed ? _self.isContinuePressed : isContinuePressed // ignore: cast_nullable_to_non_nullable
 as bool,isBackPressed: null == isBackPressed ? _self.isBackPressed : isBackPressed // ignore: cast_nullable_to_non_nullable
+as bool,pageIndex: null == pageIndex ? _self.pageIndex : pageIndex // ignore: cast_nullable_to_non_nullable
+as int,domains: null == domains ? _self._domains : domains // ignore: cast_nullable_to_non_nullable
+as List<Domains>,selectedDomains: null == selectedDomains ? _self._selectedDomains : selectedDomains // ignore: cast_nullable_to_non_nullable
+as List<Domains>,isContinueFavPressed: null == isContinueFavPressed ? _self.isContinueFavPressed : isContinueFavPressed // ignore: cast_nullable_to_non_nullable
 as bool,
   ));
 }

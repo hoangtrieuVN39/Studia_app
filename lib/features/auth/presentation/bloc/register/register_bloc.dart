@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:studia/core/core.dart';
 import 'package:studia/core/data/datasources/local/drift/database.dart';
+import 'package:studia/features/auth/domain/usecases/fetch_domains_usecase.dart';
 import 'package:studia/features/auth/domain/usecases/fetch_levels_usecase.dart';
 import 'package:studia/features/auth/domain/usecases/logout_usecase.dart';
+import 'package:studia/features/auth/domain/usecases/register_usecase.dart';
 
 part 'register_event.dart';
 part 'register_state.dart';
@@ -13,9 +15,19 @@ part 'register_bloc.freezed.dart';
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   final FetchLevelsUsecase fetchLevelsUsecase;
   final LogoutUsecase logoutUsecase;
+  final FetchDomainsUsecase fetchDomainsUsecase;
+  final RegisterUsecase registerUsecase;
+  final id;
+  final email;
 
-  RegisterBloc(this.fetchLevelsUsecase, this.logoutUsecase)
-    : super(const RegisterState()) {
+  RegisterBloc(
+    this.id,
+    this.email,
+    this.fetchLevelsUsecase,
+    this.logoutUsecase,
+    this.fetchDomainsUsecase,
+    this.registerUsecase,
+  ) : super(const RegisterState()) {
     on<Initial>((event, emit) => _onInitial(event, emit));
     on<PickGradeRequested>((event, emit) => _onPickGradeRequested(event, emit));
     on<GradeSelected>((event, emit) => _onGradeSelected(event, emit));
@@ -29,6 +41,11 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     on<BackPressed>((event, emit) => _onBackPressed(event, emit));
     on<SetFirstName>((event, emit) => _onSetFirstName(event, emit));
     on<SetLastName>((event, emit) => _onSetLastName(event, emit));
+
+    on<InitialFav>(_onInitialFav);
+    on<DomainSelected>(_onDomainSelected);
+    on<ContinueFavPressed>(_onContinueFavPressed);
+    on<DomainUnselected>(_onDomainUnselected);
   }
 
   Future<void> _onInitial(Initial event, Emitter<RegisterState> emit) async {
@@ -82,15 +99,18 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     ContinuePressed event,
     Emitter<RegisterState> emit,
   ) async {
-    emit(state.copyWith(isContinuePressed: true));
-    await Future.delayed(const Duration(seconds: 1));
-    emit(state.copyWith(isContinuePressed: false));
+    emit(state.copyWith(isLoading: true));
+    add(const InitialFav());
+    emit(
+      state.copyWith(isContinuePressed: true, isLoading: false, pageIndex: 1),
+    );
   }
 
   Future<void> _onBackPressed(
     BackPressed event,
     Emitter<RegisterState> emit,
   ) async {
+    await logoutUsecase.call();
     emit(state.copyWith(isBackPressed: true));
   }
 
@@ -106,5 +126,63 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     Emitter<RegisterState> emit,
   ) async {
     emit(state.copyWith(lastName: event.lastName));
+  }
+
+  Future<void> _onInitialFav(
+    InitialFav event,
+    Emitter<RegisterState> emit,
+  ) async {
+    emit(state.copyWith(isLoading: true));
+    final domains = await fetchDomainsUsecase();
+    emit(state.copyWith(domains: domains, isLoading: false));
+  }
+
+  Future<void> _onDomainSelected(
+    DomainSelected event,
+    Emitter<RegisterState> emit,
+  ) async {
+    final selectedDomains = [...state.selectedDomains, event.domain];
+    emit(
+      state.copyWith(
+        selectedDomains: selectedDomains,
+        domains:
+            state.domains
+                .where((domain) => !selectedDomains.contains(domain))
+                .toList(),
+      ),
+    );
+  }
+
+  Future<void> _onDomainUnselected(
+    DomainUnselected event,
+    Emitter<RegisterState> emit,
+  ) async {
+    emit(
+      state.copyWith(
+        selectedDomains:
+            state.selectedDomains
+                .where((domain) => domain != event.domain)
+                .toList(),
+        domains: [...state.domains, event.domain],
+      ),
+    );
+  }
+
+  Future<void> _onContinueFavPressed(
+    ContinueFavPressed event,
+    Emitter<RegisterState> emit,
+  ) async {
+    emit(state.copyWith(isLoading: true));
+    await registerUsecase({
+      'id': id,
+      'email': email,
+      'first_name': state.firstName,
+      'last_name': state.lastName,
+      'gender': state.gender,
+      'year_of_birth': state.yearOfBirth,
+      'level': state.selectedLevel,
+      'domains': state.selectedDomains,
+    });
+    emit(state.copyWith(isLoading: false, isContinueFavPressed: true));
   }
 }

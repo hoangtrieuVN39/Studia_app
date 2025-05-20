@@ -13,7 +13,6 @@ enum AppButtonType { primary, secondary, outlined, transparent }
 class CustomButton extends StatelessWidget {
   final AppButtonType type;
   final VoidCallback? onPressed;
-  final bool isLoading;
   final AppButtonSize size;
   final String? text;
   final Widget? leading;
@@ -27,7 +26,6 @@ class CustomButton extends StatelessWidget {
     required this.onPressed,
     this.color = AppButtonColor.orange,
     this.type = AppButtonType.primary,
-    this.isLoading = false,
     this.size = AppButtonSize.regular,
     this.leading,
     this.trailing,
@@ -107,25 +105,14 @@ class CustomButton extends StatelessWidget {
     final child = Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        if (isLoading)
-          SizedBox(
-            width: 20,
-            height: 20,
-            child: CircularProgressIndicator(
-              strokeWidth: 2,
-              valueColor: AlwaysStoppedAnimation<Color>(txtColor),
-            ),
-          )
-        else ...[
-          if (leading != null) ...[leading!],
-          if (text != null) ...[
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Text(text!, style: textStyle),
-            ),
-          ],
-          if (trailing != null) ...[trailing!],
+        if (leading != null) ...[leading!],
+        if (text != null) ...[
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: Text(text!, style: textStyle),
+          ),
         ],
+        if (trailing != null) ...[trailing!],
       ],
     );
 

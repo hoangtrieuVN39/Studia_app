@@ -2,11 +2,10 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:studia/core/data/datasources/local/drift/database.dart';
-import 'package:studia/core/data/datasources/remote/dio_service.dart';
 import 'package:studia/core/di/provider.dart';
+import 'package:studia/core/domain/entities/user.dart';
 import 'package:studia/features/home/data/datasources/home_datasource_remote.dart';
 import 'package:studia/features/home/data/repositories/home_repository_impl.dart';
-import 'package:studia/features/home/domain/usecases/fetch_performance_usecase.dart';
 import 'package:studia/features/home/domain/usecases/fetch_questions_usecase.dart';
 import 'package:studia/features/home/domain/usecases/fetch_standards_usecase.dart';
 import 'package:studia/features/home/presentation/bloc/home_bloc.dart';
@@ -26,27 +25,16 @@ class HomePage extends StatelessWidget {
                 fetchStandardsUsecase: FetchStandardsUsecase(
                   homeRepository: HomeRepositoryImpl(
                     appDatabase: getIt.get<AppDatabase>(),
-                    remoteDataSource: HomeRemoteDataSource(
-                      dio: getIt.get<Dio>(),
-                    ),
-                  ),
-                ),
-                fetchPerformanceUsecase: FetchPerformanceUsecase(
-                  homeRepository: HomeRepositoryImpl(
-                    appDatabase: getIt.get<AppDatabase>(),
-                    remoteDataSource: HomeRemoteDataSource(
-                      dio: getIt.get<Dio>(),
-                    ),
+                    remoteDataSource: HomeRemoteDataSource(dio: getIt<Dio>()),
                   ),
                 ),
                 fetchQuestionsUsecase: FetchQuestionsUsecase(
                   homeRepository: HomeRepositoryImpl(
                     appDatabase: getIt.get<AppDatabase>(),
-                    remoteDataSource: HomeRemoteDataSource(
-                      dio: getIt.get<Dio>(),
-                    ),
+                    remoteDataSource: HomeRemoteDataSource(dio: getIt<Dio>()),
                   ),
                 ),
+                user: getIt<UserProvider>().user!,
               ),
         ),
       ],

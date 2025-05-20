@@ -42,11 +42,10 @@ class MockLoginRepositoryRemote extends _i1.Mock
           as _i3.Future<_i4.User?>);
 
   @override
-  _i3.Future<void> register(Map<String, dynamic>? data) =>
+  _i3.Future<bool> register(Map<String, dynamic>? data) =>
       (super.noSuchMethod(
             Invocation.method(#register, [data]),
-            returnValue: _i3.Future<void>.value(),
-            returnValueForMissingStub: _i3.Future<void>.value(),
+            returnValue: _i3.Future<bool>.value(false),
           )
-          as _i3.Future<void>);
+          as _i3.Future<bool>);
 }

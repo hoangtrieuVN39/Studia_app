@@ -347,7 +347,7 @@ class MockAppDatabase extends _i1.Mock implements _i2.AppDatabase {
   @override
   _i5.Future<List<_i2.Standards>> selectStandards({
     int? standard_id,
-    int? parent_id,
+    int? parent,
     int? level,
     int? domain,
     int? skill,
@@ -355,7 +355,7 @@ class MockAppDatabase extends _i1.Mock implements _i2.AppDatabase {
       (super.noSuchMethod(
             Invocation.method(#selectStandards, [], {
               #standard_id: standard_id,
-              #parent_id: parent_id,
+              #parent: parent,
               #level: level,
               #domain: domain,
               #skill: skill,
@@ -367,9 +367,9 @@ class MockAppDatabase extends _i1.Mock implements _i2.AppDatabase {
           as _i5.Future<List<_i2.Standards>>);
 
   @override
-  _i5.Future<List<_i2.Domains>> selectDomains({int? standard_id}) =>
+  _i5.Future<List<_i2.Domains>> selectDomains() =>
       (super.noSuchMethod(
-            Invocation.method(#selectDomains, [], {#standard_id: standard_id}),
+            Invocation.method(#selectDomains, []),
             returnValue: _i5.Future<List<_i2.Domains>>.value(<_i2.Domains>[]),
           )
           as _i5.Future<List<_i2.Domains>>);

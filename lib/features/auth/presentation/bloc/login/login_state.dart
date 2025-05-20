@@ -7,5 +7,9 @@ abstract class LoginState with _$LoginState {
     @Default(false) bool isError,
     @Default('') String message,
     @Default(false) bool isRegister,
+    @Default('') String id,
+    @Default('') String email,
+    @Default(false) bool isLoggedIn,
+    @Default(false) bool isNoInternetConnection,
   }) = _LoginState;
 }

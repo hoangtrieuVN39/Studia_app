@@ -7,6 +7,9 @@ class CustomPicker extends StatelessWidget {
   final String value;
   final Function() onTap;
   final IconData icon;
+  final AppPickerWidth width;
+  final AppPickerSize size;
+  final AppPickerType type;
 
   const CustomPicker({
     super.key,
@@ -14,6 +17,9 @@ class CustomPicker extends StatelessWidget {
     required this.value,
     required this.onTap,
     this.icon = Icons.keyboard_arrow_down_rounded,
+    this.width = AppPickerWidth.fill,
+    this.size = AppPickerSize.regular,
+    this.type = AppPickerType.fill,
   });
 
   @override
@@ -21,27 +27,50 @@ class CustomPicker extends StatelessWidget {
     return TextButton(
       onPressed: () => onTap(),
       style: TextButton.styleFrom(
-        minimumSize: Size.fromHeight(48),
-        backgroundColor: AppColors.coolgray,
+        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        minimumSize: Size(
+          AppPickerWidth.fit == width ? 0 : double.infinity,
+          AppPickerSize.small == size ? 36 : 48,
+        ),
+        backgroundColor:
+            type == AppPickerType.fill
+                ? AppColors.coolgray
+                : Colors.transparent,
         foregroundColor: AppColors.darkgray,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       ),
       child: Row(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          Expanded(
-            child: Text(
-              value,
-              style: AppTextStyles.body.copyWith(color: AppColors.darkgray),
-            ),
-          ),
-          const CustomIcon(
-            icon: Icons.keyboard_arrow_down_rounded,
-            color: AppColors.darkgray,
-            size: 24,
-          ),
+          ...width == AppPickerWidth.fill
+              ? [
+                Expanded(
+                  child: Text(
+                    value,
+                    style: AppTextStyles.body.copyWith(
+                      color: AppColors.darkgray,
+                    ),
+                  ),
+                ),
+                SizedBox(width: 8),
+              ]
+              : [
+                Text(
+                  value,
+                  style: AppTextStyles.body.copyWith(color: AppColors.darkgray),
+                ),
+                SizedBox(width: 8),
+              ],
+          CustomIcon(icon: icon, color: AppColors.darkgray, size: 24),
         ],
       ),
     );
   }
 }
+
+enum AppPickerWidth { fill, fit }
+
+enum AppPickerSize { small, regular }
+
+enum AppPickerType { transparent, fill }

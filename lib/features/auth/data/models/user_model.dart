@@ -1,6 +1,9 @@
+import 'package:studia/core/data/datasources/local/drift/database.dart';
 import 'package:studia/core/domain/entities/user.dart';
 
 class UserModel extends User {
+  final int? parseLevelId;
+
   UserModel({
     required super.id,
     required super.firstName,
@@ -8,22 +11,28 @@ class UserModel extends User {
     required super.gender,
     required super.email,
     required super.avatar,
-    required super.level,
+    this.parseLevelId,
     required super.birthYear,
     required super.performance,
-  });
+    Levels? level,
+  }) : super(level: level);
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
-      id: json['id'],
-      firstName: json['firstName'],
-      lastName: json['lastName'],
-      gender: json['gender'],
-      email: json['email'],
-      avatar: json['avatar'],
-      level: json['level'],
-      birthYear: json['birthYear'],
-      performance: json['performance'],
+      id: json['id'] as String,
+      firstName: json['firstName'] as String,
+      lastName: json['lastName'] as String,
+      gender: json['gender'] as String,
+      email: json['email'] as String,
+      avatar: json['avatar'] as String,
+      birthYear: json['birthYear'] as int,
+      performance:
+          (json['performance'] as List<dynamic>?)
+              ?.map((e) => (e as num).toDouble())
+              .toList() ??
+          [],
+      parseLevelId: json['levelId'] as int?,
+      level: null,
     );
   }
 
@@ -41,13 +50,17 @@ class UserModel extends User {
     );
   }
 
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'firstName': firstName,
-      'lastName': lastName,
-      'gender': gender,
-      'email': email,
-    };
+  User copyWithResolvedLevel(Levels? resolvedLevel) {
+    return User(
+      id: id,
+      firstName: firstName,
+      lastName: lastName,
+      gender: gender,
+      email: email,
+      avatar: avatar,
+      birthYear: birthYear,
+      performance: performance,
+      level: resolvedLevel,
+    );
   }
 }

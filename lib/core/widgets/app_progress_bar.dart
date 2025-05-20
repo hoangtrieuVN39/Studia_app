@@ -75,7 +75,6 @@ class CustomProgress extends StatelessWidget {
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
-      spacing: 8,
       children: [
         Expanded(
           child: CustomProgressBar(
@@ -84,11 +83,16 @@ class CustomProgress extends StatelessWidget {
             size: size,
           ),
         ),
-        if (showPercentage)
+        if (showPercentage) ...[
+          SizedBox(width: size == ProgressBarSize.small ? 8 : 16),
           Text(
             '${(progress * 100).toInt()}%',
-            style: AppTextStyles.body.copyWith(color: textColor),
+            style:
+                size == ProgressBarSize.small
+                    ? AppTextStyles.body.copyWith(color: textColor)
+                    : AppTextStyles.h4.copyWith(color: textColor),
           ),
+        ],
       ],
     );
   }

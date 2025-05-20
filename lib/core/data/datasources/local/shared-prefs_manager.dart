@@ -1,6 +1,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:studia/core/util/input_validator.dart';
 import 'package:injectable/injectable.dart';
+import 'package:studia/main.dart';
 
 class SharedPrefsManager {
   SharedPreferences? _sharedPreferences;
@@ -60,4 +61,12 @@ abstract class SharedPrefsModule {
   @preResolve
   @singleton
   Future<SharedPreferences> get prefs => SharedPreferences.getInstance();
+}
+
+@module
+abstract class SharedPrefsManagerModule {
+  @preResolve
+  @singleton
+  Future<SharedPrefsManager> get sharedPrefsManager async =>
+      SharedPrefsManager(await getIt<SharedPreferences>());
 }

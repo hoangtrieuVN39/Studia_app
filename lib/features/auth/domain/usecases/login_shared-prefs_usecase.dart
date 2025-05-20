@@ -9,9 +9,8 @@ class LoginSharedPrefsUsecase {
     var userLocal = await loginRepositoryLocal.getUser();
     final id = userLocal['id'];
     final email = userLocal['email'];
-    final isNewUser = userLocal['isNewUser'];
     if (id != null) {
-      return {'id': id, 'email': email, 'newUser': isNewUser};
+      return {'id': id, 'email': email};
     }
     return null;
   }

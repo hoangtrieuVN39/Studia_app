@@ -9,3 +9,6 @@ export 'package:studia/core/widgets/app_picker.dart';
 export 'package:studia/core/widgets/app_bottom_sheet.dart';
 export 'package:studia/core/widgets/app_progress_bar.dart';
 export 'package:studia/core/widgets/app_dialog.dart';
+export 'package:studia/core/widgets/skill_item.dart';
+export 'package:studia/core/widgets/domain_item.dart';
+export 'package:studia/core/widgets/level_item.dart';

@@ -26,11 +26,16 @@ extension GetItInjectableX on _i174.GetIt {
   }) async {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final sharedPrefsModule = _$SharedPrefsModule();
+    final sharedPrefsManagerModule = _$SharedPrefsManagerModule();
     final userModule = _$UserModule();
     final appDatabaseModule = _$AppDatabaseModule();
     final dioServiceModule = _$DioServiceModule();
     await gh.singletonAsync<_i460.SharedPreferences>(
       () => sharedPrefsModule.prefs,
+      preResolve: true,
+    );
+    await gh.singletonAsync<_i797.SharedPrefsManager>(
+      () => sharedPrefsManagerModule.sharedPrefsManager,
       preResolve: true,
     );
     await gh.lazySingletonAsync<_i312.UserProvider>(
@@ -50,6 +55,8 @@ extension GetItInjectableX on _i174.GetIt {
 }
 
 class _$SharedPrefsModule extends _i797.SharedPrefsModule {}
+
+class _$SharedPrefsManagerModule extends _i797.SharedPrefsManagerModule {}
 
 class _$UserModule extends _i312.UserModule {}
 

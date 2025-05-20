@@ -13,8 +13,8 @@ class LoginRepositoryLocalImpl extends LoginRepositoryLocal {
   }
 
   @override
-  Future<void> saveUser(String id, String email, bool isNewUser) async {
-    await loginDatasourceLocal.saveUser(id, email, isNewUser);
+  Future<void> saveUser(String id, String email) async {
+    await loginDatasourceLocal.saveUser(id, email);
   }
 
   @override

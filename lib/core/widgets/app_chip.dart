@@ -65,7 +65,7 @@ class CustomIconChip extends CustomChip {
   final void Function() onPressed;
   final CustomChipSize chipSize;
   final CustomChipColor chipColor;
-  final double maxWidth;
+  final CustomChipWidth chipWidth;
 
   CustomIconChip({
     super.key,
@@ -74,53 +74,87 @@ class CustomIconChip extends CustomChip {
     required this.onPressed,
     this.chipSize = CustomChipSize.regular,
     this.chipColor = CustomChipColor.gray,
-    this.maxWidth = 100,
+    this.chipWidth = CustomChipWidth.fit,
   });
 
   @override
   Widget build(BuildContext context) {
+    Color backgroundColor;
+    Color textColor;
+
+    switch (chipColor) {
+      case CustomChipColor.gray:
+        backgroundColor = AppColors.coolgray;
+        textColor = AppColors.darkgray;
+        break;
+      case CustomChipColor.orange:
+        backgroundColor = AppColors.lightorange;
+        textColor = AppColors.powerorange;
+        break;
+    }
+
     return Container(
       padding: EdgeInsets.symmetric(
         horizontal: chipSize == CustomChipSize.small ? 8 : 12,
         vertical: 4,
       ),
       decoration: BoxDecoration(
-        color:
-            chipColor == CustomChipColor.gray
-                ? AppColors.coolgray
-                : AppColors.orange,
+        color: backgroundColor,
         borderRadius: BorderRadius.circular(64),
       ),
+      width: chipWidth == CustomChipWidth.fill ? double.infinity : null,
+      height: chipSize == CustomChipSize.small ? 24 : 36,
       child: InkWell(
         onTap: onPressed,
-        child: Container(
-          constraints: BoxConstraints(maxWidth: maxWidth),
-          height: chipSize == CustomChipSize.small ? 24 : 36,
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 4),
-                child: Text(
-                  text,
-                  style:
-                      chipSize == CustomChipSize.small
-                          ? AppTextStyles.body
-                          : AppTextStyles.subheading,
-                  softWrap: true,
-                  maxLines: null,
-                  overflow: TextOverflow.ellipsis,
+        child: Row(
+          mainAxisSize:
+              chipWidth == CustomChipWidth.fill
+                  ? MainAxisSize.max
+                  : MainAxisSize.min,
+          children: [
+            if (chipWidth == CustomChipWidth.fill)
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 4),
+                  child: Text(
+                    text,
+                    style:
+                        chipSize == CustomChipSize.small
+                            ? AppTextStyles.body.copyWith(color: textColor)
+                            : AppTextStyles.subheading.copyWith(
+                              color: textColor,
+                            ),
+                    softWrap: false,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              )
+            else
+              Flexible(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 4),
+                  child: Text(
+                    text,
+                    style:
+                        chipSize == CustomChipSize.small
+                            ? AppTextStyles.body.copyWith(color: textColor)
+                            : AppTextStyles.subheading.copyWith(
+                              color: textColor,
+                            ),
+                    softWrap: false,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
               ),
-              isSelected
-                  ? CustomIcon(
-                    icon: Icons.close,
-                    color: AppColors.darkgray,
-                    size: chipSize == CustomChipSize.small ? 16 : 24,
-                  )
-                  : SizedBox.shrink(),
-            ],
-          ),
+            if (isSelected)
+              CustomIcon(
+                icon: Icons.close,
+                color: AppColors.darkgray,
+                size: chipSize == CustomChipSize.small ? 16 : 24,
+              ),
+          ],
         ),
       ),
     );
@@ -130,3 +164,5 @@ class CustomIconChip extends CustomChip {
 enum CustomChipSize { small, regular }
 
 enum CustomChipColor { gray, orange }
+
+enum CustomChipWidth { fill, fit }

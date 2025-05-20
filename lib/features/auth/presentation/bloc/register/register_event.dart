@@ -17,4 +17,13 @@ class RegisterEvent with _$RegisterEvent {
   const factory RegisterEvent.setLastName(String lastName) = SetLastName;
 
   const factory RegisterEvent.backPressed() = BackPressed;
+
+  const factory RegisterEvent.initialFav() = InitialFav;
+
+  const factory RegisterEvent.domainSelected(Domains domain) = DomainSelected;
+
+  const factory RegisterEvent.domainUnselected(Domains domain) =
+      DomainUnselected;
+
+  const factory RegisterEvent.continueFavPressed() = ContinueFavPressed;
 }

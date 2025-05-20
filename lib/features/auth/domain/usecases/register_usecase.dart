@@ -7,9 +7,11 @@ class RegisterUsecase {
 
   RegisterUsecase(this.loginRepositoryRemote, this.loginRepositoryLocal);
 
-  Future<void> call(Map<String, dynamic> data) async {
-    await loginRepositoryRemote.register(data);
-    await loginRepositoryLocal.saveUser(data['id'], data['email'], data['newUser']);
+  Future<bool> call(Map<String, dynamic> data) async {
+    final result = await loginRepositoryRemote.register(data);
+    if (result) {
+      await loginRepositoryLocal.saveUser(data['id'], data['email']);
+    }
+    return result;
   }
 }
-

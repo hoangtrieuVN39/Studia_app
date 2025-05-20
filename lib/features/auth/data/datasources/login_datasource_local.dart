@@ -10,23 +10,20 @@ class LoginDatasourceLocal {
     try {
       final id = await prefs.get('user_id');
       final email = await prefs.get('user_email');
-      final isNewUser = await prefs.get('user_isNewUser');
-      return {'id': id, 'email': email, 'isNewUser': isNewUser};
+      return {'id': id, 'email': email};
     } catch (e) {
-      return {'id': '', 'email': '', 'isNewUser': true};
+      return {'id': '', 'email': ''};
     }
   }
 
-  Future<void> saveUser(String id, String email, bool isNewUser) async {
+  Future<void> saveUser(String id, String email) async {
     prefs.save('user_id', id);
     prefs.save('user_email', email);
-    prefs.save('user_isNewUser', isNewUser);
   }
 
   Future<void> removeUser() async {
     prefs.remove('user_id');
     prefs.remove('user_email');
-    prefs.remove('user_isNewUser');
   }
 }
 

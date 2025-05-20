@@ -4,12 +4,12 @@ import 'package:studia/features/auth/domain/repositories/login_repository_local.
 import 'package:studia/features/auth/domain/repositories/login_repository_remote.dart';
 
 class LoginRemoteUsecase {
-  final LoginRepositoryLocal loginRepositoryLocal;
   final LoginRepositoryRemote loginRepositoryRemote;
+  final LoginRepositoryLocal loginRepositoryLocal;
 
   LoginRemoteUsecase({
-    required this.loginRepositoryLocal,
     required this.loginRepositoryRemote,
+    required this.loginRepositoryLocal,
   });
 
   Future<User?> call(String id) async {
@@ -18,7 +18,6 @@ class LoginRemoteUsecase {
       await loginRepositoryLocal.saveUser(
         user.id.toString(),
         user.email,
-        false,
       );
       return user;
     } else {

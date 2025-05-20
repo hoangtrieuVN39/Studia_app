@@ -16,25 +16,25 @@ class HomeContainer extends StatelessWidget {
       listener: (context, state) {},
       builder: (context, state) {
         if (state.isLoading || state.standards_performance.isEmpty) {
-          return const Center(child: CircularProgressIndicator());
+          return const LoadingWidget();
         }
         int num = 3;
-        double padding = 16.0;
+        double padding = 32.0;
         double width = MediaQuery.of(context).size.width - padding * 2;
         List<Offset> offsets = [];
         for (var i = 0; i < state.standards_performance.length; i++) {
           final x =
               (i ~/ num) % 2 == 0
-                  ? i % num / num * (width - 80) + 40
-                  : (num - i % num) / num * (width - 80) + 40;
+                  ? padding + i % num / num * (width - 80) + 40
+                  : padding + (num - i % num) / num * (width - 80) + 40;
           final y = i * 50 + 25;
           offsets.add(Offset(x.toDouble(), y.toDouble()));
         }
         return Scaffold(
           appBar: CustomAppBarTitle.build(context, 'Home'),
           body: Container(
+            alignment: Alignment.center,
             width: double.infinity,
-            padding: EdgeInsets.all(padding),
             child: Stack(
               children: [
                 SingleChildScrollView(
@@ -58,10 +58,12 @@ class HomeContainer extends StatelessWidget {
                                   Positioned(
                                     left:
                                         (index ~/ num) % 2 == 0
-                                            ? index % num / num * (width - 80)
-                                            : (num - index % num) /
-                                                num *
-                                                (width - 80),
+                                            ? padding +
+                                                index % num / num * (width - 80)
+                                            : padding +
+                                                (num - index % num) /
+                                                    num *
+                                                    (width - 80),
                                     top: 0,
                                     bottom: 0,
                                     child: StandardNode(
@@ -93,14 +95,20 @@ class HomeContainer extends StatelessWidget {
                 ),
                 if (state.selectedStandard != null)
                   Positioned(
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
+                    left: 16,
+                    right: 16,
+                    bottom: 16,
                     child: StandardBox(
                       state.selectedStandard!,
                       type: StandardBoxType.progress,
                       isMinimized: false,
-                      onTapViewInfo: () {},
+                      onTapViewInfo: () {
+                        NavigatorService.push(
+                          context,
+                          AppRoutes.info,
+                          data: state.selectedStandard,
+                        );
+                      },
                       onTapPlay: () {
                         context.read<HomeBloc>().add(
                           HomeEvent.onPlayButtonTapped(),

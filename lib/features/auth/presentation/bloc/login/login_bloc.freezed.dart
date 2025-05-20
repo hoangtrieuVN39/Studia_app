@@ -107,9 +107,75 @@ String toString() {
 
 
 /// @nodoc
+
+
+class NetworkStatusChanged implements LoginEvent {
+  const NetworkStatusChanged(this.status);
+  
+
+ final  NetworkStatus status;
+
+/// Create a copy of LoginEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$NetworkStatusChangedCopyWith<NetworkStatusChanged> get copyWith => _$NetworkStatusChangedCopyWithImpl<NetworkStatusChanged>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is NetworkStatusChanged&&(identical(other.status, status) || other.status == status));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,status);
+
+@override
+String toString() {
+  return 'LoginEvent.networkStatusChanged(status: $status)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $NetworkStatusChangedCopyWith<$Res> implements $LoginEventCopyWith<$Res> {
+  factory $NetworkStatusChangedCopyWith(NetworkStatusChanged value, $Res Function(NetworkStatusChanged) _then) = _$NetworkStatusChangedCopyWithImpl;
+@useResult
+$Res call({
+ NetworkStatus status
+});
+
+
+
+
+}
+/// @nodoc
+class _$NetworkStatusChangedCopyWithImpl<$Res>
+    implements $NetworkStatusChangedCopyWith<$Res> {
+  _$NetworkStatusChangedCopyWithImpl(this._self, this._then);
+
+  final NetworkStatusChanged _self;
+  final $Res Function(NetworkStatusChanged) _then;
+
+/// Create a copy of LoginEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? status = null,}) {
+  return _then(NetworkStatusChanged(
+null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as NetworkStatus,
+  ));
+}
+
+
+}
+
+/// @nodoc
 mixin _$LoginState {
 
- bool get isLoading; bool get isError; String get message; Map<String, dynamic>? get loginResult;
+ bool get isLoading; bool get isError; String get message; bool get isRegister; String get id; String get email; bool get isLoggedIn; bool get isNoInternetConnection;
 /// Create a copy of LoginState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -120,16 +186,16 @@ $LoginStateCopyWith<LoginState> get copyWith => _$LoginStateCopyWithImpl<LoginSt
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LoginState&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.isError, isError) || other.isError == isError)&&(identical(other.message, message) || other.message == message)&&const DeepCollectionEquality().equals(other.loginResult, loginResult));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is LoginState&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.isError, isError) || other.isError == isError)&&(identical(other.message, message) || other.message == message)&&(identical(other.isRegister, isRegister) || other.isRegister == isRegister)&&(identical(other.id, id) || other.id == id)&&(identical(other.email, email) || other.email == email)&&(identical(other.isLoggedIn, isLoggedIn) || other.isLoggedIn == isLoggedIn)&&(identical(other.isNoInternetConnection, isNoInternetConnection) || other.isNoInternetConnection == isNoInternetConnection));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,isLoading,isError,message,const DeepCollectionEquality().hash(loginResult));
+int get hashCode => Object.hash(runtimeType,isLoading,isError,message,isRegister,id,email,isLoggedIn,isNoInternetConnection);
 
 @override
 String toString() {
-  return 'LoginState(isLoading: $isLoading, isError: $isError, message: $message, loginResult: $loginResult)';
+  return 'LoginState(isLoading: $isLoading, isError: $isError, message: $message, isRegister: $isRegister, id: $id, email: $email, isLoggedIn: $isLoggedIn, isNoInternetConnection: $isNoInternetConnection)';
 }
 
 
@@ -140,7 +206,7 @@ abstract mixin class $LoginStateCopyWith<$Res>  {
   factory $LoginStateCopyWith(LoginState value, $Res Function(LoginState) _then) = _$LoginStateCopyWithImpl;
 @useResult
 $Res call({
- bool isLoading, bool isError, String message, Map<String, dynamic>? loginResult
+ bool isLoading, bool isError, String message, bool isRegister, String id, String email, bool isLoggedIn, bool isNoInternetConnection
 });
 
 
@@ -157,13 +223,17 @@ class _$LoginStateCopyWithImpl<$Res>
 
 /// Create a copy of LoginState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? isLoading = null,Object? isError = null,Object? message = null,Object? loginResult = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? isLoading = null,Object? isError = null,Object? message = null,Object? isRegister = null,Object? id = null,Object? email = null,Object? isLoggedIn = null,Object? isNoInternetConnection = null,}) {
   return _then(_self.copyWith(
 isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
 as bool,isError: null == isError ? _self.isError : isError // ignore: cast_nullable_to_non_nullable
 as bool,message: null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
-as String,loginResult: freezed == loginResult ? _self.loginResult : loginResult // ignore: cast_nullable_to_non_nullable
-as Map<String, dynamic>?,
+as String,isRegister: null == isRegister ? _self.isRegister : isRegister // ignore: cast_nullable_to_non_nullable
+as bool,id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String,email: null == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
+as String,isLoggedIn: null == isLoggedIn ? _self.isLoggedIn : isLoggedIn // ignore: cast_nullable_to_non_nullable
+as bool,isNoInternetConnection: null == isNoInternetConnection ? _self.isNoInternetConnection : isNoInternetConnection // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 
@@ -174,21 +244,17 @@ as Map<String, dynamic>?,
 
 
 class _LoginState implements LoginState {
-  const _LoginState({this.isLoading = false, this.isError = false, this.message = '', final  Map<String, dynamic>? loginResult = null}): _loginResult = loginResult;
+  const _LoginState({this.isLoading = false, this.isError = false, this.message = '', this.isRegister = false, this.id = '', this.email = '', this.isLoggedIn = false, this.isNoInternetConnection = false});
   
 
 @override@JsonKey() final  bool isLoading;
 @override@JsonKey() final  bool isError;
 @override@JsonKey() final  String message;
- final  Map<String, dynamic>? _loginResult;
-@override@JsonKey() Map<String, dynamic>? get loginResult {
-  final value = _loginResult;
-  if (value == null) return null;
-  if (_loginResult is EqualUnmodifiableMapView) return _loginResult;
-  // ignore: implicit_dynamic_type
-  return EqualUnmodifiableMapView(value);
-}
-
+@override@JsonKey() final  bool isRegister;
+@override@JsonKey() final  String id;
+@override@JsonKey() final  String email;
+@override@JsonKey() final  bool isLoggedIn;
+@override@JsonKey() final  bool isNoInternetConnection;
 
 /// Create a copy of LoginState
 /// with the given fields replaced by the non-null parameter values.
@@ -200,16 +266,16 @@ _$LoginStateCopyWith<_LoginState> get copyWith => __$LoginStateCopyWithImpl<_Log
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LoginState&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.isError, isError) || other.isError == isError)&&(identical(other.message, message) || other.message == message)&&const DeepCollectionEquality().equals(other._loginResult, _loginResult));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LoginState&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.isError, isError) || other.isError == isError)&&(identical(other.message, message) || other.message == message)&&(identical(other.isRegister, isRegister) || other.isRegister == isRegister)&&(identical(other.id, id) || other.id == id)&&(identical(other.email, email) || other.email == email)&&(identical(other.isLoggedIn, isLoggedIn) || other.isLoggedIn == isLoggedIn)&&(identical(other.isNoInternetConnection, isNoInternetConnection) || other.isNoInternetConnection == isNoInternetConnection));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,isLoading,isError,message,const DeepCollectionEquality().hash(_loginResult));
+int get hashCode => Object.hash(runtimeType,isLoading,isError,message,isRegister,id,email,isLoggedIn,isNoInternetConnection);
 
 @override
 String toString() {
-  return 'LoginState(isLoading: $isLoading, isError: $isError, message: $message, loginResult: $loginResult)';
+  return 'LoginState(isLoading: $isLoading, isError: $isError, message: $message, isRegister: $isRegister, id: $id, email: $email, isLoggedIn: $isLoggedIn, isNoInternetConnection: $isNoInternetConnection)';
 }
 
 
@@ -220,7 +286,7 @@ abstract mixin class _$LoginStateCopyWith<$Res> implements $LoginStateCopyWith<$
   factory _$LoginStateCopyWith(_LoginState value, $Res Function(_LoginState) _then) = __$LoginStateCopyWithImpl;
 @override @useResult
 $Res call({
- bool isLoading, bool isError, String message, Map<String, dynamic>? loginResult
+ bool isLoading, bool isError, String message, bool isRegister, String id, String email, bool isLoggedIn, bool isNoInternetConnection
 });
 
 
@@ -237,13 +303,17 @@ class __$LoginStateCopyWithImpl<$Res>
 
 /// Create a copy of LoginState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? isLoading = null,Object? isError = null,Object? message = null,Object? loginResult = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? isLoading = null,Object? isError = null,Object? message = null,Object? isRegister = null,Object? id = null,Object? email = null,Object? isLoggedIn = null,Object? isNoInternetConnection = null,}) {
   return _then(_LoginState(
 isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
 as bool,isError: null == isError ? _self.isError : isError // ignore: cast_nullable_to_non_nullable
 as bool,message: null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
-as String,loginResult: freezed == loginResult ? _self._loginResult : loginResult // ignore: cast_nullable_to_non_nullable
-as Map<String, dynamic>?,
+as String,isRegister: null == isRegister ? _self.isRegister : isRegister // ignore: cast_nullable_to_non_nullable
+as bool,id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String,email: null == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
+as String,isLoggedIn: null == isLoggedIn ? _self.isLoggedIn : isLoggedIn // ignore: cast_nullable_to_non_nullable
+as bool,isNoInternetConnection: null == isNoInternetConnection ? _self.isNoInternetConnection : isNoInternetConnection // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 
