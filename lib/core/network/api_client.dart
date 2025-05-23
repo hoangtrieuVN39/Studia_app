@@ -1,12 +1,14 @@
 import 'package:dio/dio.dart';
 import 'package:studia/core/constants.dart';
+import 'package:studia/core/data/datasources/remote/datasource_remote.dart';
 import 'package:studia/core/error/exceptions.dart';
 
-class ApiClient {
+class ApiClient extends DatasourceRemote {
   final Dio dio;
 
   ApiClient({required this.dio});
 
+  @override
   Future<dynamic> get(
     String url, {
     Map<String, dynamic>? queryParameters,
@@ -22,12 +24,14 @@ class ApiClient {
     }
   }
 
-  Future<dynamic> post(String url, {dynamic data}) async {
+  @override
+  Future<dynamic> post(String url, dynamic data) async {
     try {
       final response = await dio.post(
         '${ApiConstants.baseUrl}$url',
         data: data,
       );
+      print(response.data);
       print('Response: ${response.data}');
       return response.data;
     } on DioException catch (e) {
@@ -45,7 +49,8 @@ class ApiClient {
     }
   }
 
-  Future<dynamic> put(String url, {dynamic data}) async {
+  @override
+  Future<dynamic> put(String url, dynamic data) async {
     try {
       final response = await dio.put('${ApiConstants.baseUrl}$url', data: data);
       return response.data;

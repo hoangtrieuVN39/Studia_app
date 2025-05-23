@@ -4,9 +4,10 @@ import 'package:studia/features/auth/domain/repositories/login_repository_local.
 import 'package:studia/features/auth/domain/repositories/login_repository_remote.dart';
 
 class LoginGoogleUsecase {
-  final GoogleSignIn googleSignIn = GoogleSignIn();
+  final GoogleSignIn googleSignIn;
 
-  LoginGoogleUsecase();
+  LoginGoogleUsecase({GoogleSignIn? googleSignIn})
+    : googleSignIn = googleSignIn ?? GoogleSignIn();
 
   Future<GoogleSignInAccount?> call() async {
     final GoogleSignInAccount? googleUser = await googleSignIn.signIn();

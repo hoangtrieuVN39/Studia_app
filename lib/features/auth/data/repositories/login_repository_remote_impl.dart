@@ -4,7 +4,7 @@ import "package:studia/features/auth/data/datasources/login_datasource_remote.da
 import "package:studia/features/auth/domain/repositories/login_repository_remote.dart";
 
 class LoginRepositoryRemoteImpl extends LoginRepositoryRemote {
-  final LoginDatasourceRemote loginDatasourceRemote;
+  final LoginRemoteDataSource loginDatasourceRemote;
   final AppDatabase appDatabase;
 
   LoginRepositoryRemoteImpl({

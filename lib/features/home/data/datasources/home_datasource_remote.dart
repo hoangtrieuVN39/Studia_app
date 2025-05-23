@@ -1,32 +1,11 @@
-import 'dart:math';
-
-import 'package:dio/dio.dart';
-import 'package:studia/features/home/data/models/question_model.dart';
+import 'package:studia/core/data/datasources/remote/datasource_remote.dart';
 import 'package:studia/features/playground/domain/entities/choice.dart';
 import 'package:studia/features/playground/domain/entities/questions.dart';
 
-class HomeRemoteDataSource {
-  final Dio dio;
+class HomeDatasourceRemote {
+  final DatasourceRemote datasourceRemote;
 
-  HomeRemoteDataSource({required this.dio});
-
-  Future<Map<String, dynamic>> fetchPerformance({
-    required String userId,
-  }) async {
-    // final response = await dio.get(
-    //   'https://api.studia.com/performance/$userId',
-    // );
-    // return response.data;
-
-    return {
-      for (var i = 0; i < 300; i++)
-        '$i': {
-          'performance': Random().nextDouble(),
-          'prerequisite':
-              Random().nextInt(300) - 150 < 0 ? 0 : Random().nextInt(300) - 150,
-        },
-    };
-  }
+  HomeDatasourceRemote({required this.datasourceRemote});
 
   Future<List<Question>> selectQuestions({required int standard}) async {
     // final response = await dio.get(

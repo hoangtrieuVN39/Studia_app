@@ -29,7 +29,7 @@ class LoginContainer extends StatelessWidget {
         }
       },
       builder: (context, state) {
-        if (state.isNoInternetConnection) {
+        if (state.isNoInternetConnection || state.isLoading) {
           return const LoadingWidget();
         }
         return Scaffold(

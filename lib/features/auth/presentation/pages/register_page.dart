@@ -1,9 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:studia/core/data/datasources/local/drift/database.dart';
 import 'package:studia/core/data/datasources/local/shared-prefs_manager.dart';
+import 'package:studia/core/data/datasources/remote/http_manager.dart';
 import 'package:studia/core/network/api_client.dart';
 import 'package:studia/features/auth/data/datasources/login_datasource_local.dart';
 import 'package:studia/features/auth/data/datasources/login_datasource_remote.dart';
@@ -40,8 +42,8 @@ class RegisterPage extends StatelessWidget {
             FetchDomainsUsecase(getIt.get<AppDatabase>()),
             RegisterUsecase(
               LoginRepositoryRemoteImpl(
-                loginDatasourceRemote: LoginDatasourceRemote(
-                  apiClient: ApiClient(dio: getIt.get<Dio>()),
+                loginDatasourceRemote: LoginDatasourceRemoteImpl(
+                  datasourceRemote: HttpManager(client: http.Client()),
                 ),
                 appDatabase: getIt.get<AppDatabase>(),
               ),

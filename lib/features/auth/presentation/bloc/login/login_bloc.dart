@@ -4,8 +4,6 @@ import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:studia/core/di/provider.dart';
 import 'package:studia/core/error/exceptions.dart';
-import 'package:studia/core/network/network_info.dart';
-import 'package:studia/features/auth/domain/usecases/check_internet_connection_usecase.dart';
 import 'package:studia/features/auth/domain/usecases/login_google_usecase.dart';
 import 'package:studia/features/auth/domain/usecases/login_remote_usecase.dart';
 import 'package:studia/features/auth/domain/usecases/login_shared-prefs_usecase.dart';
@@ -18,18 +16,13 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final LoginSharedPrefsUsecase loginSharedPrefsUsecase;
   final LoginGoogleUsecase loginGoogleUsecase;
   final LoginRemoteUsecase loginRemoteUsecase;
-  final CheckInternetConnectionUsecase checkInternetConnectionUsecase;
   final UserProvider userProvider;
-  final NetworkInfo networkInfo;
-  StreamSubscription<NetworkStatus>? _networkSubscription;
 
   LoginBloc({
     required this.loginSharedPrefsUsecase,
     required this.loginGoogleUsecase,
     required this.loginRemoteUsecase,
     required this.userProvider,
-    required this.checkInternetConnectionUsecase,
-    required this.networkInfo,
   }) : super(const LoginState()) {
     on<LoginRequested>((event, emit) => _onLoginEvent(event, emit));
     on<Initial>((event, emit) => _onInitialEvent(event, emit));
@@ -37,59 +30,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     add(const Initial());
   }
 
-  @override
-  Future<void> close() {
-    _networkSubscription?.cancel();
-    return super.close();
-  }
-
-  Future<void> _onNetworkStatusChanged(
-    NetworkStatusChanged event,
-    Emitter<LoginState> emit,
-  ) async {
-    switch (event.status) {
-      case NetworkStatus.disconnected:
-        emit(
-          state.copyWith(
-            isNoInternetConnection: true,
-            message: 'No internet connection',
-          ),
-        );
-        break;
-      case NetworkStatus.connected:
-        emit(state.copyWith(isNoInternetConnection: false, message: ''));
-        break;
-      case NetworkStatus.serverInaccessible:
-        emit(
-          state.copyWith(isError: true, message: 'Server is not accessible'),
-        );
-        break;
-      case NetworkStatus.serverAccessible:
-        emit(state.copyWith(isError: false, message: ''));
-        break;
-    }
-  }
-
   Future<void> _onLoginEvent(LoginEvent event, Emitter<LoginState> emit) async {
     try {
       emit(state.copyWith(isLoading: true, isError: false, message: ''));
-
-      // Check internet connection first
-      bool hasConnection = await checkInternetConnectionUsecase();
-
-      if (!hasConnection) {
-        emit(
-          state.copyWith(
-            isLoading: false,
-            isError: true,
-            message:
-                'No internet connection. Please check your connection and try again.',
-            isNoInternetConnection: true,
-          ),
-        );
-        print('No internet connection');
-        return;
-      }
 
       // Attempt Google Sign In
       final googleUser = await loginGoogleUsecase();
@@ -101,7 +44,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
       print('Google Sign In successful. User ID: ${googleUser.id}');
 
-      // Attempt to get user from backend
+      emit(state.copyWith(isLoading: false));
+
       try {
         final user = await loginRemoteUsecase(googleUser.id);
         if (user != null) {

@@ -15,10 +15,8 @@ class LoginRemoteUsecase {
   Future<User?> call(String id) async {
     var user = await loginRepositoryRemote.getUser(id);
     if (user != null) {
-      await loginRepositoryLocal.saveUser(
-        user.id.toString(),
-        user.email,
-      );
+      await loginRepositoryLocal.saveUser(user.id.toString(), user.email);
+      print('User saved: ${user.id}');
       return user;
     } else {
       return null;

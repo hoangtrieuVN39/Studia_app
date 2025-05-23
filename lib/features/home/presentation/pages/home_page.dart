@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:studia/core/data/datasources/local/drift/database.dart';
 import 'package:studia/core/di/provider.dart';
 import 'package:studia/core/domain/entities/user.dart';
+import 'package:studia/core/network/api_client.dart';
+import 'package:studia/features/home/data/datasources/home_datasource_local.dart';
 import 'package:studia/features/home/data/datasources/home_datasource_remote.dart';
 import 'package:studia/features/home/data/repositories/home_repository_impl.dart';
 import 'package:studia/features/home/domain/usecases/fetch_questions_usecase.dart';
@@ -24,14 +26,22 @@ class HomePage extends StatelessWidget {
               (context) => HomeBloc(
                 fetchStandardsUsecase: FetchStandardsUsecase(
                   homeRepository: HomeRepositoryImpl(
-                    appDatabase: getIt.get<AppDatabase>(),
-                    remoteDataSource: HomeRemoteDataSource(dio: getIt<Dio>()),
+                    localDataSource: HomeDatasourceLocal(
+                      appDatabase: getIt.get<AppDatabase>(),
+                    ),
+                    remoteDataSource: HomeDatasourceRemote(
+                      datasourceRemote: ApiClient(dio: getIt.get<Dio>()),
+                    ),
                   ),
                 ),
                 fetchQuestionsUsecase: FetchQuestionsUsecase(
                   homeRepository: HomeRepositoryImpl(
-                    appDatabase: getIt.get<AppDatabase>(),
-                    remoteDataSource: HomeRemoteDataSource(dio: getIt<Dio>()),
+                    localDataSource: HomeDatasourceLocal(
+                      appDatabase: getIt.get<AppDatabase>(),
+                    ),
+                    remoteDataSource: HomeDatasourceRemote(
+                      datasourceRemote: ApiClient(dio: getIt<Dio>()),
+                    ),
                   ),
                 ),
                 user: getIt<UserProvider>().user!,

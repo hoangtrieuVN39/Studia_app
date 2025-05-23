@@ -1,9 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:studia/core/data/datasources/local/drift/database.dart';
 import 'package:studia/core/data/datasources/local/shared-prefs_manager.dart';
+import 'package:studia/core/data/datasources/remote/http_manager.dart';
 import 'package:studia/core/di/provider.dart';
 import 'package:studia/core/network/api_client.dart';
 import 'package:studia/core/network/network_info.dart';
@@ -29,9 +31,6 @@ class LoginPage extends StatelessWidget {
     return BlocProvider(
       create:
           (context) => LoginBloc(
-            checkInternetConnectionUsecase: CheckInternetConnectionUsecase(
-              networkInfo: networkInfo,
-            ),
             loginSharedPrefsUsecase: LoginSharedPrefsUsecase(
               loginRepositoryLocal: LoginRepositoryLocalImpl(
                 loginDatasourceLocal: LoginDatasourceLocal(
@@ -42,8 +41,8 @@ class LoginPage extends StatelessWidget {
             loginGoogleUsecase: LoginGoogleUsecase(),
             loginRemoteUsecase: LoginRemoteUsecase(
               loginRepositoryRemote: LoginRepositoryRemoteImpl(
-                loginDatasourceRemote: LoginDatasourceRemote(
-                  apiClient: ApiClient(dio: getIt.get<Dio>()),
+                loginDatasourceRemote: LoginDatasourceRemoteImpl(
+                  datasourceRemote: ApiClient(dio: getIt.get<Dio>()),
                 ),
                 appDatabase: getIt.get<AppDatabase>(),
               ),
@@ -54,7 +53,6 @@ class LoginPage extends StatelessWidget {
               ),
             ),
             userProvider: getIt.get<UserProvider>(),
-            networkInfo: networkInfo,
           ),
       child: const LoginContainer(),
     );
