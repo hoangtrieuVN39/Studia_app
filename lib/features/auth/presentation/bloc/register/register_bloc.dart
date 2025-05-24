@@ -17,8 +17,8 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   final LogoutUsecase logoutUsecase;
   final FetchDomainsUsecase fetchDomainsUsecase;
   final RegisterUsecase registerUsecase;
-  final id;
-  final email;
+  String id;
+  String email;
 
   RegisterBloc(
     this.id,
@@ -28,6 +28,9 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     this.fetchDomainsUsecase,
     this.registerUsecase,
   ) : super(const RegisterState()) {
+    id = id;
+    email = email;
+
     on<Initial>((event, emit) => _onInitial(event, emit));
     on<PickGradeRequested>((event, emit) => _onPickGradeRequested(event, emit));
     on<GradeSelected>((event, emit) => _onGradeSelected(event, emit));
@@ -173,16 +176,31 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     Emitter<RegisterState> emit,
   ) async {
     emit(state.copyWith(isLoading: true));
-    await registerUsecase({
-      'id': id,
-      'email': email,
-      'first_name': state.firstName,
-      'last_name': state.lastName,
-      'gender': state.gender,
-      'year_of_birth': state.yearOfBirth,
-      'level': state.selectedLevel,
-      'domains': state.selectedDomains,
-    });
+    await registerUsecase(
+      id,
+      email,
+      state.firstName,
+      state.lastName,
+      state.gender.name,
+      state.yearOfBirth,
+      state.selectedLevel!,
+      state.selectedDomains,
+    );
     emit(state.copyWith(isLoading: false, isContinueFavPressed: true));
+  }
+}
+
+enum Gender { Male, Female, Other }
+
+extension GenderExtension on Gender {
+  String get name {
+    switch (this) {
+      case Gender.Male:
+        return 'male';
+      case Gender.Female:
+        return 'female';
+      case Gender.Other:
+        return 'other';
+    }
   }
 }

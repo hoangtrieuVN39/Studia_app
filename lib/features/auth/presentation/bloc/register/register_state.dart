@@ -23,5 +23,3 @@ abstract class RegisterState with _$RegisterState {
     @Default(false) bool isContinueFavPressed,
   }) = _RegisterState;
 }
-
-enum Gender { Male, Female, Other }

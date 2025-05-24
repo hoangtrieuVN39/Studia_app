@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:studia/core/constants.dart';
 import 'package:studia/core/data/datasources/remote/datasource_remote.dart';
@@ -9,14 +11,18 @@ class ApiClient extends DatasourceRemote {
   ApiClient({required this.dio});
 
   @override
-  Future<dynamic> get(
-    String url, {
-    Map<String, dynamic>? queryParameters,
-  }) async {
+  Future<dynamic> get(String url, {Map<String, dynamic>? data}) async {
     try {
+      final headers = Options(headers: {'Content-Type': 'application/json'});
+      dynamic encodedData = data;
+      if ((data is Map || data is List) &&
+          headers.headers?['Content-Type'] == 'application/json') {
+        encodedData = jsonEncode(data);
+      }
       final response = await dio.get(
         '${ApiConstants.baseUrl}$url',
-        queryParameters: queryParameters,
+        queryParameters: encodedData,
+        options: headers,
       );
       return response.data;
     } on DioException catch (e) {
@@ -27,9 +33,16 @@ class ApiClient extends DatasourceRemote {
   @override
   Future<dynamic> post(String url, dynamic data) async {
     try {
+      dynamic encodedData = data;
+      final headers = Options(headers: {'Content-Type': 'application/json'});
+      if ((data is Map || data is List) &&
+          headers.headers?['Content-Type'] == 'application/json') {
+        encodedData = jsonEncode(data);
+      }
       final response = await dio.post(
         '${ApiConstants.baseUrl}$url',
-        data: data,
+        data: encodedData,
+        options: headers,
       );
       print(response.data);
       print('Response: ${response.data}');
@@ -52,7 +65,17 @@ class ApiClient extends DatasourceRemote {
   @override
   Future<dynamic> put(String url, dynamic data) async {
     try {
-      final response = await dio.put('${ApiConstants.baseUrl}$url', data: data);
+      dynamic encodedData = data;
+      final headers = Options(headers: {'Content-Type': 'application/json'});
+      if ((data is Map || data is List) &&
+          headers.headers?['Content-Type'] == 'application/json') {
+        encodedData = jsonEncode(data);
+      }
+      final response = await dio.put(
+        '${ApiConstants.baseUrl}$url',
+        data: encodedData,
+        options: Options(headers: {'Content-Type': 'application/json'}),
+      );
       return response.data;
     } on DioException catch (e) {
       _handleError(e);
@@ -61,7 +84,11 @@ class ApiClient extends DatasourceRemote {
 
   Future<dynamic> delete(String url) async {
     try {
-      final response = await dio.delete('${ApiConstants.baseUrl}$url');
+      final headers = Options(headers: {'Content-Type': 'application/json'});
+      final response = await dio.delete(
+        '${ApiConstants.baseUrl}$url',
+        options: headers,
+      );
       return response.data;
     } on DioException catch (e) {
       _handleError(e);

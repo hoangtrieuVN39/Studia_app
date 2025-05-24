@@ -38,7 +38,15 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       final googleUser = await loginGoogleUsecase();
       if (googleUser == null) {
         // User cancelled the sign-in
-        emit(state.copyWith(isLoading: false, isError: false, message: ''));
+        emit(
+          state.copyWith(
+            isLoading: false,
+            isError: false,
+            message: '',
+            id: googleUser!.id,
+            email: googleUser.email,
+          ),
+        );
         return;
       }
 
@@ -49,7 +57,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       try {
         final user = await loginRemoteUsecase(googleUser.id);
         if (user != null) {
-          // Existing user - proceed with login
           userProvider.setUser(user);
           emit(
             state.copyWith(
@@ -57,6 +64,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
               isLoading: false,
               isError: false,
               message: '',
+              id: googleUser.id,
+              email: googleUser.email,
             ),
           );
         } else {
@@ -111,13 +120,22 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         final user = await loginRemoteUsecase(googleUser['id']);
         if (user != null) {
           userProvider.setUser(user);
-          emit(state.copyWith(isLoggedIn: true, isLoading: false));
+          emit(
+            state.copyWith(
+              isLoggedIn: true,
+              isLoading: false,
+              id: googleUser['id'],
+              email: googleUser['email'],
+            ),
+          );
         } else {
           emit(
             state.copyWith(
               isLoggedIn: false,
               isRegister: true,
               isLoading: false,
+              id: googleUser['id'],
+              email: googleUser['email'],
             ),
           );
         }

@@ -1,4 +1,3 @@
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:studia/core/data/datasources/local/shared-prefs_manager.dart';
 
 class LoginDatasourceLocal {

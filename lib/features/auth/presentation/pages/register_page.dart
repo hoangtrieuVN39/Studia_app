@@ -20,8 +20,8 @@ import './register_container.dart';
 import 'package:studia/main.dart';
 
 class RegisterPage extends StatelessWidget {
-  final id;
-  final email;
+  final String id;
+  final String email;
   const RegisterPage({super.key, required this.id, required this.email});
 
   @override
@@ -43,7 +43,7 @@ class RegisterPage extends StatelessWidget {
             RegisterUsecase(
               LoginRepositoryRemoteImpl(
                 loginDatasourceRemote: LoginDatasourceRemoteImpl(
-                  datasourceRemote: HttpManager(client: http.Client()),
+                  datasourceRemote: ApiClient(dio: getIt.get<Dio>()),
                 ),
                 appDatabase: getIt.get<AppDatabase>(),
               ),
