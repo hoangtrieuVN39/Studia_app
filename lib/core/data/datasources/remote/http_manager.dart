@@ -29,7 +29,7 @@ class HttpManager extends DatasourceRemote {
   }
 
   @override
-  Future get(String url) async {
+  Future get(String url, dynamic data) async {
     try {
       final response = await client.get(
         Uri.parse(url),

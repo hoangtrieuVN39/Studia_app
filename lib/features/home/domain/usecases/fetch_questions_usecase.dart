@@ -6,7 +6,7 @@ class FetchQuestionsUsecase {
 
   FetchQuestionsUsecase({required this.homeRepository});
 
-  Future<List<Question>> call({required int standard}) async {
-    return await homeRepository.fetchQuestions(standard: standard);
+  Future<List<Question>> call({int? standard}) async {
+    return await homeRepository.fetchQuestions(standard: standard ?? null);
   }
 }

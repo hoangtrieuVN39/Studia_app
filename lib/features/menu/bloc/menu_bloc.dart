@@ -28,7 +28,7 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
     final avatar = user.avatar;
     final name = '${user.firstName} ${user.lastName}';
 
-    emit(state.copyWith(isLoading: false, avatar: avatar, name: name));
+    emit(state.copyWith(isLoading: false, avatar: avatar ?? '', name: name));
   }
 
   Future<void> _onViewProfileEvent(

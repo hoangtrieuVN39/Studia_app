@@ -11,17 +11,12 @@ class ApiClient extends DatasourceRemote {
   ApiClient({required this.dio});
 
   @override
-  Future<dynamic> get(String url, {Map<String, dynamic>? data}) async {
+  Future<dynamic> get(String url, dynamic data) async {
     try {
       final headers = Options(headers: {'Content-Type': 'application/json'});
-      dynamic encodedData = data;
-      if ((data is Map || data is List) &&
-          headers.headers?['Content-Type'] == 'application/json') {
-        encodedData = jsonEncode(data);
-      }
       final response = await dio.get(
-        '${ApiConstants.baseUrl}$url',
-        queryParameters: encodedData,
+        'http://${ApiConstants.baseUrl}$url',
+        queryParameters: data,
         options: headers,
       );
       return response.data;
@@ -40,7 +35,7 @@ class ApiClient extends DatasourceRemote {
         encodedData = jsonEncode(data);
       }
       final response = await dio.post(
-        '${ApiConstants.baseUrl}$url',
+        'http://${ApiConstants.baseUrl}$url',
         data: encodedData,
         options: headers,
       );
@@ -49,7 +44,7 @@ class ApiClient extends DatasourceRemote {
       return response.data;
     } on DioException catch (e) {
       print('API Error: ${e.type} - ${e.message}');
-      print('Attempted URL: ${ApiConstants.baseUrl}$url');
+      print('Attempted URL: http://${ApiConstants.baseUrl}$url');
       print('Request Data: $data');
       if (e.response != null) {
         print('Response Status: ${e.response?.statusCode}');
@@ -72,7 +67,7 @@ class ApiClient extends DatasourceRemote {
         encodedData = jsonEncode(data);
       }
       final response = await dio.put(
-        '${ApiConstants.baseUrl}$url',
+        'http://${ApiConstants.baseUrl}$url',
         data: encodedData,
         options: Options(headers: {'Content-Type': 'application/json'}),
       );
@@ -86,7 +81,7 @@ class ApiClient extends DatasourceRemote {
     try {
       final headers = Options(headers: {'Content-Type': 'application/json'});
       final response = await dio.delete(
-        '${ApiConstants.baseUrl}$url',
+        'http://${ApiConstants.baseUrl}$url',
         options: headers,
       );
       return response.data;
@@ -104,7 +99,7 @@ class ApiClient extends DatasourceRemote {
       );
     } else if (e.type == DioExceptionType.connectionError) {
       throw NetworkException(
-        'Connection refused: Please ensure the server is running at ${ApiConstants.baseUrl}',
+        'Connection refused: Please ensure the server is running at http://${ApiConstants.baseUrl}',
       );
     } else if (e.response != null) {
       final statusCode = e.response?.statusCode;

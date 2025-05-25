@@ -29,6 +29,7 @@ class LoginDatasourceRemoteImpl implements LoginRemoteDataSource {
         print('Server error details: ${e.message}');
         rethrow;
       }
+      print('Error details: $e');
       return null;
     }
   }

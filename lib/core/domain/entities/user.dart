@@ -6,7 +6,7 @@ class User {
   final String lastName;
   final String gender;
   final String email;
-  final String avatar;
+  final String? avatar;
   final Levels? level;
   final int birthYear;
   final List<double> performance;

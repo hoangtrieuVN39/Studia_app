@@ -10,7 +10,7 @@ class UserModel extends User {
     required super.lastName,
     required super.gender,
     required super.email,
-    required super.avatar,
+    super.avatar,
     this.parseLevelId,
     required super.birthYear,
     required super.performance,
@@ -20,18 +20,18 @@ class UserModel extends User {
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
       id: json['id'] as String,
-      firstName: json['firstName'] as String,
-      lastName: json['lastName'] as String,
+      firstName: json['first_name'] as String,
+      lastName: json['last_name'] as String,
       gender: json['gender'] as String,
       email: json['email'] as String,
-      avatar: json['avatar'] as String,
-      birthYear: json['birthYear'] as int,
+      avatar: json['avatar'] as String?,
+      birthYear: json['birth_year'] as int,
       performance:
           (json['performance'] as List<dynamic>?)
               ?.map((e) => (e as num).toDouble())
               .toList() ??
           [],
-      parseLevelId: json['levelId'] as int?,
+      parseLevelId: json['level'] as int,
       level: null,
     );
   }

@@ -76,9 +76,9 @@ class ProfileContainer extends StatelessWidget {
       children: [
         ClipOval(
           child:
-              state.user!.avatar.isNotEmpty
+              state.user!.avatar != null && state.user!.avatar!.isNotEmpty
                   ? Image.network(
-                    state.user!.avatar,
+                    state.user!.avatar!,
                     width: 96,
                     height: 96,
                     fit: BoxFit.cover,

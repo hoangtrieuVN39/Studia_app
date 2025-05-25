@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:studia/core/core.dart';
 import 'package:studia/core/di/provider.dart';
 import 'package:studia/core/domain/entities/user.dart';
 import 'package:studia/features/chat/data/datasources/chat_remote_data_source_impl.dart';
@@ -27,7 +28,7 @@ class ChatPage extends StatelessWidget {
                 sendMessageUseCase: SendMessage(
                   MessageRepositoryImpl(
                     remoteDataSource: ChatRemoteDataSourceImpl(
-                      websocketBaseUrl: 'ws://localhost:8000/ws/',
+                      websocketUrl: '/message',
                       userId: getIt<UserProvider>().user!.id,
                     ),
                   ),
@@ -35,7 +36,7 @@ class ChatPage extends StatelessWidget {
                 getMessageStreamUseCase: GetMessageStream(
                   MessageRepositoryImpl(
                     remoteDataSource: ChatRemoteDataSourceImpl(
-                      websocketBaseUrl: 'ws://localhost:8000/ws/',
+                      websocketUrl: '/messages',
                       userId: getIt<UserProvider>().user!.id,
                     ),
                   ),

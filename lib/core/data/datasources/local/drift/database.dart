@@ -84,11 +84,9 @@ class AppDatabase extends _$AppDatabase {
   }
 
   Future<List<Levels>> selectLevels({int? id}) async {
-    // final query = select(levelsTable);
-    // if (id != null) query.where((t) => t.id.equals(id));
-    // final ret = await query.get();
-    // return ret;
-    return await select(levelsTable).get();
+    final query = select(levelsTable);
+    if (id != null) query.where((t) => t.level_id.equals(id));
+    return await query.get();
   }
 
   Future<bool> verifyDatabaseIntegrity() async {

@@ -13,7 +13,15 @@ class HomeContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<HomeBloc, HomeState>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        if (state.isPlayTapped) {
+          NavigatorService.push(
+            context,
+            AppRoutes.play,
+            data: {'questions': state.questions},
+          );
+        }
+      },
       builder: (context, state) {
         if (state.isLoading || state.standards_performance.isEmpty) {
           return const LoadingWidget();
@@ -112,11 +120,6 @@ class HomeContainer extends StatelessWidget {
                       onTapPlay: () {
                         context.read<HomeBloc>().add(
                           HomeEvent.onPlayButtonTapped(),
-                        );
-                        NavigatorService.push(
-                          context,
-                          AppRoutes.play,
-                          data: {'questions': state.questions},
                         );
                       },
                       performance:
