@@ -129,7 +129,7 @@ class RegisterContainer extends StatelessWidget {
                                       child: _buildGenderField(
                                         context,
                                         Gender.Male,
-                                        Gender.Male ==
+                                        Gender.Male.name ==
                                             registerBloc.state.gender,
                                         () {
                                           registerBloc.add(
@@ -145,7 +145,7 @@ class RegisterContainer extends StatelessWidget {
                                       child: _buildGenderField(
                                         context,
                                         Gender.Female,
-                                        Gender.Female ==
+                                        Gender.Female.name ==
                                             registerBloc.state.gender,
                                         () {
                                           registerBloc.add(
@@ -161,7 +161,7 @@ class RegisterContainer extends StatelessWidget {
                                       child: _buildGenderField(
                                         context,
                                         Gender.Other,
-                                        Gender.Other ==
+                                        Gender.Other.name ==
                                             registerBloc.state.gender,
                                         () {
                                           registerBloc.add(
