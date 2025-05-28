@@ -99,6 +99,7 @@ class PlaySubmitContainer extends StatelessWidget {
     return Expanded(
       child: Container(
         alignment: Alignment.center,
+        padding: EdgeInsets.all(12),
         height: double.infinity,
         decoration: BoxDecoration(
           color: bgColor,
@@ -107,6 +108,7 @@ class PlaySubmitContainer extends StatelessWidget {
         child: Text(
           question.choices[index].choice_text,
           style: AppTextStyles.subheading.copyWith(color: txtColor),
+          textAlign: TextAlign.center,
         ),
       ),
     );

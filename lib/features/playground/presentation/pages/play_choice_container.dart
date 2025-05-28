@@ -62,6 +62,7 @@ class PlayChoiceContainer extends StatelessWidget {
       child: InkWell(
         onTap: () => onTap(index),
         child: Container(
+          padding: EdgeInsets.all(12),
           alignment: Alignment.center,
           height: double.infinity,
           decoration: BoxDecoration(
@@ -77,6 +78,7 @@ class PlayChoiceContainer extends StatelessWidget {
             style: AppTextStyles.subheading.copyWith(
               color: isSelected ? AppColors.powerorange : AppColors.darkgray,
             ),
+            textAlign: TextAlign.center,
           ),
         ),
       ),
