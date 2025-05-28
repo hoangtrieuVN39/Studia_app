@@ -11,12 +11,12 @@ class ApiClient extends DatasourceRemote {
   ApiClient({required this.dio});
 
   @override
-  Future<dynamic> get(String url, dynamic data) async {
+  Future<dynamic> get(String url, {dynamic body}) async {
     try {
       final headers = Options(headers: {'Content-Type': 'application/json'});
       final response = await dio.get(
         'http://${ApiConstants.baseUrl}$url',
-        queryParameters: data,
+        queryParameters: body,
         options: headers,
       );
       return response.data;
@@ -26,13 +26,13 @@ class ApiClient extends DatasourceRemote {
   }
 
   @override
-  Future<dynamic> post(String url, dynamic data) async {
+  Future<dynamic> post(String url, {dynamic body}) async {
     try {
-      dynamic encodedData = data;
+      dynamic encodedData = body;
       final headers = Options(headers: {'Content-Type': 'application/json'});
-      if ((data is Map || data is List) &&
+      if ((body is Map || body is List) &&
           headers.headers?['Content-Type'] == 'application/json') {
-        encodedData = jsonEncode(data);
+        encodedData = jsonEncode(body);
       }
       final response = await dio.post(
         'http://${ApiConstants.baseUrl}$url',
@@ -46,13 +46,13 @@ class ApiClient extends DatasourceRemote {
   }
 
   @override
-  Future<dynamic> put(String url, dynamic data) async {
+  Future<dynamic> put(String url, {dynamic body}) async {
     try {
-      dynamic encodedData = data;
+      dynamic encodedData = body;
       final headers = Options(headers: {'Content-Type': 'application/json'});
-      if ((data is Map || data is List) &&
+      if ((body is Map || body is List) &&
           headers.headers?['Content-Type'] == 'application/json') {
-        encodedData = jsonEncode(data);
+        encodedData = jsonEncode(body);
       }
       final response = await dio.put(
         'http://${ApiConstants.baseUrl}$url',
