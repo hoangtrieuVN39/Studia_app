@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:studia/core/data/datasources/remote/dio_service.dart';
 import 'package:studia/core/di/provider.dart';
 import 'package:studia/core/data/datasources/local/drift/database.dart';
 import 'package:studia/features/auth/domain/usecases/fetch_levels_usecase.dart';
@@ -31,13 +32,17 @@ class ProfilePage extends StatelessWidget {
             GetPerformanceSkillsUsecase(getIt<AppDatabase>()),
             SortSkillsUsecase(
               ProfileRepositoryImpl(
-                profileDatasourceRemote: ProfileDatasourceRemote(getIt<Dio>()),
+                profileDatasourceRemote: ProfileDatasourceRemote(
+                  getIt<DioService>().dio,
+                ),
               ),
             ),
             EditProfileUsecase(
               getIt<UserProvider>(),
               ProfileRepositoryImpl(
-                profileDatasourceRemote: ProfileDatasourceRemote(getIt<Dio>()),
+                profileDatasourceRemote: ProfileDatasourceRemote(
+                  getIt<DioService>().dio,
+                ),
               ),
             ),
           ),

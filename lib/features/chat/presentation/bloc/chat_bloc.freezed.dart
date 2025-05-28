@@ -310,10 +310,16 @@ as String,
 
 
 class _MessageReceived implements ChatEvent {
-  const _MessageReceived(this.message);
+  const _MessageReceived({required final  List<Map<String, dynamic>> messages}): _messages = messages;
   
 
- final  Message message;
+ final  List<Map<String, dynamic>> _messages;
+ List<Map<String, dynamic>> get messages {
+  if (_messages is EqualUnmodifiableListView) return _messages;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_messages);
+}
+
 
 /// Create a copy of ChatEvent
 /// with the given fields replaced by the non-null parameter values.
@@ -325,16 +331,16 @@ _$MessageReceivedCopyWith<_MessageReceived> get copyWith => __$MessageReceivedCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MessageReceived&&(identical(other.message, message) || other.message == message));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MessageReceived&&const DeepCollectionEquality().equals(other._messages, _messages));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,message);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_messages));
 
 @override
 String toString() {
-  return 'ChatEvent.messageReceived(message: $message)';
+  return 'ChatEvent.messageReceived(messages: $messages)';
 }
 
 
@@ -345,7 +351,7 @@ abstract mixin class _$MessageReceivedCopyWith<$Res> implements $ChatEventCopyWi
   factory _$MessageReceivedCopyWith(_MessageReceived value, $Res Function(_MessageReceived) _then) = __$MessageReceivedCopyWithImpl;
 @useResult
 $Res call({
- Message message
+ List<Map<String, dynamic>> messages
 });
 
 
@@ -362,10 +368,10 @@ class __$MessageReceivedCopyWithImpl<$Res>
 
 /// Create a copy of ChatEvent
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? message = null,}) {
+@pragma('vm:prefer-inline') $Res call({Object? messages = null,}) {
   return _then(_MessageReceived(
-null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
-as Message,
+messages: null == messages ? _self._messages : messages // ignore: cast_nullable_to_non_nullable
+as List<Map<String, dynamic>>,
   ));
 }
 

@@ -6,12 +6,12 @@ import 'package:studia/features/playground/presentation/bloc/play_bloc.dart';
 
 class PlayChoiceContainer extends StatelessWidget {
   final PlayState state;
-  final BuildContext context;
+  final PlayBloc bloc;
 
   const PlayChoiceContainer({
     super.key,
     required this.state,
-    required this.context,
+    required this.bloc,
   });
 
   @override
@@ -35,7 +35,7 @@ class PlayChoiceContainer extends StatelessWidget {
             state.currentQuestionIndex,
             state.selectedChoices[state.currentQuestionIndex],
             (index) {
-              context.read<PlayBloc>().add(PlayEvent.selectChoice(index));
+              bloc.add(PlayEvent.selectChoice(index));
             },
           ),
         ),
@@ -43,7 +43,7 @@ class PlayChoiceContainer extends StatelessWidget {
         CustomButton(
           text: 'Submit',
           onPressed: () {
-            context.read<PlayBloc>().add(PlayEvent.submit());
+            bloc.add(PlayEvent.submit());
           },
           isDisabled: state.selectedChoices[state.currentQuestionIndex] == -1,
           type: AppButtonType.primary,

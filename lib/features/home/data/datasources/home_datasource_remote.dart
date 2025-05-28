@@ -1,6 +1,6 @@
 import 'package:studia/core/core.dart';
 import 'package:studia/core/data/datasources/remote/datasource_remote.dart';
-import 'package:studia/features/home/data/models/question_model.dart';
+import 'package:studia/features/playground/data/models/question_model.dart';
 import 'package:studia/features/playground/domain/entities/questions.dart';
 
 class HomeDatasourceRemote {
@@ -14,6 +14,10 @@ class HomeDatasourceRemote {
       '${ApiConstants.questions}',
       data,
     );
-    return response.map((e) => QuestionModel.fromJson(e)).toList();
+    List<Question> questions = [];
+    for (var question in response) {
+      questions.add(QuestionModel.fromJson(question));
+    }
+    return questions;
   }
 }

@@ -3,6 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:studia/core/core.dart';
 import 'package:studia/core/di/provider.dart';
 import 'package:studia/core/domain/entities/user.dart';
+import 'package:studia/core/domain/usecases/websocket/connect_websocket.dart';
+import 'package:studia/core/domain/usecases/websocket/disconnect_websocket.dart';
+import 'package:studia/core/domain/usecases/websocket/get_websocket_stream.dart';
+import 'package:studia/core/domain/usecases/websocket/send_websocket_message.dart';
 import 'package:studia/features/chat/data/datasources/chat_remote_data_source_impl.dart';
 import 'package:studia/features/chat/data/repositories/message_repository_impl.dart';
 import 'package:studia/features/chat/domain/usecases/chip_message.dart';
@@ -23,25 +27,15 @@ class ChatPage extends StatelessWidget {
         BlocProvider(
           create:
               (context) => ChatBloc(
+                websocketUrl:
+                    '${ApiConstants.baseUrl}/${ApiConstants.websocket}${getIt<UserProvider>().user!.id}',
                 createMessageUseCase: CreateMessage(),
                 chipMessageUseCase: ChipMessage(),
-                sendMessageUseCase: SendMessage(
-                  MessageRepositoryImpl(
-                    remoteDataSource: ChatRemoteDataSourceImpl(
-                      websocketUrl: '/message',
-                      userId: getIt<UserProvider>().user!.id,
-                    ),
-                  ),
-                ),
-                getMessageStreamUseCase: GetMessageStream(
-                  MessageRepositoryImpl(
-                    remoteDataSource: ChatRemoteDataSourceImpl(
-                      websocketUrl: '/messages',
-                      userId: getIt<UserProvider>().user!.id,
-                    ),
-                  ),
-                ),
                 user: getIt<UserProvider>().user!,
+                connectWebSocketUseCase: ConnectWebSocket(getIt()),
+                disconnectWebSocketUseCase: DisconnectWebSocket(getIt()),
+                sendWebSocketMessageUseCase: SendWebSocketMessage(getIt()),
+                getWebSocketStreamUseCase: GetWebSocketStream(getIt()),
               ),
         ),
       ],

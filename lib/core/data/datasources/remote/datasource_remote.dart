@@ -1,5 +1,3 @@
-import 'package:http/http.dart' as http;
-
 abstract class DatasourceRemote {
   Future<dynamic> get(String url, dynamic body);
   Future<dynamic> post(String url, dynamic body);

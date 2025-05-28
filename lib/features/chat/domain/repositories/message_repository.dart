@@ -1,10 +1,7 @@
+import 'package:studia/features/chat/data/models/message_model.dart';
 import 'package:studia/features/chat/domain/entities/message.dart';
 
 abstract class MessageRepository {
-  Future<void> sendMessage(
-    String messageContent,
-    String senderId,
-    String groupId,
-  );
-  Stream<Message> getMessageStream(String groupId);
+  Future<void> sendMessage(MessageModel message);
+  Stream<List<Message>> getMessageStream();
 }

@@ -31,7 +31,7 @@ class UserModel extends User {
               ?.map((e) => (e as num).toDouble())
               .toList() ??
           [],
-      parseLevelId: json['level'] as int,
+      parseLevelId: json['level_id'] as int,
       level: null,
     );
   }

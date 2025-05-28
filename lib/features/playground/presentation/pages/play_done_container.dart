@@ -5,23 +5,16 @@ import 'package:studia/features/playground/presentation/bloc/play_bloc.dart';
 
 class PlayDoneContainer extends StatelessWidget {
   final PlayState state;
-  final BuildContext context;
+  final PlayBloc bloc;
 
   const PlayDoneContainer({
     super.key,
     required this.state,
-    required this.context,
+    required this.bloc,
   });
 
   @override
   Widget build(BuildContext context) {
-    int correctAnswers = 0;
-    for (var i = 0; i < state.questions.length; i++) {
-      if (state.selectedChoices[i] == state.questions[i].answer) {
-        correctAnswers++;
-      }
-    }
-
     return Column(
       children: [
         Expanded(
@@ -45,7 +38,7 @@ class PlayDoneContainer extends StatelessWidget {
                 ),
                 SizedBox(height: 16),
                 Text(
-                  'Correct ${correctAnswers} out of ${state.questions.length}!',
+                  'Correct ${state.correctAnswers} out of ${state.questions.length}!',
                   style: AppTextStyles.h3.copyWith(color: AppColors.darkgray),
                 ),
               ],
@@ -56,15 +49,17 @@ class PlayDoneContainer extends StatelessWidget {
         CustomButton(
           text: 'View Solution',
           onPressed: () {
-            context.read<PlayBloc>().add(PlayEvent.viewResults());
+            bloc.add(PlayEvent.viewResults());
           },
           isDisabled: state.selectedChoices[state.currentQuestionIndex] == -1,
           type: AppButtonType.transparent,
         ),
         SizedBox(height: 8),
         CustomButton(
-          text: "Play Again",
-          onPressed: () {},
+          text: "Done",
+          onPressed: () {
+            bloc.add(PlayEvent.done());
+          },
           type: AppButtonType.primary,
         ),
       ],

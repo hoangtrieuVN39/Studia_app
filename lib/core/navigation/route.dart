@@ -30,7 +30,7 @@ class AppRoutes {
       register: (context) => RegisterPage(id: data['id'], email: data['email']),
       home: (context) => const HomePage(),
       main: (context) => const MainPage(),
-      play: (context) => PlayPage(questions: data['questions']),
+      play: (context) => PlayPage(data: data),
       profile: (context) => const ProfilePage(),
       profileEdit: (context) => const ProfileEditPage(),
       skills: (context) => const SkillsPage(),

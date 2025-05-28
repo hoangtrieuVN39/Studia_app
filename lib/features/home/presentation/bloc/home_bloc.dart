@@ -17,8 +17,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   HomeBloc({
     required this.fetchStandardsUsecase,
-    required this.user,
     required this.fetchQuestionsUsecase,
+    required this.user,
   }) : super(const HomeState()) {
     on<Initial>((event, emit) => _onInitialEvent(event, emit));
     on<StandardNodeTapped>(
@@ -35,6 +35,12 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   Future<void> _onInitialEvent(Initial event, Emitter<HomeState> emit) async {
     emit(state.copyWith(isLoading: true));
+    // final questions = await fetchQuestionsUsecase.call(
+    //   standardId: null,
+    // );
+    // if (!questions.isEmpty) {
+    //   emit(state.copyWith(isFirstPlay: true, questions: questions));
+    // }
     final standards = await fetchStandardsUsecase.call(
       level: user.level!.level_id,
     );
@@ -63,10 +69,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     Emitter<HomeState> emit,
   ) async {
     emit(state.copyWith(isLoading: true));
-    final questions = await fetchQuestionsUsecase.call(
-      standard: state.selectedStandard!.standard_id,
-    );
-    emit(state.copyWith(questions: questions, isPlayTapped: true));
+    emit(state.copyWith(isPlayTapped: true));
     emit(state.copyWith(isLoading: false));
   }
 

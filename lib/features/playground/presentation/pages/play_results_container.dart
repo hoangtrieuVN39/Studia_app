@@ -4,12 +4,12 @@ import 'package:studia/features/playground/presentation/bloc/play_bloc.dart';
 
 class PlayResultsContainer extends StatelessWidget {
   final PlayState state;
-  final BuildContext context;
+  final PlayBloc bloc;
 
   const PlayResultsContainer({
     super.key,
     required this.state,
-    required this.context,
+    required this.bloc,
   });
 
   @override
@@ -40,9 +40,16 @@ class PlayResultsContainer extends StatelessWidget {
           ),
         ),
         SizedBox(height: 8),
+        Text(
+          'Correct ${state.correctAnswers} out of ${state.questions.length}!',
+          style: AppTextStyles.h3.copyWith(color: AppColors.darkgray),
+        ),
+        SizedBox(height: 8),
         CustomButton(
-          text: "Play Again",
-          onPressed: () {},
+          text: "Done",
+          onPressed: () {
+            bloc.add(PlayEvent.done());
+          },
           type: AppButtonType.primary,
         ),
       ],

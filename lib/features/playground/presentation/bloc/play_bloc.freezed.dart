@@ -335,38 +335,6 @@ String toString() {
 /// @nodoc
 
 
-class PlayAgain implements PlayEvent {
-  const PlayAgain();
-  
-
-
-
-
-
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PlayAgain);
-}
-
-
-@override
-int get hashCode => runtimeType.hashCode;
-
-@override
-String toString() {
-  return 'PlayEvent.playAgain()';
-}
-
-
-}
-
-
-
-
-/// @nodoc
-
-
 class QuitConfirmed implements PlayEvent {
   const QuitConfirmed();
   
@@ -399,7 +367,7 @@ String toString() {
 /// @nodoc
 mixin _$PlayState {
 
- bool get isLoading; bool get isError; String get message; List<Question> get questions; List<int> get selectedChoices; int get currentQuestionIndex; bool get isViewingSolution; bool get isDone; bool get isNextQuestion; bool get isSubmit; bool get isViewingResults; bool get isQuit; bool get isQuitConfirmed; bool get isPlayAgain;
+ bool get isLoading; bool get isError; String get message; List<Question> get questions; List<int> get selectedChoices; List<Answer> get answers; int get currentQuestionIndex; bool get isViewingSolution; bool get isDone; bool get isNextQuestion; bool get isSubmit; bool get isViewingResults; bool get isQuit; bool get isQuitConfirmed; bool get isFirstPlay; int get correctAnswers;
 /// Create a copy of PlayState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -410,16 +378,16 @@ $PlayStateCopyWith<PlayState> get copyWith => _$PlayStateCopyWithImpl<PlayState>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PlayState&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.isError, isError) || other.isError == isError)&&(identical(other.message, message) || other.message == message)&&const DeepCollectionEquality().equals(other.questions, questions)&&const DeepCollectionEquality().equals(other.selectedChoices, selectedChoices)&&(identical(other.currentQuestionIndex, currentQuestionIndex) || other.currentQuestionIndex == currentQuestionIndex)&&(identical(other.isViewingSolution, isViewingSolution) || other.isViewingSolution == isViewingSolution)&&(identical(other.isDone, isDone) || other.isDone == isDone)&&(identical(other.isNextQuestion, isNextQuestion) || other.isNextQuestion == isNextQuestion)&&(identical(other.isSubmit, isSubmit) || other.isSubmit == isSubmit)&&(identical(other.isViewingResults, isViewingResults) || other.isViewingResults == isViewingResults)&&(identical(other.isQuit, isQuit) || other.isQuit == isQuit)&&(identical(other.isQuitConfirmed, isQuitConfirmed) || other.isQuitConfirmed == isQuitConfirmed)&&(identical(other.isPlayAgain, isPlayAgain) || other.isPlayAgain == isPlayAgain));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PlayState&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.isError, isError) || other.isError == isError)&&(identical(other.message, message) || other.message == message)&&const DeepCollectionEquality().equals(other.questions, questions)&&const DeepCollectionEquality().equals(other.selectedChoices, selectedChoices)&&const DeepCollectionEquality().equals(other.answers, answers)&&(identical(other.currentQuestionIndex, currentQuestionIndex) || other.currentQuestionIndex == currentQuestionIndex)&&(identical(other.isViewingSolution, isViewingSolution) || other.isViewingSolution == isViewingSolution)&&(identical(other.isDone, isDone) || other.isDone == isDone)&&(identical(other.isNextQuestion, isNextQuestion) || other.isNextQuestion == isNextQuestion)&&(identical(other.isSubmit, isSubmit) || other.isSubmit == isSubmit)&&(identical(other.isViewingResults, isViewingResults) || other.isViewingResults == isViewingResults)&&(identical(other.isQuit, isQuit) || other.isQuit == isQuit)&&(identical(other.isQuitConfirmed, isQuitConfirmed) || other.isQuitConfirmed == isQuitConfirmed)&&(identical(other.isFirstPlay, isFirstPlay) || other.isFirstPlay == isFirstPlay)&&(identical(other.correctAnswers, correctAnswers) || other.correctAnswers == correctAnswers));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,isLoading,isError,message,const DeepCollectionEquality().hash(questions),const DeepCollectionEquality().hash(selectedChoices),currentQuestionIndex,isViewingSolution,isDone,isNextQuestion,isSubmit,isViewingResults,isQuit,isQuitConfirmed,isPlayAgain);
+int get hashCode => Object.hash(runtimeType,isLoading,isError,message,const DeepCollectionEquality().hash(questions),const DeepCollectionEquality().hash(selectedChoices),const DeepCollectionEquality().hash(answers),currentQuestionIndex,isViewingSolution,isDone,isNextQuestion,isSubmit,isViewingResults,isQuit,isQuitConfirmed,isFirstPlay,correctAnswers);
 
 @override
 String toString() {
-  return 'PlayState(isLoading: $isLoading, isError: $isError, message: $message, questions: $questions, selectedChoices: $selectedChoices, currentQuestionIndex: $currentQuestionIndex, isViewingSolution: $isViewingSolution, isDone: $isDone, isNextQuestion: $isNextQuestion, isSubmit: $isSubmit, isViewingResults: $isViewingResults, isQuit: $isQuit, isQuitConfirmed: $isQuitConfirmed, isPlayAgain: $isPlayAgain)';
+  return 'PlayState(isLoading: $isLoading, isError: $isError, message: $message, questions: $questions, selectedChoices: $selectedChoices, answers: $answers, currentQuestionIndex: $currentQuestionIndex, isViewingSolution: $isViewingSolution, isDone: $isDone, isNextQuestion: $isNextQuestion, isSubmit: $isSubmit, isViewingResults: $isViewingResults, isQuit: $isQuit, isQuitConfirmed: $isQuitConfirmed, isFirstPlay: $isFirstPlay, correctAnswers: $correctAnswers)';
 }
 
 
@@ -430,7 +398,7 @@ abstract mixin class $PlayStateCopyWith<$Res>  {
   factory $PlayStateCopyWith(PlayState value, $Res Function(PlayState) _then) = _$PlayStateCopyWithImpl;
 @useResult
 $Res call({
- bool isLoading, bool isError, String message, List<Question> questions, List<int> selectedChoices, int currentQuestionIndex, bool isViewingSolution, bool isDone, bool isNextQuestion, bool isSubmit, bool isViewingResults, bool isQuit, bool isQuitConfirmed, bool isPlayAgain
+ bool isLoading, bool isError, String message, List<Question> questions, List<int> selectedChoices, List<Answer> answers, int currentQuestionIndex, bool isViewingSolution, bool isDone, bool isNextQuestion, bool isSubmit, bool isViewingResults, bool isQuit, bool isQuitConfirmed, bool isFirstPlay, int correctAnswers
 });
 
 
@@ -447,14 +415,15 @@ class _$PlayStateCopyWithImpl<$Res>
 
 /// Create a copy of PlayState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? isLoading = null,Object? isError = null,Object? message = null,Object? questions = null,Object? selectedChoices = null,Object? currentQuestionIndex = null,Object? isViewingSolution = null,Object? isDone = null,Object? isNextQuestion = null,Object? isSubmit = null,Object? isViewingResults = null,Object? isQuit = null,Object? isQuitConfirmed = null,Object? isPlayAgain = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? isLoading = null,Object? isError = null,Object? message = null,Object? questions = null,Object? selectedChoices = null,Object? answers = null,Object? currentQuestionIndex = null,Object? isViewingSolution = null,Object? isDone = null,Object? isNextQuestion = null,Object? isSubmit = null,Object? isViewingResults = null,Object? isQuit = null,Object? isQuitConfirmed = null,Object? isFirstPlay = null,Object? correctAnswers = null,}) {
   return _then(_self.copyWith(
 isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
 as bool,isError: null == isError ? _self.isError : isError // ignore: cast_nullable_to_non_nullable
 as bool,message: null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
 as String,questions: null == questions ? _self.questions : questions // ignore: cast_nullable_to_non_nullable
 as List<Question>,selectedChoices: null == selectedChoices ? _self.selectedChoices : selectedChoices // ignore: cast_nullable_to_non_nullable
-as List<int>,currentQuestionIndex: null == currentQuestionIndex ? _self.currentQuestionIndex : currentQuestionIndex // ignore: cast_nullable_to_non_nullable
+as List<int>,answers: null == answers ? _self.answers : answers // ignore: cast_nullable_to_non_nullable
+as List<Answer>,currentQuestionIndex: null == currentQuestionIndex ? _self.currentQuestionIndex : currentQuestionIndex // ignore: cast_nullable_to_non_nullable
 as int,isViewingSolution: null == isViewingSolution ? _self.isViewingSolution : isViewingSolution // ignore: cast_nullable_to_non_nullable
 as bool,isDone: null == isDone ? _self.isDone : isDone // ignore: cast_nullable_to_non_nullable
 as bool,isNextQuestion: null == isNextQuestion ? _self.isNextQuestion : isNextQuestion // ignore: cast_nullable_to_non_nullable
@@ -462,8 +431,9 @@ as bool,isSubmit: null == isSubmit ? _self.isSubmit : isSubmit // ignore: cast_n
 as bool,isViewingResults: null == isViewingResults ? _self.isViewingResults : isViewingResults // ignore: cast_nullable_to_non_nullable
 as bool,isQuit: null == isQuit ? _self.isQuit : isQuit // ignore: cast_nullable_to_non_nullable
 as bool,isQuitConfirmed: null == isQuitConfirmed ? _self.isQuitConfirmed : isQuitConfirmed // ignore: cast_nullable_to_non_nullable
-as bool,isPlayAgain: null == isPlayAgain ? _self.isPlayAgain : isPlayAgain // ignore: cast_nullable_to_non_nullable
-as bool,
+as bool,isFirstPlay: null == isFirstPlay ? _self.isFirstPlay : isFirstPlay // ignore: cast_nullable_to_non_nullable
+as bool,correctAnswers: null == correctAnswers ? _self.correctAnswers : correctAnswers // ignore: cast_nullable_to_non_nullable
+as int,
   ));
 }
 
@@ -474,7 +444,7 @@ as bool,
 
 
 class _PlayState implements PlayState {
-   _PlayState({this.isLoading = false, this.isError = false, this.message = '', final  List<Question> questions = const [], final  List<int> selectedChoices = const [], this.currentQuestionIndex = 0, this.isViewingSolution = false, this.isDone = false, this.isNextQuestion = false, this.isSubmit = false, this.isViewingResults = false, this.isQuit = false, this.isQuitConfirmed = false, this.isPlayAgain = false}): _questions = questions,_selectedChoices = selectedChoices;
+   _PlayState({this.isLoading = false, this.isError = false, this.message = '', final  List<Question> questions = const [], final  List<int> selectedChoices = const [], final  List<Answer> answers = const [], this.currentQuestionIndex = 0, this.isViewingSolution = false, this.isDone = false, this.isNextQuestion = false, this.isSubmit = false, this.isViewingResults = false, this.isQuit = false, this.isQuitConfirmed = false, this.isFirstPlay = false, this.correctAnswers = 0}): _questions = questions,_selectedChoices = selectedChoices,_answers = answers;
   
 
 @override@JsonKey() final  bool isLoading;
@@ -494,6 +464,13 @@ class _PlayState implements PlayState {
   return EqualUnmodifiableListView(_selectedChoices);
 }
 
+ final  List<Answer> _answers;
+@override@JsonKey() List<Answer> get answers {
+  if (_answers is EqualUnmodifiableListView) return _answers;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_answers);
+}
+
 @override@JsonKey() final  int currentQuestionIndex;
 @override@JsonKey() final  bool isViewingSolution;
 @override@JsonKey() final  bool isDone;
@@ -502,7 +479,8 @@ class _PlayState implements PlayState {
 @override@JsonKey() final  bool isViewingResults;
 @override@JsonKey() final  bool isQuit;
 @override@JsonKey() final  bool isQuitConfirmed;
-@override@JsonKey() final  bool isPlayAgain;
+@override@JsonKey() final  bool isFirstPlay;
+@override@JsonKey() final  int correctAnswers;
 
 /// Create a copy of PlayState
 /// with the given fields replaced by the non-null parameter values.
@@ -514,16 +492,16 @@ _$PlayStateCopyWith<_PlayState> get copyWith => __$PlayStateCopyWithImpl<_PlaySt
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PlayState&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.isError, isError) || other.isError == isError)&&(identical(other.message, message) || other.message == message)&&const DeepCollectionEquality().equals(other._questions, _questions)&&const DeepCollectionEquality().equals(other._selectedChoices, _selectedChoices)&&(identical(other.currentQuestionIndex, currentQuestionIndex) || other.currentQuestionIndex == currentQuestionIndex)&&(identical(other.isViewingSolution, isViewingSolution) || other.isViewingSolution == isViewingSolution)&&(identical(other.isDone, isDone) || other.isDone == isDone)&&(identical(other.isNextQuestion, isNextQuestion) || other.isNextQuestion == isNextQuestion)&&(identical(other.isSubmit, isSubmit) || other.isSubmit == isSubmit)&&(identical(other.isViewingResults, isViewingResults) || other.isViewingResults == isViewingResults)&&(identical(other.isQuit, isQuit) || other.isQuit == isQuit)&&(identical(other.isQuitConfirmed, isQuitConfirmed) || other.isQuitConfirmed == isQuitConfirmed)&&(identical(other.isPlayAgain, isPlayAgain) || other.isPlayAgain == isPlayAgain));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PlayState&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.isError, isError) || other.isError == isError)&&(identical(other.message, message) || other.message == message)&&const DeepCollectionEquality().equals(other._questions, _questions)&&const DeepCollectionEquality().equals(other._selectedChoices, _selectedChoices)&&const DeepCollectionEquality().equals(other._answers, _answers)&&(identical(other.currentQuestionIndex, currentQuestionIndex) || other.currentQuestionIndex == currentQuestionIndex)&&(identical(other.isViewingSolution, isViewingSolution) || other.isViewingSolution == isViewingSolution)&&(identical(other.isDone, isDone) || other.isDone == isDone)&&(identical(other.isNextQuestion, isNextQuestion) || other.isNextQuestion == isNextQuestion)&&(identical(other.isSubmit, isSubmit) || other.isSubmit == isSubmit)&&(identical(other.isViewingResults, isViewingResults) || other.isViewingResults == isViewingResults)&&(identical(other.isQuit, isQuit) || other.isQuit == isQuit)&&(identical(other.isQuitConfirmed, isQuitConfirmed) || other.isQuitConfirmed == isQuitConfirmed)&&(identical(other.isFirstPlay, isFirstPlay) || other.isFirstPlay == isFirstPlay)&&(identical(other.correctAnswers, correctAnswers) || other.correctAnswers == correctAnswers));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,isLoading,isError,message,const DeepCollectionEquality().hash(_questions),const DeepCollectionEquality().hash(_selectedChoices),currentQuestionIndex,isViewingSolution,isDone,isNextQuestion,isSubmit,isViewingResults,isQuit,isQuitConfirmed,isPlayAgain);
+int get hashCode => Object.hash(runtimeType,isLoading,isError,message,const DeepCollectionEquality().hash(_questions),const DeepCollectionEquality().hash(_selectedChoices),const DeepCollectionEquality().hash(_answers),currentQuestionIndex,isViewingSolution,isDone,isNextQuestion,isSubmit,isViewingResults,isQuit,isQuitConfirmed,isFirstPlay,correctAnswers);
 
 @override
 String toString() {
-  return 'PlayState(isLoading: $isLoading, isError: $isError, message: $message, questions: $questions, selectedChoices: $selectedChoices, currentQuestionIndex: $currentQuestionIndex, isViewingSolution: $isViewingSolution, isDone: $isDone, isNextQuestion: $isNextQuestion, isSubmit: $isSubmit, isViewingResults: $isViewingResults, isQuit: $isQuit, isQuitConfirmed: $isQuitConfirmed, isPlayAgain: $isPlayAgain)';
+  return 'PlayState(isLoading: $isLoading, isError: $isError, message: $message, questions: $questions, selectedChoices: $selectedChoices, answers: $answers, currentQuestionIndex: $currentQuestionIndex, isViewingSolution: $isViewingSolution, isDone: $isDone, isNextQuestion: $isNextQuestion, isSubmit: $isSubmit, isViewingResults: $isViewingResults, isQuit: $isQuit, isQuitConfirmed: $isQuitConfirmed, isFirstPlay: $isFirstPlay, correctAnswers: $correctAnswers)';
 }
 
 
@@ -534,7 +512,7 @@ abstract mixin class _$PlayStateCopyWith<$Res> implements $PlayStateCopyWith<$Re
   factory _$PlayStateCopyWith(_PlayState value, $Res Function(_PlayState) _then) = __$PlayStateCopyWithImpl;
 @override @useResult
 $Res call({
- bool isLoading, bool isError, String message, List<Question> questions, List<int> selectedChoices, int currentQuestionIndex, bool isViewingSolution, bool isDone, bool isNextQuestion, bool isSubmit, bool isViewingResults, bool isQuit, bool isQuitConfirmed, bool isPlayAgain
+ bool isLoading, bool isError, String message, List<Question> questions, List<int> selectedChoices, List<Answer> answers, int currentQuestionIndex, bool isViewingSolution, bool isDone, bool isNextQuestion, bool isSubmit, bool isViewingResults, bool isQuit, bool isQuitConfirmed, bool isFirstPlay, int correctAnswers
 });
 
 
@@ -551,14 +529,15 @@ class __$PlayStateCopyWithImpl<$Res>
 
 /// Create a copy of PlayState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? isLoading = null,Object? isError = null,Object? message = null,Object? questions = null,Object? selectedChoices = null,Object? currentQuestionIndex = null,Object? isViewingSolution = null,Object? isDone = null,Object? isNextQuestion = null,Object? isSubmit = null,Object? isViewingResults = null,Object? isQuit = null,Object? isQuitConfirmed = null,Object? isPlayAgain = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? isLoading = null,Object? isError = null,Object? message = null,Object? questions = null,Object? selectedChoices = null,Object? answers = null,Object? currentQuestionIndex = null,Object? isViewingSolution = null,Object? isDone = null,Object? isNextQuestion = null,Object? isSubmit = null,Object? isViewingResults = null,Object? isQuit = null,Object? isQuitConfirmed = null,Object? isFirstPlay = null,Object? correctAnswers = null,}) {
   return _then(_PlayState(
 isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
 as bool,isError: null == isError ? _self.isError : isError // ignore: cast_nullable_to_non_nullable
 as bool,message: null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
 as String,questions: null == questions ? _self._questions : questions // ignore: cast_nullable_to_non_nullable
 as List<Question>,selectedChoices: null == selectedChoices ? _self._selectedChoices : selectedChoices // ignore: cast_nullable_to_non_nullable
-as List<int>,currentQuestionIndex: null == currentQuestionIndex ? _self.currentQuestionIndex : currentQuestionIndex // ignore: cast_nullable_to_non_nullable
+as List<int>,answers: null == answers ? _self._answers : answers // ignore: cast_nullable_to_non_nullable
+as List<Answer>,currentQuestionIndex: null == currentQuestionIndex ? _self.currentQuestionIndex : currentQuestionIndex // ignore: cast_nullable_to_non_nullable
 as int,isViewingSolution: null == isViewingSolution ? _self.isViewingSolution : isViewingSolution // ignore: cast_nullable_to_non_nullable
 as bool,isDone: null == isDone ? _self.isDone : isDone // ignore: cast_nullable_to_non_nullable
 as bool,isNextQuestion: null == isNextQuestion ? _self.isNextQuestion : isNextQuestion // ignore: cast_nullable_to_non_nullable
@@ -566,8 +545,9 @@ as bool,isSubmit: null == isSubmit ? _self.isSubmit : isSubmit // ignore: cast_n
 as bool,isViewingResults: null == isViewingResults ? _self.isViewingResults : isViewingResults // ignore: cast_nullable_to_non_nullable
 as bool,isQuit: null == isQuit ? _self.isQuit : isQuit // ignore: cast_nullable_to_non_nullable
 as bool,isQuitConfirmed: null == isQuitConfirmed ? _self.isQuitConfirmed : isQuitConfirmed // ignore: cast_nullable_to_non_nullable
-as bool,isPlayAgain: null == isPlayAgain ? _self.isPlayAgain : isPlayAgain // ignore: cast_nullable_to_non_nullable
-as bool,
+as bool,isFirstPlay: null == isFirstPlay ? _self.isFirstPlay : isFirstPlay // ignore: cast_nullable_to_non_nullable
+as bool,correctAnswers: null == correctAnswers ? _self.correctAnswers : correctAnswers // ignore: cast_nullable_to_non_nullable
+as int,
   ));
 }
 

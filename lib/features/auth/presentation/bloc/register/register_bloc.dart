@@ -1,5 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:studia/core/core.dart';
 import 'package:studia/core/data/datasources/local/drift/database.dart';

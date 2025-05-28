@@ -39,20 +39,8 @@ class ApiClient extends DatasourceRemote {
         data: encodedData,
         options: headers,
       );
-      print(response.data);
-      print('Response: ${response.data}');
       return response.data;
     } on DioException catch (e) {
-      print('API Error: ${e.type} - ${e.message}');
-      print('Attempted URL: http://${ApiConstants.baseUrl}$url');
-      print('Request Data: $data');
-      if (e.response != null) {
-        print('Response Status: ${e.response?.statusCode}');
-        print('Response Data: ${e.response?.data}');
-      }
-      if (e.error != null) {
-        print('Error details: ${e.error}');
-      }
       _handleError(e);
     }
   }

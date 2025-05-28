@@ -1,12 +1,12 @@
-import 'package:studia/features/chat/domain/entities/message.dart';
+import 'package:studia/features/chat/data/models/message_model.dart';
 
 class CreateMessage {
   CreateMessage();
 
-  Future<Message> call(String message, String user) async {
-    return Message(
+  Future<MessageModel> call(String message, String user) async {
+    return MessageModel(
       content: message,
-      createdAt: DateTime.now().toIso8601String(),
+      createdAt: DateTime.now(),
       userId: user,
       isUser: true,
     );

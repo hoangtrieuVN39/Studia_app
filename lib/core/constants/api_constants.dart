@@ -17,5 +17,5 @@ class ApiConstants {
   static const String message = '/message';
   static const String questions = '/questions';
 
-  static const String websocket = '/ws/';
+  static const String websocket = 'ws/';
 }

@@ -3,29 +3,29 @@ import 'dart:convert';
 
 import 'package:studia/core/data/datasources/remote/websocket.dart';
 import 'package:studia/features/chat/data/datasources/chat_remote_data_source.dart';
+import 'package:studia/core/core.dart';
 
 class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
   WebSocketManager? _manager;
   StreamController<Map<String, dynamic>>? _messageStreamController;
   final String _websocketBaseUrl;
 
-  ChatRemoteDataSourceImpl({
-    required String websocketUrl,
-    required String userId,
-  }) : _websocketBaseUrl = '$websocketUrl$userId';
+  ChatRemoteDataSourceImpl({required String userId})
+    : _websocketBaseUrl =
+          '${ApiConstants.baseUrl}/${ApiConstants.websocket}$userId';
 
   @override
-  Future<void> connect(String groupId) async {
+  Future<void> connect() async {
     if (_manager != null) {
       print("WebSocket already connected.");
       return;
     }
 
-    final url = '$_websocketBaseUrl/$groupId';
+    final url = '$_websocketBaseUrl';
     print("Connecting to WebSocket: $url");
 
     try {
-      _manager = WebSocketManager(url: url);
+      _manager = WebSocketManager(rawUrl: url);
       _messageStreamController =
           StreamController<Map<String, dynamic>>.broadcast();
 
@@ -50,13 +50,13 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
   }
 
   @override
-  Stream<Map<String, dynamic>> getMessageStream(String groupId) {
+  Stream<List<Map<String, dynamic>>> getMessageStream() {
     if (_messageStreamController == null ||
         _messageStreamController!.isClosed) {
       print(
         "Message stream requested but not active. Attempting to connect...",
       );
-      connect(groupId);
+      connect();
     }
 
     if (_messageStreamController == null ||
@@ -67,7 +67,7 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
         ),
       );
     }
-    return _messageStreamController!.stream;
+    return _messageStreamController!.stream.map((data) => [data]);
   }
 
   @override

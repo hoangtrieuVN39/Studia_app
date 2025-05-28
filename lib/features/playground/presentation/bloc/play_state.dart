@@ -8,6 +8,7 @@ abstract class PlayState with _$PlayState {
     @Default('') String message,
     @Default([]) List<Question> questions,
     @Default([]) List<int> selectedChoices,
+    @Default([]) List<Answer> answers,
     @Default(0) int currentQuestionIndex,
     @Default(false) bool isViewingSolution,
     @Default(false) bool isDone,
@@ -16,6 +17,7 @@ abstract class PlayState with _$PlayState {
     @Default(false) bool isViewingResults,
     @Default(false) bool isQuit,
     @Default(false) bool isQuitConfirmed,
-    @Default(false) bool isPlayAgain,
+    @Default(false) bool isFirstPlay,
+    @Default(0) int correctAnswers,
   }) = _PlayState;
 }

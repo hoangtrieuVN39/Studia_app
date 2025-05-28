@@ -56,13 +56,25 @@ class PlayContainer extends StatelessWidget {
 
         Widget container;
         if (state.isViewingResults) {
-          container = PlayResultsContainer(context: context, state: state);
+          container = PlayResultsContainer(
+            bloc: context.read<PlayBloc>(),
+            state: state,
+          );
         } else if (state.isSubmit) {
-          container = PlaySubmitContainer(context: context, state: state);
+          container = PlaySubmitContainer(
+            bloc: context.read<PlayBloc>(),
+            state: state,
+          );
         } else if (state.isDone) {
-          container = PlayDoneContainer(context: context, state: state);
+          container = PlayDoneContainer(
+            bloc: context.read<PlayBloc>(),
+            state: state,
+          );
         } else {
-          container = PlayChoiceContainer(context: context, state: state);
+          container = PlayChoiceContainer(
+            bloc: context.read<PlayBloc>(),
+            state: state,
+          );
         }
 
         return Scaffold(
@@ -80,11 +92,18 @@ class PlayContainer extends StatelessWidget {
               numerator: state.currentQuestionIndex + 1,
               denominator: state.questions.length,
             ),
-            leading: CustomButton(
-              leading: Icon(Icons.arrow_back, color: AppColors.darkgray),
-              onPressed: () => context.read<PlayBloc>().add(PlayEvent.quit()),
-              type: AppButtonType.transparent,
-            ),
+            leading:
+                !state.isFirstPlay
+                    ? CustomButton(
+                      leading: Icon(
+                        Icons.arrow_back,
+                        color: AppColors.darkgray,
+                      ),
+                      onPressed:
+                          () => context.read<PlayBloc>().add(PlayEvent.quit()),
+                      type: AppButtonType.transparent,
+                    )
+                    : null,
           ),
           body: SafeArea(
             child: Container(

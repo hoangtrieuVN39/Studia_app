@@ -10,6 +10,5 @@ class PlayEvent with _$PlayEvent {
   const factory PlayEvent.done() = Done;
   const factory PlayEvent.viewResults() = ViewResults;
   const factory PlayEvent.quit() = Quit;
-  const factory PlayEvent.playAgain() = PlayAgain;
   const factory PlayEvent.quitConfirmed() = QuitConfirmed;
 }

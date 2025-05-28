@@ -14,11 +14,14 @@ class HomeContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<HomeBloc, HomeState>(
       listener: (context, state) {
-        if (state.isPlayTapped) {
+        if (state.isPlayTapped || state.isFirstPlay) {
           NavigatorService.push(
             context,
             AppRoutes.play,
-            data: {'questions': state.questions},
+            data: {
+              'questions': state.questions,
+              'isFirstPlay': state.isFirstPlay,
+            },
           );
         }
       },

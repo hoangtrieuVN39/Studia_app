@@ -8,5 +8,7 @@ class ChatEvent with _$ChatEvent {
   const factory ChatEvent.textChanged(String text) = _TextChanged;
   const factory ChatEvent.sendMessage(String messageContent) = _SendMessage;
   const factory ChatEvent.clickChip(String chip) = _ClickChip;
-  const factory ChatEvent.messageReceived(Message message) = _MessageReceived;
+  const factory ChatEvent.messageReceived({
+    required List<Map<String, dynamic>> messages,
+  }) = _MessageReceived;
 }

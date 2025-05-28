@@ -1,6 +1,6 @@
 class Message {
   final String content;
-  final String createdAt;
+  final DateTime createdAt;
   final String userId;
   final bool isUser;
 

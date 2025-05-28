@@ -5,12 +5,12 @@ import 'package:studia/features/playground/domain/entities/questions.dart';
 import 'package:studia/features/playground/presentation/bloc/play_bloc.dart';
 
 class PlaySubmitContainer extends StatelessWidget {
-  final BuildContext context;
+  final PlayBloc bloc;
   final PlayState state;
 
   const PlaySubmitContainer({
     super.key,
-    required this.context,
+    required this.bloc,
     required this.state,
   });
 
@@ -44,7 +44,7 @@ class PlaySubmitContainer extends StatelessWidget {
               child: CustomButton(
                 text: 'View Solution',
                 onPressed: () {
-                  context.read<PlayBloc>().add(PlayEvent.viewSolution());
+                  bloc.add(PlayEvent.viewSolution());
                 },
                 isDisabled:
                     state.selectedChoices[state.currentQuestionIndex] == -1,
@@ -61,9 +61,9 @@ class PlaySubmitContainer extends StatelessWidget {
                 onPressed: () {
                   if (state.currentQuestionIndex ==
                       state.questions.length - 1) {
-                    context.read<PlayBloc>().add(PlayEvent.done());
+                    bloc.add(PlayEvent.done());
                   } else {
-                    context.read<PlayBloc>().add(PlayEvent.nextQuestion());
+                    bloc.add(PlayEvent.nextQuestion());
                   }
                 },
                 type: AppButtonType.primary,

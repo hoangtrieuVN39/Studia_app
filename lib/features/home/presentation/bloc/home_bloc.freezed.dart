@@ -207,7 +207,7 @@ String toString() {
 /// @nodoc
 mixin _$HomeState {
 
- bool get isLoading; bool get isError; String get message; Standards? get selectedStandard; Map<Standards, double> get standards_performance; List<Question> get questions; bool get isPlayTapped; bool get isViewInfoTapped;
+ bool get isLoading; bool get isError; String get message; Standards? get selectedStandard; Map<Standards, double> get standards_performance; bool get isPlayTapped; bool get isViewInfoTapped; bool get isFirstPlay; List<Question> get questions;
 /// Create a copy of HomeState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -218,16 +218,16 @@ $HomeStateCopyWith<HomeState> get copyWith => _$HomeStateCopyWithImpl<HomeState>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is HomeState&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.isError, isError) || other.isError == isError)&&(identical(other.message, message) || other.message == message)&&(identical(other.selectedStandard, selectedStandard) || other.selectedStandard == selectedStandard)&&const DeepCollectionEquality().equals(other.standards_performance, standards_performance)&&const DeepCollectionEquality().equals(other.questions, questions)&&(identical(other.isPlayTapped, isPlayTapped) || other.isPlayTapped == isPlayTapped)&&(identical(other.isViewInfoTapped, isViewInfoTapped) || other.isViewInfoTapped == isViewInfoTapped));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is HomeState&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.isError, isError) || other.isError == isError)&&(identical(other.message, message) || other.message == message)&&(identical(other.selectedStandard, selectedStandard) || other.selectedStandard == selectedStandard)&&const DeepCollectionEquality().equals(other.standards_performance, standards_performance)&&(identical(other.isPlayTapped, isPlayTapped) || other.isPlayTapped == isPlayTapped)&&(identical(other.isViewInfoTapped, isViewInfoTapped) || other.isViewInfoTapped == isViewInfoTapped)&&(identical(other.isFirstPlay, isFirstPlay) || other.isFirstPlay == isFirstPlay)&&const DeepCollectionEquality().equals(other.questions, questions));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,isLoading,isError,message,selectedStandard,const DeepCollectionEquality().hash(standards_performance),const DeepCollectionEquality().hash(questions),isPlayTapped,isViewInfoTapped);
+int get hashCode => Object.hash(runtimeType,isLoading,isError,message,selectedStandard,const DeepCollectionEquality().hash(standards_performance),isPlayTapped,isViewInfoTapped,isFirstPlay,const DeepCollectionEquality().hash(questions));
 
 @override
 String toString() {
-  return 'HomeState(isLoading: $isLoading, isError: $isError, message: $message, selectedStandard: $selectedStandard, standards_performance: $standards_performance, questions: $questions, isPlayTapped: $isPlayTapped, isViewInfoTapped: $isViewInfoTapped)';
+  return 'HomeState(isLoading: $isLoading, isError: $isError, message: $message, selectedStandard: $selectedStandard, standards_performance: $standards_performance, isPlayTapped: $isPlayTapped, isViewInfoTapped: $isViewInfoTapped, isFirstPlay: $isFirstPlay, questions: $questions)';
 }
 
 
@@ -238,7 +238,7 @@ abstract mixin class $HomeStateCopyWith<$Res>  {
   factory $HomeStateCopyWith(HomeState value, $Res Function(HomeState) _then) = _$HomeStateCopyWithImpl;
 @useResult
 $Res call({
- bool isLoading, bool isError, String message, Standards? selectedStandard, Map<Standards, double> standards_performance, List<Question> questions, bool isPlayTapped, bool isViewInfoTapped
+ bool isLoading, bool isError, String message, Standards? selectedStandard, Map<Standards, double> standards_performance, bool isPlayTapped, bool isViewInfoTapped, bool isFirstPlay, List<Question> questions
 });
 
 
@@ -255,17 +255,18 @@ class _$HomeStateCopyWithImpl<$Res>
 
 /// Create a copy of HomeState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? isLoading = null,Object? isError = null,Object? message = null,Object? selectedStandard = freezed,Object? standards_performance = null,Object? questions = null,Object? isPlayTapped = null,Object? isViewInfoTapped = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? isLoading = null,Object? isError = null,Object? message = null,Object? selectedStandard = freezed,Object? standards_performance = null,Object? isPlayTapped = null,Object? isViewInfoTapped = null,Object? isFirstPlay = null,Object? questions = null,}) {
   return _then(_self.copyWith(
 isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
 as bool,isError: null == isError ? _self.isError : isError // ignore: cast_nullable_to_non_nullable
 as bool,message: null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
 as String,selectedStandard: freezed == selectedStandard ? _self.selectedStandard : selectedStandard // ignore: cast_nullable_to_non_nullable
 as Standards?,standards_performance: null == standards_performance ? _self.standards_performance : standards_performance // ignore: cast_nullable_to_non_nullable
-as Map<Standards, double>,questions: null == questions ? _self.questions : questions // ignore: cast_nullable_to_non_nullable
-as List<Question>,isPlayTapped: null == isPlayTapped ? _self.isPlayTapped : isPlayTapped // ignore: cast_nullable_to_non_nullable
+as Map<Standards, double>,isPlayTapped: null == isPlayTapped ? _self.isPlayTapped : isPlayTapped // ignore: cast_nullable_to_non_nullable
 as bool,isViewInfoTapped: null == isViewInfoTapped ? _self.isViewInfoTapped : isViewInfoTapped // ignore: cast_nullable_to_non_nullable
-as bool,
+as bool,isFirstPlay: null == isFirstPlay ? _self.isFirstPlay : isFirstPlay // ignore: cast_nullable_to_non_nullable
+as bool,questions: null == questions ? _self.questions : questions // ignore: cast_nullable_to_non_nullable
+as List<Question>,
   ));
 }
 
@@ -276,7 +277,7 @@ as bool,
 
 
 class _HomeState implements HomeState {
-  const _HomeState({this.isLoading = false, this.isError = false, this.message = '', this.selectedStandard = null, final  Map<Standards, double> standards_performance = const {}, final  List<Question> questions = const [], this.isPlayTapped = false, this.isViewInfoTapped = false}): _standards_performance = standards_performance,_questions = questions;
+  const _HomeState({this.isLoading = false, this.isError = false, this.message = '', this.selectedStandard = null, final  Map<Standards, double> standards_performance = const {}, this.isPlayTapped = false, this.isViewInfoTapped = false, this.isFirstPlay = false, final  List<Question> questions = const []}): _standards_performance = standards_performance,_questions = questions;
   
 
 @override@JsonKey() final  bool isLoading;
@@ -290,6 +291,9 @@ class _HomeState implements HomeState {
   return EqualUnmodifiableMapView(_standards_performance);
 }
 
+@override@JsonKey() final  bool isPlayTapped;
+@override@JsonKey() final  bool isViewInfoTapped;
+@override@JsonKey() final  bool isFirstPlay;
  final  List<Question> _questions;
 @override@JsonKey() List<Question> get questions {
   if (_questions is EqualUnmodifiableListView) return _questions;
@@ -297,8 +301,6 @@ class _HomeState implements HomeState {
   return EqualUnmodifiableListView(_questions);
 }
 
-@override@JsonKey() final  bool isPlayTapped;
-@override@JsonKey() final  bool isViewInfoTapped;
 
 /// Create a copy of HomeState
 /// with the given fields replaced by the non-null parameter values.
@@ -310,16 +312,16 @@ _$HomeStateCopyWith<_HomeState> get copyWith => __$HomeStateCopyWithImpl<_HomeSt
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _HomeState&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.isError, isError) || other.isError == isError)&&(identical(other.message, message) || other.message == message)&&(identical(other.selectedStandard, selectedStandard) || other.selectedStandard == selectedStandard)&&const DeepCollectionEquality().equals(other._standards_performance, _standards_performance)&&const DeepCollectionEquality().equals(other._questions, _questions)&&(identical(other.isPlayTapped, isPlayTapped) || other.isPlayTapped == isPlayTapped)&&(identical(other.isViewInfoTapped, isViewInfoTapped) || other.isViewInfoTapped == isViewInfoTapped));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _HomeState&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.isError, isError) || other.isError == isError)&&(identical(other.message, message) || other.message == message)&&(identical(other.selectedStandard, selectedStandard) || other.selectedStandard == selectedStandard)&&const DeepCollectionEquality().equals(other._standards_performance, _standards_performance)&&(identical(other.isPlayTapped, isPlayTapped) || other.isPlayTapped == isPlayTapped)&&(identical(other.isViewInfoTapped, isViewInfoTapped) || other.isViewInfoTapped == isViewInfoTapped)&&(identical(other.isFirstPlay, isFirstPlay) || other.isFirstPlay == isFirstPlay)&&const DeepCollectionEquality().equals(other._questions, _questions));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,isLoading,isError,message,selectedStandard,const DeepCollectionEquality().hash(_standards_performance),const DeepCollectionEquality().hash(_questions),isPlayTapped,isViewInfoTapped);
+int get hashCode => Object.hash(runtimeType,isLoading,isError,message,selectedStandard,const DeepCollectionEquality().hash(_standards_performance),isPlayTapped,isViewInfoTapped,isFirstPlay,const DeepCollectionEquality().hash(_questions));
 
 @override
 String toString() {
-  return 'HomeState(isLoading: $isLoading, isError: $isError, message: $message, selectedStandard: $selectedStandard, standards_performance: $standards_performance, questions: $questions, isPlayTapped: $isPlayTapped, isViewInfoTapped: $isViewInfoTapped)';
+  return 'HomeState(isLoading: $isLoading, isError: $isError, message: $message, selectedStandard: $selectedStandard, standards_performance: $standards_performance, isPlayTapped: $isPlayTapped, isViewInfoTapped: $isViewInfoTapped, isFirstPlay: $isFirstPlay, questions: $questions)';
 }
 
 
@@ -330,7 +332,7 @@ abstract mixin class _$HomeStateCopyWith<$Res> implements $HomeStateCopyWith<$Re
   factory _$HomeStateCopyWith(_HomeState value, $Res Function(_HomeState) _then) = __$HomeStateCopyWithImpl;
 @override @useResult
 $Res call({
- bool isLoading, bool isError, String message, Standards? selectedStandard, Map<Standards, double> standards_performance, List<Question> questions, bool isPlayTapped, bool isViewInfoTapped
+ bool isLoading, bool isError, String message, Standards? selectedStandard, Map<Standards, double> standards_performance, bool isPlayTapped, bool isViewInfoTapped, bool isFirstPlay, List<Question> questions
 });
 
 
@@ -347,17 +349,18 @@ class __$HomeStateCopyWithImpl<$Res>
 
 /// Create a copy of HomeState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? isLoading = null,Object? isError = null,Object? message = null,Object? selectedStandard = freezed,Object? standards_performance = null,Object? questions = null,Object? isPlayTapped = null,Object? isViewInfoTapped = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? isLoading = null,Object? isError = null,Object? message = null,Object? selectedStandard = freezed,Object? standards_performance = null,Object? isPlayTapped = null,Object? isViewInfoTapped = null,Object? isFirstPlay = null,Object? questions = null,}) {
   return _then(_HomeState(
 isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
 as bool,isError: null == isError ? _self.isError : isError // ignore: cast_nullable_to_non_nullable
 as bool,message: null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
 as String,selectedStandard: freezed == selectedStandard ? _self.selectedStandard : selectedStandard // ignore: cast_nullable_to_non_nullable
 as Standards?,standards_performance: null == standards_performance ? _self._standards_performance : standards_performance // ignore: cast_nullable_to_non_nullable
-as Map<Standards, double>,questions: null == questions ? _self._questions : questions // ignore: cast_nullable_to_non_nullable
-as List<Question>,isPlayTapped: null == isPlayTapped ? _self.isPlayTapped : isPlayTapped // ignore: cast_nullable_to_non_nullable
+as Map<Standards, double>,isPlayTapped: null == isPlayTapped ? _self.isPlayTapped : isPlayTapped // ignore: cast_nullable_to_non_nullable
 as bool,isViewInfoTapped: null == isViewInfoTapped ? _self.isViewInfoTapped : isViewInfoTapped // ignore: cast_nullable_to_non_nullable
-as bool,
+as bool,isFirstPlay: null == isFirstPlay ? _self.isFirstPlay : isFirstPlay // ignore: cast_nullable_to_non_nullable
+as bool,questions: null == questions ? _self._questions : questions // ignore: cast_nullable_to_non_nullable
+as List<Question>,
   ));
 }
 

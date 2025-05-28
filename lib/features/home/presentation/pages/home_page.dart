@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:studia/core/data/datasources/local/drift/database.dart';
+import 'package:studia/core/data/datasources/remote/dio_service.dart';
 import 'package:studia/core/di/provider.dart';
 import 'package:studia/core/domain/entities/user.dart';
 import 'package:studia/core/network/api_client.dart';
@@ -30,17 +31,21 @@ class HomePage extends StatelessWidget {
                       appDatabase: getIt.get<AppDatabase>(),
                     ),
                     remoteDataSource: HomeDatasourceRemote(
-                      datasourceRemote: ApiClient(dio: getIt.get<Dio>()),
+                      datasourceRemote: ApiClient(
+                        dio: getIt.get<DioService>().dio,
+                      ),
                     ),
                   ),
                 ),
                 fetchQuestionsUsecase: FetchQuestionsUsecase(
                   homeRepository: HomeRepositoryImpl(
+                    remoteDataSource: HomeDatasourceRemote(
+                      datasourceRemote: ApiClient(
+                        dio: getIt.get<DioService>().dio,
+                      ),
+                    ),
                     localDataSource: HomeDatasourceLocal(
                       appDatabase: getIt.get<AppDatabase>(),
-                    ),
-                    remoteDataSource: HomeDatasourceRemote(
-                      datasourceRemote: ApiClient(dio: getIt<Dio>()),
                     ),
                   ),
                 ),
