@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:studia/core/core.dart';
+import 'package:studia/features/chat/domain/entities/message.dart';
 import 'package:studia/features/chat/presentation/bloc/chat_bloc.dart';
 
 class ChatContainer extends StatelessWidget {
@@ -30,11 +31,16 @@ class ChatContainer extends StatelessWidget {
   }
 
   _ChatContainer(BuildContext context, ChatBloc bloc) {
-    return Column(
-      children:
-          bloc.state.messageHistory
-              .map((message) => Text(message.content))
-              .toList(),
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.symmetric(horizontal: 16),
+      child: Column(
+        spacing: 8,
+        children:
+            bloc.state.messageHistory
+                .map((message) => _ChatMessage(message))
+                .toList(),
+      ),
     );
   }
 
@@ -46,7 +52,7 @@ class ChatContainer extends StatelessWidget {
           // _ChipBar(context, ['Chat', 'Chat', 'Chat'], (String item) {
           //   bloc.add(ChatEvent.clickChip(item));
           // }),
-          SizedBox(height: 12),
+          // SizedBox(height: 12),
           Row(
             children: [
               Expanded(
@@ -91,7 +97,7 @@ class ChatContainer extends StatelessWidget {
     );
   }
 
-  _ChipBar(
+  Widget _ChipBar(
     BuildContext context,
     List<String> items,
     void Function(String) onPressed,
@@ -106,6 +112,44 @@ class ChatContainer extends StatelessWidget {
             chipColor: CustomChipColor.orange,
             onPressed: () => onPressed(items[index]),
             chipSize: CustomChipSize.small,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _ChatMessage(Message message) {
+    final isUser = message.isUser;
+    Color backgroundColor;
+    Color textColor;
+    MainAxisAlignment alignment;
+
+    switch (isUser) {
+      case true:
+        backgroundColor = AppColors.coolgray;
+        textColor = AppColors.darkgray;
+        alignment = MainAxisAlignment.end;
+        break;
+      case false:
+        backgroundColor = AppColors.orange;
+        textColor = AppColors.snow;
+        alignment = MainAxisAlignment.start;
+        break;
+    }
+
+    return Row(
+      mainAxisAlignment: alignment,
+      children: [
+        Container(
+          constraints: BoxConstraints(maxWidth: 240),
+          decoration: BoxDecoration(
+            color: backgroundColor,
+            borderRadius: BorderRadius.circular(12),
+          ),
+          padding: EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+          child: Text(
+            message.content,
+            style: AppTextStyles.body.copyWith(color: textColor),
           ),
         ),
       ],

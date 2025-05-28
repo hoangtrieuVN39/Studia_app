@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:studia/core/usecases/usecase.dart';
-import 'package:studia/features/chat/domain/usecases/send_message.dart'; // For Failure class
+import 'package:studia/features/chat/domain/usecases/get_messages_usecase.dart';
 
 class ChipMessageParams {
   final String currentMessage;
@@ -9,10 +9,8 @@ class ChipMessageParams {
   ChipMessageParams({required this.currentMessage, required this.chip});
 }
 
-// Assuming ChipMessage is a simple synchronous operation for now, but wrapping in Either for consistency
 class ChipMessage {
-  ChipMessage(); // Doesn't depend on a repository in this example
-
+  ChipMessage();
   Future<Either<Failure, String>> call(ChipMessageParams params) async {
     try {
       String newMessage = params.currentMessage;

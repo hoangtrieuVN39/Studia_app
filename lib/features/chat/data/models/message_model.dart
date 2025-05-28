@@ -22,7 +22,7 @@ class MessageModel extends Message {
       content: json['content'] as String,
       createdAt: DateTime.parse(json['created_at']),
       userId: json['user_id'] as String,
-      isUser: json['is_user'] == 1,
+      isUser: json['is_user'] as bool,
     );
   }
 }

@@ -6,7 +6,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:studia/core/domain/entities/user.dart';
-import 'package:studia/core/error/failures.dart';
+import 'package:studia/core/error/failures.dart' hide Failure;
 import 'package:studia/core/domain/usecases/websocket/connect_websocket.dart';
 import 'package:studia/core/domain/usecases/websocket/disconnect_websocket.dart';
 import 'package:studia/core/domain/usecases/websocket/get_websocket_stream.dart';
@@ -15,6 +15,7 @@ import 'package:studia/features/chat/data/models/message_model.dart';
 import 'package:studia/features/chat/domain/entities/message.dart';
 import 'package:studia/features/chat/domain/usecases/chip_message.dart';
 import 'package:studia/features/chat/domain/usecases/create_message.dart';
+import 'package:studia/features/chat/domain/usecases/get_messages_usecase.dart';
 
 part 'chat_event.dart';
 part 'chat_state.dart';
@@ -29,6 +30,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   final GetWebSocketStream getWebSocketStreamUseCase;
   final User user;
   final String websocketUrl;
+  final GetMessagesUsecase getMessagesUseCase;
 
   StreamSubscription<Either<Failure, String>>? _messageSubscription;
   bool _isClosed = false;
@@ -44,6 +46,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     required this.disconnectWebSocketUseCase,
     required this.sendWebSocketMessageUseCase,
     required this.getWebSocketStreamUseCase,
+    required this.getMessagesUseCase,
     required this.user,
   }) : super(const ChatState()) {
     on<_Initial>(_onInitialEvent);
@@ -75,32 +78,39 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
           // Cancel existing subscription if any
           _messageSubscription?.cancel();
 
-          _messageSubscription = getWebSocketStreamUseCase().listen(
-            (messageResult) {
-              if (_isClosed) return;
-
-              messageResult.fold(
-                (failure) {
-                  print("ChatBloc: Message stream error: ${failure.message}");
-                  if (!_isClosed) {
-                    emit(state.copyWith(error: failure.toString()));
-                  }
-                },
-                (messageStr) {
-                  if (_isClosed) return;
-                  print("ChatBloc: Message received from stream");
-                  _processMessage(messageStr);
-                },
-              );
-            },
-            onError: (error) {
-              print("ChatBloc: Message stream error: $error");
-              if (!_isClosed) {
-                emit(state.copyWith(error: "WebSocket stream error: $error"));
-              }
-            },
-            cancelOnError: false,
-          );
+          _messageSubscription =
+              getWebSocketStreamUseCase().listen(
+                    (messageResult) {
+                      if (_isClosed) return;
+                      messageResult.fold(
+                        (failure) {
+                          print(
+                            "ChatBloc: Message stream error: ${failure.message}",
+                          );
+                          if (!_isClosed) {
+                            emit(state.copyWith(error: failure.toString()));
+                          }
+                        },
+                        (messageStr) {
+                          if (_isClosed) return;
+                          print("ChatBloc: Message received from stream");
+                          _processMessage(messageStr);
+                        },
+                      );
+                    },
+                    onError: (error) {
+                      print("ChatBloc: Message stream error: $error");
+                      if (!_isClosed) {
+                        emit(
+                          state.copyWith(
+                            error: "WebSocket stream error: $error",
+                          ),
+                        );
+                      }
+                    },
+                    cancelOnError: false,
+                  )
+                  as StreamSubscription<Either<Failure, String>>?;
         },
       );
     });
@@ -137,7 +147,15 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
 
   Future<void> _onInitialEvent(_Initial event, Emitter<ChatState> emit) async {
     emit(state.copyWith(isLoading: true, error: null));
-    emit(state.copyWith(isLoading: false));
+    final result = await getMessagesUseCase();
+    result.fold(
+      (failure) {
+        emit(state.copyWith(error: failure.toString()));
+      },
+      (messages) {
+        emit(state.copyWith(isLoading: false, messageHistory: messages));
+      },
+    );
   }
 
   Future<void> _onMessageReceivedEvent(
@@ -155,16 +173,10 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
           }).toList();
 
       print("ChatBloc: Created message objects: $messages");
-
-      final currentMessages = List<Message>.from(state.messageHistory);
-      currentMessages.addAll(messages);
-
-      print(
-        "ChatBloc: Updated message history length: ${currentMessages.length}",
-      );
+      print("ChatBloc: Updated message history length: ${messages.length}");
 
       if (!_isClosed) {
-        emit(state.copyWith(messageHistory: currentMessages, error: null));
+        emit(state.copyWith(messageHistory: messages, error: null));
       }
     } catch (e) {
       print("ChatBloc: Error processing received messages: $e");
