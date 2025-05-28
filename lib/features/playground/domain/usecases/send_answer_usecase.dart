@@ -8,7 +8,7 @@ class SendAnswersUsecase {
 
   Future<Map<String, dynamic>> call(List<Answer> answers) async {
     print(answers);
-    // await playRepository.sendAnswers(answers);
+    await playRepository.sendAnswers(answers);
     return {
       'status': 'success',
       'message': 'Answers sent successfully',

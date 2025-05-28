@@ -1,15 +1,16 @@
 import 'package:dio/dio.dart';
+import 'package:studia/core/data/datasources/remote/datasource_remote.dart';
 import 'package:studia/features/playground/domain/entities/answer.dart';
 
 class PlayDatasourceRemote {
-  final Dio dio;
+  final DatasourceRemote datasourceRemote;
 
-  PlayDatasourceRemote({required this.dio});
+  PlayDatasourceRemote({required this.datasourceRemote});
 
   Future<Map<String, dynamic>> sendAnswers(List<Answer> answers) async {
-    final response = await dio.post(
+    final response = await datasourceRemote.post(
       'https://api.studia.com/playground/answers',
-      data: answers,
+      body: answers,
     );
     return response.data;
   }

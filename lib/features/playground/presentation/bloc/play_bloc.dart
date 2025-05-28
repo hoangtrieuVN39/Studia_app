@@ -2,17 +2,21 @@ import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:studia/features/playground/domain/entities/answer.dart';
 import 'package:studia/features/playground/domain/entities/questions.dart';
+import 'package:studia/features/playground/domain/usecases/send_answer_usecase.dart';
 
 part 'play_event.dart';
 part 'play_state.dart';
 part 'play_bloc.freezed.dart';
 
 class PlayBloc extends Bloc<PlayEvent, PlayState> {
+  final SendAnswersUsecase sendAnswersUsecase;
+
   List<Question>? questions;
   bool isFirstPlay = false;
   late int timeStamp;
 
-  PlayBloc(this.questions, this.isFirstPlay) : super(PlayState()) {
+  PlayBloc(this.questions, this.isFirstPlay, this.sendAnswersUsecase)
+    : super(PlayState()) {
     on<Initial>((event, emit) => _onInitialEvent(event, emit));
     on<SelectChoice>((event, emit) => _onSelectChoiceEvent(event, emit));
     on<Submit>((event, emit) => _onSubmitEvent(event, emit));
@@ -130,6 +134,8 @@ class PlayBloc extends Bloc<PlayEvent, PlayState> {
   }
 
   Future<void> _onDoneEvent(Done event, Emitter<PlayState> emit) async {
-    emit(state.copyWith(isSubmit: false, isDone: true));
+    emit(state.copyWith(isLoading: true));
+    await sendAnswersUsecase(state.answers);
+    emit(state.copyWith(isLoading: false, isDone: true));
   }
 }

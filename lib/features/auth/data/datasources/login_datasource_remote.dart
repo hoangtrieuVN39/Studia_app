@@ -18,7 +18,10 @@ class LoginDatasourceRemoteImpl implements LoginRemoteDataSource {
   Future<UserModel?> getUser(String userId) async {
     try {
       final data = {'user_id': userId};
-      final jsonData = await datasourceRemote.post(ApiConstants.login, data);
+      final jsonData = await datasourceRemote.post(
+        ApiConstants.login,
+        body: data,
+      );
       return UserModel.fromJson(jsonData);
     } catch (e) {
       if (e is NetworkException) {
@@ -38,7 +41,7 @@ class LoginDatasourceRemoteImpl implements LoginRemoteDataSource {
     try {
       print('Register data: $data');
 
-      await datasourceRemote.post(ApiConstants.register, data);
+      await datasourceRemote.post(ApiConstants.register, body: data);
       return true;
     } catch (e) {
       print('Registration error: $e');
