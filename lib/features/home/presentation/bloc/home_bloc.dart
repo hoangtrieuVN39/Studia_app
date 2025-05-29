@@ -44,9 +44,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     );
     final performance = user.performance;
     final Map<Standards, double> standards_performance = {};
+    
     for (var standard in standards) {
       standards_performance[standard] = performance[standard.standard_id];
     }
+
     emit(
       state.copyWith(
         isLoading: false,

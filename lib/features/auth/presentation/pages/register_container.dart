@@ -129,7 +129,7 @@ class RegisterContainer extends StatelessWidget {
                                       child: _buildGenderField(
                                         context,
                                         Gender.Male,
-                                        Gender.Male.name ==
+                                        Gender.Male ==
                                             registerBloc.state.gender,
                                         () {
                                           registerBloc.add(
@@ -145,7 +145,7 @@ class RegisterContainer extends StatelessWidget {
                                       child: _buildGenderField(
                                         context,
                                         Gender.Female,
-                                        Gender.Female.name ==
+                                        Gender.Female ==
                                             registerBloc.state.gender,
                                         () {
                                           registerBloc.add(
@@ -161,7 +161,7 @@ class RegisterContainer extends StatelessWidget {
                                       child: _buildGenderField(
                                         context,
                                         Gender.Other,
-                                        Gender.Other.name ==
+                                        Gender.Other ==
                                             registerBloc.state.gender,
                                         () {
                                           registerBloc.add(
@@ -252,7 +252,7 @@ class RegisterContainer extends StatelessWidget {
         alignment: Alignment.centerLeft,
         minimumSize: Size.fromHeight(48),
       ),
-      onPressed: () => onPressed,
+      onPressed: () => onPressed(),
       child: Text(
         gender.name,
         style: AppTextStyles.body.copyWith(

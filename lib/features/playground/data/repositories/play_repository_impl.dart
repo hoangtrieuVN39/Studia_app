@@ -8,7 +8,7 @@ class PlayRepositoryImpl extends PlayRepository {
   PlayRepositoryImpl({required this.playDatasourceRemote});
 
   @override
-  Future<Map<String, dynamic>> sendAnswers(List<Answer> answers) async {
+  Future<List<double>> sendAnswers(List<Answer> answers) async {
     return await playDatasourceRemote.sendAnswers(answers);
   }
 }

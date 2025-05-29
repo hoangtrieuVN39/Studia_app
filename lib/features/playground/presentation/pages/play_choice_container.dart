@@ -43,7 +43,9 @@ class PlayChoiceContainer extends StatelessWidget {
         CustomButton(
           text: 'Submit',
           onPressed: () {
-            bloc.add(PlayEvent.submit());
+            if (state.selectedChoices[state.currentQuestionIndex] != -1) {
+              bloc.add(PlayEvent.submit());
+            }
           },
           isDisabled: state.selectedChoices[state.currentQuestionIndex] == -1,
           type: AppButtonType.primary,

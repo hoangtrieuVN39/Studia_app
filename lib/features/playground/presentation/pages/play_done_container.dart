@@ -7,11 +7,7 @@ class PlayDoneContainer extends StatelessWidget {
   final PlayState state;
   final PlayBloc bloc;
 
-  const PlayDoneContainer({
-    super.key,
-    required this.state,
-    required this.bloc,
-  });
+  const PlayDoneContainer({super.key, required this.state, required this.bloc});
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +54,7 @@ class PlayDoneContainer extends StatelessWidget {
         CustomButton(
           text: "Done",
           onPressed: () {
-            bloc.add(PlayEvent.done());
+            bloc.add(PlayEvent.quitConfirmed());
           },
           type: AppButtonType.primary,
         ),

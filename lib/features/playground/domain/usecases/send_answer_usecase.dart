@@ -6,12 +6,9 @@ class SendAnswersUsecase {
 
   SendAnswersUsecase({required this.playRepository});
 
-  Future<Map<String, dynamic>> call(List<Answer> answers) async {
+  Future<List<double>> call(List<Answer> answers) async {
     print(answers);
-    await playRepository.sendAnswers(answers);
-    return {
-      'status': 'success',
-      'message': 'Answers sent successfully',
-    };
+    final result = await playRepository.sendAnswers(answers);
+    return result;
   }
 }
