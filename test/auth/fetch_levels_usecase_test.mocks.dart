@@ -469,15 +469,6 @@ class MockAppDatabase extends _i1.Mock implements _i2.AppDatabase {
           as _i5.Future<List<_i2.Levels>>);
 
   @override
-  _i5.Future<bool> verifyDatabaseIntegrity() =>
-      (super.noSuchMethod(
-            Invocation.method(#verifyDatabaseIntegrity, []),
-            returnValue: _i5.Future<bool>.value(false),
-            returnValueForMissingStub: _i5.Future<bool>.value(false),
-          )
-          as _i5.Future<bool>);
-
-  @override
   _i3.Migrator createMigrator() =>
       (super.noSuchMethod(
             Invocation.method(#createMigrator, []),

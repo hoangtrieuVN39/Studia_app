@@ -3,7 +3,9 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:studia/core/data/datasources/local/drift/database.dart';
 import 'package:studia/core/domain/entities/user.dart';
 import 'package:studia/features/home/domain/usecases/fetch_questions_usecase.dart';
+import 'package:studia/features/home/domain/usecases/fetch_recommend_actions_usecase.dart';
 import 'package:studia/features/home/domain/usecases/fetch_standards_usecase.dart';
+import 'package:studia/features/home/domain/usecases/fetch_valid_actions_usecase.dart';
 import 'package:studia/features/playground/domain/entities/questions.dart';
 
 part 'home_event.dart';
@@ -13,11 +15,15 @@ part 'home_bloc.freezed.dart';
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final FetchStandardsUsecase fetchStandardsUsecase;
   final FetchQuestionsUsecase fetchQuestionsUsecase;
+  final FetchValidActionsUsecase fetchValidActionsUsecase;
+  final FetchRecommendActionsUsecase fetchRecommendActionsUsecase;
   final User user;
 
   HomeBloc({
     required this.fetchStandardsUsecase,
     required this.fetchQuestionsUsecase,
+    required this.fetchValidActionsUsecase,
+    required this.fetchRecommendActionsUsecase,
     required this.user,
   }) : super(const HomeState()) {
     on<Initial>((event, emit) => _onInitialEvent(event, emit));
@@ -42,9 +48,13 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     final standards = await fetchStandardsUsecase.call(
       level: user.level!.level_id,
     );
+
+    final validActions = await fetchValidActionsUsecase.call(null);
+    final recommendActions = await fetchRecommendActionsUsecase.call(null);
+
     final performance = user.performance;
     final Map<Standards, double> standards_performance = {};
-    
+
     for (var standard in standards) {
       standards_performance[standard] = performance[standard.standard_id];
     }
@@ -53,6 +63,14 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       state.copyWith(
         isLoading: false,
         standards_performance: standards_performance,
+        validActions: validActions.fold(
+          (failure) => [],
+          (validActions) => validActions,
+        ),
+        recommendActions: recommendActions.fold(
+          (failure) => 0,
+          (recommendActions) => recommendActions,
+        ),
       ),
     );
   }

@@ -7,7 +7,7 @@ extension StandardTypeExtension on StandardType {
   static const String _progressAsset = 'assets/svg/standard/progress.svg';
   static const String _completedAsset = 'assets/svg/standard/done.svg';
   static const String _disabledAsset = 'assets/svg/standard/disabled.svg';
-  static const String _recommendedAsset = 'assets/svg/standard/recommended.svg';
+  static const String _recommendedAsset = 'assets/svg/standard/recommend.svg';
 
   String get asset {
     switch (this) {

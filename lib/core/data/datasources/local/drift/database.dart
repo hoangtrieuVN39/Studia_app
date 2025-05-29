@@ -42,9 +42,7 @@ class LevelsTable extends Table {
 
 @DriftDatabase(tables: [StandardsTable, DomainsTable, SkillsTable, LevelsTable])
 class AppDatabase extends _$AppDatabase {
-  AppDatabase() : super(_openConnection()) {
-    verifyDatabaseIntegrity();
-  }
+  AppDatabase() : super(_openConnection());
 
   @override
   int get schemaVersion => 1;
@@ -88,56 +86,7 @@ class AppDatabase extends _$AppDatabase {
     if (id != null) query.where((t) => t.level_id.equals(id));
     return await query.get();
   }
-
-  Future<bool> verifyDatabaseIntegrity() async {
-    try {
-      // Try to query each table
-      final standards = await selectStandards();
-      final domains = await selectDomains();
-      final skills = await selectSkills();
-      final levels = await selectLevels();
-
-      // Log the counts (optional)
-      print('Database verification:');
-      print('Standards: ${standards.length}');
-      print('Domains: ${domains.length}');
-      print('Skills: ${skills.length}');
-      print('Levels: ${levels.length}');
-
-      return true;
-    } catch (e) {
-      print('Database verification failed: $e');
-      return false;
-    }
-  }
 }
-
-// LazyDatabase _openConnection() {
-//   return LazyDatabase(() async {
-//     try {
-//       final dbFolder = '${(await getExternalStorageDirectory())!.path}/Studia/';
-//       final file = File(p.join(dbFolder, 'db.sqlite'));
-
-//       if (!await file.exists()) {
-//         await file.parent.create(recursive: true);
-
-//         final data = await rootBundle.load('assets/curriculum/db.sqlite');
-//         await file.writeAsBytes(
-//           data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes),
-//           flush: true,
-//         );
-//         print('Database copied from assets successfully');
-//       } else {
-//         print('Using existing database file');
-//       }
-
-//       return NativeDatabase(file, logStatements: true);
-//     } catch (e) {
-//       print('Error initializing database: $e');
-//       rethrow;
-//     }
-//   });
-// }
 
 LazyDatabase _openConnection() {
   return LazyDatabase(() async {

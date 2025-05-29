@@ -60,42 +60,67 @@ class HomeContainer extends StatelessWidget {
                         children: [
                           ...List<Widget>.generate(
                             state.standards_performance.length,
-                            (index) => Container(
-                              height: 50,
-                              width: double.infinity,
-                              child: Stack(
-                                clipBehavior: Clip.none,
-                                children: [
-                                  Positioned(
-                                    left:
-                                        (index ~/ num) % 2 == 0
-                                            ? padding +
-                                                index % num / num * (width - 80)
-                                            : padding +
-                                                (num - index % num) /
-                                                    num *
-                                                    (width - 80),
-                                    top: 0,
-                                    bottom: 0,
-                                    child: StandardNode(
-                                      type: StandardType.progress,
-                                      isSelected:
-                                          state.standards_performance.keys
-                                              .toList()[index] ==
-                                          state.selectedStandard,
-                                      onTap: () {
-                                        context.read<HomeBloc>().add(
-                                          HomeEvent.standardNodeTapped(
+                            (index) {
+                              final standard =
+                                  state.standards_performance.keys
+                                      .toList()[index];
+
+                              StandardType type = StandardType.disabled;
+                              if (state.standards_performance.values
+                                      .toList()[index] >
+                                  AppMainConstants.learned) {
+                                type = StandardType.completed;
+                              } else if (state.recommendActions ==
+                                  standard.standard_id) {
+                                type = StandardType.recommended;
+                              } else if (state.validActions.contains(
+                                standard.standard_id,
+                              )) {
+                                type = StandardType.progress;
+                              } else {
+                                type = StandardType.disabled;
+                              }
+
+                              return Container(
+                                height: 50,
+                                width: double.infinity,
+                                child: Stack(
+                                  clipBehavior: Clip.none,
+                                  children: [
+                                    Positioned(
+                                      left:
+                                          (index ~/ num) % 2 == 0
+                                              ? padding +
+                                                  index %
+                                                      num /
+                                                      num *
+                                                      (width - 80)
+                                              : padding +
+                                                  (num - index % num) /
+                                                      num *
+                                                      (width - 80),
+                                      top: 0,
+                                      bottom: 0,
+                                      child: StandardNode(
+                                        type: type,
+                                        isSelected:
                                             state.standards_performance.keys
-                                                .toList()[index],
-                                          ),
-                                        );
-                                      },
+                                                .toList()[index] ==
+                                            state.selectedStandard,
+                                        onTap: () {
+                                          context.read<HomeBloc>().add(
+                                            HomeEvent.standardNodeTapped(
+                                              state.standards_performance.keys
+                                                  .toList()[index],
+                                            ),
+                                          );
+                                        },
+                                      ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                            ),
+                                  ],
+                                ),
+                              );
+                            },
                           ),
                           if (state.selectedStandard != null)
                             SizedBox(height: 200),

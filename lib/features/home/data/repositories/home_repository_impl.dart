@@ -22,4 +22,14 @@ class HomeRepositoryImpl extends HomeRepository {
   Future<List<Question>> fetchQuestions({required int? standardId}) async {
     return await remoteDataSource.fetchQuestions(standard: standardId);
   }
+
+  @override
+  Future<List<int>> fetchValidActions() async {
+    return await remoteDataSource.fetchValidActions();
+  }
+
+  @override
+  Future<int> fetchRecommendActions() async {
+    return await remoteDataSource.fetchRecommendActions();
+  }
 }

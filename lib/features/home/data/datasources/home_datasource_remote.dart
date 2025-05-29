@@ -20,4 +20,23 @@ class HomeDatasourceRemote {
     }
     return questions;
   }
+
+  Future<List<int>> fetchValidActions() async {
+    final response = await datasourceRemote.get(
+      ApiConstants.courses + ApiConstants.validActions,
+    );
+    final List<int> result = [];
+    for (var action in response) {
+      result.add(action);
+    }
+    print('result: $result');
+    return result;
+  }
+
+  Future<int> fetchRecommendActions() async {
+    final response = await datasourceRemote.get(
+      ApiConstants.courses + ApiConstants.recommendActions,
+    );
+    return response;
+  }
 }

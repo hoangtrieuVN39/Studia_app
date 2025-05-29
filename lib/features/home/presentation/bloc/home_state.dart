@@ -12,5 +12,7 @@ abstract class HomeState with _$HomeState {
     @Default(false) bool isViewInfoTapped,
     @Default(false) bool isFirstPlay,
     @Default([]) List<Question> questions,
+    @Default([]) List<int> validActions,
+    @Default(0) int recommendActions,
   }) = _HomeState;
 }

@@ -20,13 +20,11 @@ class WebSocketRepositoryImpl implements WebSocketRepository {
   @override
   Future<Either<Failure, void>> connect(String url) async {
     try {
-      print("WebSocketRepository: Connecting to $url");
       await disconnect(); // Clean up existing connection if any
       _initializeStreamController();
 
       _manager = WebSocketManager(rawUrl: url);
       _manager!.onMessage((message) {
-        print("WebSocketRepository: Received message: $message");
         if (!(_messageController?.isClosed ?? true)) {
           _messageController?.add(Right(message));
         } else {

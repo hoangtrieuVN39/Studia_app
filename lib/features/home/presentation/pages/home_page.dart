@@ -10,7 +10,9 @@ import 'package:studia/features/home/data/datasources/home_datasource_local.dart
 import 'package:studia/features/home/data/datasources/home_datasource_remote.dart';
 import 'package:studia/features/home/data/repositories/home_repository_impl.dart';
 import 'package:studia/features/home/domain/usecases/fetch_questions_usecase.dart';
+import 'package:studia/features/home/domain/usecases/fetch_recommend_actions_usecase.dart';
 import 'package:studia/features/home/domain/usecases/fetch_standards_usecase.dart';
+import 'package:studia/features/home/domain/usecases/fetch_valid_actions_usecase.dart';
 import 'package:studia/features/home/presentation/bloc/home_bloc.dart';
 import 'package:studia/features/home/presentation/pages/home_container.dart';
 import 'package:studia/main.dart';
@@ -25,8 +27,20 @@ class HomePage extends StatelessWidget {
         BlocProvider(
           create:
               (context) => HomeBloc(
-                fetchStandardsUsecase: FetchStandardsUsecase(
-                  homeRepository: HomeRepositoryImpl(
+                fetchValidActionsUsecase: FetchValidActionsUsecase(
+                  repository: HomeRepositoryImpl(
+                    localDataSource: HomeDatasourceLocal(
+                      appDatabase: getIt.get<AppDatabase>(),
+                    ),
+                    remoteDataSource: HomeDatasourceRemote(
+                      datasourceRemote: ApiClient(
+                        dio: getIt.get<DioService>().dio,
+                      ),
+                    ),
+                  ),
+                ),
+                fetchRecommendActionsUsecase: FetchRecommendActionsUsecase(
+                  repository: HomeRepositoryImpl(
                     localDataSource: HomeDatasourceLocal(
                       appDatabase: getIt.get<AppDatabase>(),
                     ),
@@ -50,6 +64,18 @@ class HomePage extends StatelessWidget {
                   ),
                 ),
                 user: getIt<UserProvider>().user!,
+                fetchStandardsUsecase: FetchStandardsUsecase(
+                  homeRepository: HomeRepositoryImpl(
+                    localDataSource: HomeDatasourceLocal(
+                      appDatabase: getIt.get<AppDatabase>(),
+                    ),
+                    remoteDataSource: HomeDatasourceRemote(
+                      datasourceRemote: ApiClient(
+                        dio: getIt.get<DioService>().dio,
+                      ),
+                    ),
+                  ),
+                ),
               ),
         ),
       ],
