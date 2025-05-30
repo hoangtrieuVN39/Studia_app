@@ -136,12 +136,6 @@ class _StandardBoxState extends State<StandardBox> {
         false => Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
-              'You must finish ${widget.prerequisite!.standard} first',
-              style: AppTextStyles.body.copyWith(
-                color: AppColors.darkgray,
-              ),
-            ),
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
