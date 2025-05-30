@@ -1,21 +1,19 @@
-import 'package:dio/dio.dart';
-import 'package:studia/core/data/datasources/local/drift/database.dart';
-import 'package:studia/core/domain/entities/user.dart';
+import 'package:studia/core/data/datasources/remote/datasource_remote.dart';
+import 'package:studia/features/auth/data/models/user_model.dart';
 
 class ProfileDatasourceRemote {
-  final Dio dio;
+  final DatasourceRemote datasourceRemote;
 
-  ProfileDatasourceRemote(this.dio);
+  ProfileDatasourceRemote(this.datasourceRemote);
 
-  Future<Map<Skills, DateTime>> getSkillsTime(List<Skills> skills) async {
-    // final response = await dio.get('/skills/time');
-    return {
-      for (var skill in skills) skill: DateTime.now(),
-    };
+  Future<Map<int, DateTime>> getSkillsTime() async {
+    final response = await datasourceRemote.get('/skills');
+    return response.data.map(
+      (key, value) => MapEntry(int.parse(key), DateTime.parse(value)),
+    );
   }
 
-  Future<void> updateProfile(User user) async {
-    // final response = await dio.put('/profile', data: user.toJson());
+  Future<void> updateProfile(UserModel user) async {
+    await datasourceRemote.put('/profile', body: user.toJson());
   }
 }
-
