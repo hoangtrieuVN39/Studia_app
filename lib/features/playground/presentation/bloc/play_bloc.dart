@@ -78,6 +78,7 @@ class PlayBloc extends Bloc<PlayEvent, PlayState> {
         choiceNumber: state.selectedChoices[state.currentQuestionIndex],
         timeTaken: timeTaken,
         isCorrect: isCorrect,
+        timeCreated: DateTime.now(),
       ),
     );
     emit(

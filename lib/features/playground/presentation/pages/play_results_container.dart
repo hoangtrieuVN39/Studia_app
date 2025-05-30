@@ -48,7 +48,7 @@ class PlayResultsContainer extends StatelessWidget {
         CustomButton(
           text: "Done",
           onPressed: () {
-            bloc.add(PlayEvent.done());
+            bloc.add(PlayEvent.quitConfirmed());
           },
           type: AppButtonType.primary,
         ),

@@ -12,17 +12,7 @@ class PlayDatasourceRemote {
 
   Future<List<double>> sendAnswers(List<Answer> answers) async {
     final encodedAnswers =
-        answers
-            .map(
-              (e) =>
-                  AnswerModel(
-                    questionId: e.questionId,
-                    choiceNumber: e.choiceNumber,
-                    timeTaken: e.timeTaken,
-                    isCorrect: e.isCorrect,
-                  ).toJson(),
-            )
-            .toList();
+        answers.map((e) => AnswerModel.fromAnswer(e).toJson()).toList();
     final data = jsonEncode(encodedAnswers);
     final response = await datasourceRemote.post(
       ApiConstants.questions,

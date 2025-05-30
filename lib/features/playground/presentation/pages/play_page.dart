@@ -29,13 +29,11 @@ class PlayPage extends StatelessWidget {
             SendAnswersUsecase(
               playRepository: PlayRepositoryImpl(
                 playDatasourceRemote: PlayDatasourceRemote(
-                  datasourceRemote: ApiClient(dio: getIt<DioService>().dio),
+                  datasourceRemote: ApiClient(getIt<DioService>().dio),
                 ),
               ),
             ),
-            UpdateUserPerformanceUseCase(
-              userProvider: getIt<UserProvider>()
-            ),
+            UpdateUserPerformanceUseCase(userProvider: getIt<UserProvider>()),
           ),
       child: const PlayContainer(),
     );
