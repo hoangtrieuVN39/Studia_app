@@ -8,7 +8,7 @@ import 'package:studia/core/error/exceptions.dart';
 class ApiClient extends DatasourceRemote {
   final Dio dio;
 
-  ApiClient({required this.dio});
+  ApiClient(this.dio);
 
   @override
   Future<dynamic> get(String url, {dynamic body}) async {

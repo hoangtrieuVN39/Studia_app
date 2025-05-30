@@ -42,7 +42,7 @@ class RegisterPage extends StatelessWidget {
             RegisterUsecase(
               LoginRepositoryRemoteImpl(
                 loginDatasourceRemote: LoginDatasourceRemoteImpl(
-                  datasourceRemote: ApiClient(dio: getIt.get<DioService>().dio),
+                  datasourceRemote: ApiClient(getIt.get<DioService>().dio),
                 ),
                 appDatabase: getIt.get<AppDatabase>(),
               ),

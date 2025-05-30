@@ -38,6 +38,9 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   final TextEditingController _controller = TextEditingController();
   TextEditingController get controller => _controller;
 
+  final ScrollController _scrollController = ScrollController();
+  ScrollController get scrollController => _scrollController;
+
   ChatBloc({
     required this.websocketUrl,
     required this.chipMessageUseCase,
@@ -145,6 +148,22 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     }
   }
 
+  void _scrollToBottom(Emitter<ChatState> emit) {
+    emit(state.copyWith(isLoading: true));
+    if (_scrollController.hasClients && !_isClosed) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (_scrollController.hasClients && !_isClosed) {
+          _scrollController.animateTo(
+            _scrollController.position.maxScrollExtent,
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeOut,
+          );
+        }
+      });
+    }
+    emit(state.copyWith(isLoading: false));
+  }
+
   Future<void> _onInitialEvent(_Initial event, Emitter<ChatState> emit) async {
     emit(state.copyWith(isLoading: true, error: null));
     final result = await getMessagesUseCase();
@@ -154,6 +173,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       },
       (messages) {
         emit(state.copyWith(isLoading: false, messageHistory: messages));
+        _scrollToBottom(emit);
       },
     );
   }
@@ -177,6 +197,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
 
       if (!_isClosed) {
         emit(state.copyWith(messageHistory: messages, error: null));
+        _scrollToBottom(emit);
       }
     } catch (e) {
       print("ChatBloc: Error processing received messages: $e");
@@ -260,6 +281,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
             emit(
               state.copyWith(isSending: false, messageContent: '', error: null),
             );
+            _scrollToBottom(emit);
           }
         },
       );
@@ -280,6 +302,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     await _messageSubscription?.cancel();
     await disconnectWebSocketUseCase();
     _controller.dispose();
+    _scrollController.dispose();
     return super.close();
   }
 }

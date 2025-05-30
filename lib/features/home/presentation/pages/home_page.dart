@@ -34,7 +34,7 @@ class HomePage extends StatelessWidget {
                     ),
                     remoteDataSource: HomeDatasourceRemote(
                       datasourceRemote: ApiClient(
-                        dio: getIt.get<DioService>().dio,
+                        getIt.get<DioService>().dio,
                       ),
                     ),
                   ),
@@ -46,7 +46,7 @@ class HomePage extends StatelessWidget {
                     ),
                     remoteDataSource: HomeDatasourceRemote(
                       datasourceRemote: ApiClient(
-                        dio: getIt.get<DioService>().dio,
+                        getIt.get<DioService>().dio,
                       ),
                     ),
                   ),
@@ -55,7 +55,7 @@ class HomePage extends StatelessWidget {
                   homeRepository: HomeRepositoryImpl(
                     remoteDataSource: HomeDatasourceRemote(
                       datasourceRemote: ApiClient(
-                        dio: getIt.get<DioService>().dio,
+                        getIt.get<DioService>().dio,
                       ),
                     ),
                     localDataSource: HomeDatasourceLocal(
@@ -71,7 +71,7 @@ class HomePage extends StatelessWidget {
                     ),
                     remoteDataSource: HomeDatasourceRemote(
                       datasourceRemote: ApiClient(
-                        dio: getIt.get<DioService>().dio,
+                        getIt.get<DioService>().dio,
                       ),
                     ),
                   ),

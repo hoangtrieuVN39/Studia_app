@@ -36,6 +36,20 @@ class UserModel extends User {
     );
   }
 
+  factory UserModel.fromUser(User user) {
+    return UserModel(
+      id: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      gender: user.gender,
+      email: user.email,
+      avatar: user.avatar,
+      birthYear: user.birthYear,
+      performance: user.performance,
+      level: user.level,
+    );
+  }
+
   factory UserModel.copyWith(User user) {
     return UserModel(
       id: user.id,
@@ -62,5 +76,29 @@ class UserModel extends User {
       performance: performance,
       level: resolvedLevel,
     );
+  }
+
+  Map<String, dynamic> toJson({
+    String? id,
+    String? firstName,
+    String? lastName,
+    String? gender,
+    String? email,
+    String? avatar,
+    int? birthYear,
+    List<double>? performance,
+    int? level,
+  }) {
+    return {
+      'id': id ?? this.id,
+      'first_name': firstName ?? this.firstName,
+      'last_name': lastName ?? this.lastName,
+      'gender': gender ?? this.gender,
+      'email': email ?? this.email,
+      'avatar': avatar ?? this.avatar,
+      'birth_year': birthYear ?? this.birthYear,
+      'performance': performance ?? this.performance,
+      'level_id': level ?? this.level,
+    };
   }
 }

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:studia/core/data/datasources/remote/dio_service.dart';
 import 'package:studia/core/di/provider.dart';
 import 'package:studia/core/data/datasources/local/drift/database.dart';
+import 'package:studia/core/network/api_client.dart';
 import 'package:studia/features/auth/domain/usecases/fetch_levels_usecase.dart';
 import 'package:studia/features/profile/data/datasources/profile_datasource_remote.dart';
 import 'package:studia/features/profile/data/repositories/profile_repository_impl.dart';
@@ -33,16 +34,20 @@ class ProfilePage extends StatelessWidget {
             SortSkillsUsecase(
               ProfileRepositoryImpl(
                 profileDatasourceRemote: ProfileDatasourceRemote(
-                  getIt<DioService>().dio,
+                  ApiClient(getIt<DioService>().dio),
                 ),
+                appDatabase: getIt<AppDatabase>(),
+                userProvider: getIt<UserProvider>(),
               ),
             ),
             EditProfileUsecase(
               getIt<UserProvider>(),
               ProfileRepositoryImpl(
                 profileDatasourceRemote: ProfileDatasourceRemote(
-                  getIt<DioService>().dio,
+                  ApiClient(getIt<DioService>().dio),
                 ),
+                appDatabase: getIt<AppDatabase>(),
+                userProvider: getIt<UserProvider>(),
               ),
             ),
           ),

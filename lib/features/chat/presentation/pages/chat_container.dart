@@ -19,6 +19,8 @@ class ChatContainer extends StatelessWidget {
             children: [
               Expanded(
                 child: SingleChildScrollView(
+                  controller: bloc.scrollController,
+                  physics: BouncingScrollPhysics(),
                   child: _ChatContainer(context, bloc),
                 ),
               ),

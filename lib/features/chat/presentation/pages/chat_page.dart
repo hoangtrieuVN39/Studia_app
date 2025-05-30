@@ -32,7 +32,7 @@ class ChatPage extends StatelessWidget {
                   MessageRepositoryImpl(
                     remoteDataSource: ChatRemoteDataSourceImpl(
                       datasourceRemote: ApiClient(
-                        dio: getIt.get<DioService>().dio,
+                        getIt.get<DioService>().dio,
                       ),
                     ),
                   ),

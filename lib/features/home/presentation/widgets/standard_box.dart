@@ -64,7 +64,12 @@ class _StandardBoxState extends State<StandardBox> {
                   ),
                   Expanded(
                     child: CustomButton(
-                      onPressed: () => widget.onTapPlay(),
+                      isDisabled: widget.type == StandardBoxType.disabled,
+                      onPressed:
+                          () =>
+                              widget.type == StandardBoxType.disabled
+                                  ? null
+                                  : widget.onTapPlay(),
                       type: AppButtonType.primary,
                       text: 'Play',
                     ),
@@ -128,45 +133,61 @@ class _StandardBoxState extends State<StandardBox> {
             ...viewButton,
           ],
         ),
-        false => Row(
+        false => Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Expanded(
-              child: InkWell(
-                onTap: () {
-                  setState(() {
-                    isExpanded = !isExpanded;
-                  });
-                },
-                child: Text(
-                  widget.standard.standard,
-                  style: AppTextStyles.subheading.copyWith(
+            Text(
+              'You must finish ${widget.prerequisite!.standard} first',
+              style: AppTextStyles.body.copyWith(
+                color: AppColors.darkgray,
+              ),
+            ),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Expanded(
+                  child: InkWell(
+                    onTap: () {
+                      setState(() {
+                        isExpanded = !isExpanded;
+                      });
+                    },
+                    child: Text(
+                      widget.standard.standard,
+                      style: AppTextStyles.subheading.copyWith(
+                        color: AppColors.snow,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                CustomButton(
+                  onPressed: () => widget.onTapViewInfo(),
+                  type: AppButtonType.outlined,
+                  color: AppButtonColor.gray,
+                  leading: CustomIcon(
+                    icon: Icons.notes_rounded,
+                    size: 24,
                     color: AppColors.snow,
                   ),
                 ),
-              ),
-            ),
-            const SizedBox(width: 12),
-            CustomButton(
-              onPressed: () => widget.onTapViewInfo(),
-              type: AppButtonType.outlined,
-              color: AppButtonColor.gray,
-              leading: CustomIcon(
-                icon: Icons.notes_rounded,
-                size: 24,
-                color: AppColors.snow,
-              ),
-            ),
-            const SizedBox(width: 12),
-            CustomButton(
-              onPressed: () => widget.onTapPlay(),
-              type: AppButtonType.secondary,
-              color: AppButtonColor.orange,
-              leading: CustomIcon(
-                icon: Icons.keyboard_arrow_right_rounded,
-                size: 24,
-                color: AppColors.orange,
-              ),
+                const SizedBox(width: 12),
+                CustomButton(
+                  isDisabled: widget.type == StandardBoxType.disabled,
+                  onPressed:
+                      () =>
+                          widget.type == StandardBoxType.disabled
+                              ? null
+                              : widget.onTapPlay(),
+                  type: AppButtonType.secondary,
+                  color: AppButtonColor.orange,
+                  leading: CustomIcon(
+                    icon: Icons.keyboard_arrow_right_rounded,
+                    size: 24,
+                    color: AppColors.orange,
+                  ),
+                ),
+              ],
             ),
           ],
         ),

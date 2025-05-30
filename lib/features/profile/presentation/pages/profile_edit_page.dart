@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:studia/core/core.dart';
 import 'package:studia/core/data/datasources/remote/dio_service.dart';
 import 'package:studia/core/di/provider.dart';
 import 'package:studia/core/data/datasources/local/drift/database.dart';
@@ -11,8 +12,6 @@ import 'package:studia/features/profile/data/repositories/profile_repository_imp
 import 'package:studia/features/profile/domain/usecases/edit_usecase.dart';
 import 'package:studia/features/profile/presentation/bloc/edit/profile_edit_bloc.dart';
 
-import 'package:studia/features/profile/presentation/bloc/profile_bloc.dart';
-import 'package:studia/features/profile/presentation/pages/profile_container.dart';
 import 'package:studia/features/profile/presentation/pages/profile_edit_container.dart';
 import 'package:studia/main.dart';
 
@@ -29,7 +28,11 @@ class ProfileEditPage extends StatelessWidget {
             EditProfileUsecase(
               getIt<UserProvider>(),
               ProfileRepositoryImpl(
-                profileDatasourceRemote: ProfileDatasourceRemote(getIt<DioService>().dio),
+                profileDatasourceRemote: ProfileDatasourceRemote(
+                  ApiClient(getIt<DioService>().dio),
+                ),
+                appDatabase: getIt<AppDatabase>(),
+                userProvider: getIt<UserProvider>(),
               ),
             ),
             getIt<UserProvider>().user!,

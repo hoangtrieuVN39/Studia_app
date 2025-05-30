@@ -38,7 +38,7 @@ class LoginPage extends StatelessWidget {
             loginRemoteUsecase: LoginRemoteUsecase(
               loginRepositoryRemote: LoginRepositoryRemoteImpl(
                 loginDatasourceRemote: LoginDatasourceRemoteImpl(
-                  datasourceRemote: ApiClient(dio: getIt.get<DioService>().dio),
+                  datasourceRemote: ApiClient(getIt.get<DioService>().dio),
                 ),
                 appDatabase: getIt.get<AppDatabase>(),
               ),
