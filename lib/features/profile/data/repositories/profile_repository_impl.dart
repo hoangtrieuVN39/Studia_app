@@ -18,7 +18,7 @@ class ProfileRepositoryImpl extends ProfileRepository {
 
   @override
   Future<Map<Skills, DateTime>> getSkillsTime(List<Skills> skills) async {
-    final skillsTime = await profileDatasourceRemote.getSkillsTime();
+    final skillsTime = await profileDatasourceRemote.getSkillsTime(skills);
     Map<Skills, DateTime> skillsTimeMap = {};
     for (var skill in skills) {
       skillsTimeMap[skill] =
@@ -29,7 +29,11 @@ class ProfileRepositoryImpl extends ProfileRepository {
 
   @override
   Future<void> updateProfile(User user) async {
-    await profileDatasourceRemote.updateProfile(UserModel.fromUser(user));
-    userProvider.setUser(user);
+    final updatedUser = await profileDatasourceRemote.updateProfile(
+      UserModel.fromUser(user),
+    );
+    final level = await appDatabase.selectLevels(id: updatedUser.parseLevelId);
+    final userWithLevel = updatedUser.copyWithResolvedLevel(level.first);
+    userProvider.setUser(userWithLevel);
   }
 }

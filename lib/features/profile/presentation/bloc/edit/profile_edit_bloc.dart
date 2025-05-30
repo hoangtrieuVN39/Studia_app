@@ -42,11 +42,12 @@ class ProfileEditBloc extends Bloc<ProfileEditEvent, ProfileEditState> {
   Future<void> _onInitial(Initial event, Emitter<ProfileEditState> emit) async {
     emit(state.copyWith(isLoading: true));
     final levels = await fetchLevelsUsecase();
+    final genders = Gender.values.map((e) => MapEntry(e, e.name)).toList();
     emit(
       state.copyWith(
         firstName: user.firstName,
         lastName: user.lastName,
-        gender: Gender.values.byName(user.gender),
+        gender: genders.firstWhere((e) => e.value == user.gender).key,
         yearOfBirth: user.birthYear,
         levels: levels,
         selectedLevel: user.level!,
@@ -98,11 +99,12 @@ class ProfileEditBloc extends Bloc<ProfileEditEvent, ProfileEditState> {
     await editProfileUsecase(
       firstName: state.firstName,
       lastName: state.lastName,
-      gender: state.gender.displayName,
+      gender: state.gender.name,
       level: state.selectedLevel,
       birthYear: state.yearOfBirth,
-    );
-    emit(state.copyWith(isLoading: false, isContinuePressed: true));
+    ).then((value) {
+      emit(state.copyWith(isLoading: false, isContinuePressed: true));
+    });
   }
 
   Future<void> _onBackPressed(

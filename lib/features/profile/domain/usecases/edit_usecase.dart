@@ -17,15 +17,13 @@ class EditProfileUsecase {
     int? birthYear,
   }) async {
     final user = userProvider.user;
-    userProvider.setUser(
-      user!.copyWith(
-        firstName: firstName,
-        lastName: lastName,
-        gender: gender,
-        level: level,
-        birthYear: birthYear,
-      ),
+    final newUser = user!.copyWith(
+      firstName: firstName,
+      lastName: lastName,
+      gender: gender,
+      level: level,
+      birthYear: birthYear,
     );
-    profileRepository.updateProfile(user);
+    profileRepository.updateProfile(newUser);
   }
 }

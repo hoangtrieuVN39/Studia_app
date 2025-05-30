@@ -78,27 +78,27 @@ class UserModel extends User {
     );
   }
 
-  Map<String, dynamic> toJson({
-    String? id,
-    String? firstName,
-    String? lastName,
-    String? gender,
-    String? email,
-    String? avatar,
-    int? birthYear,
-    List<double>? performance,
-    int? level,
-  }) {
+  Map<String, dynamic> toJson() {
     return {
-      'id': id ?? this.id,
-      'first_name': firstName ?? this.firstName,
-      'last_name': lastName ?? this.lastName,
-      'gender': gender ?? this.gender,
-      'email': email ?? this.email,
-      'avatar': avatar ?? this.avatar,
-      'birth_year': birthYear ?? this.birthYear,
-      'performance': performance ?? this.performance,
-      'level_id': level ?? this.level,
+      'id': id,
+      'first_name': firstName,
+      'last_name': lastName,
+      'gender': gender,
+      'email': email,
+      'avatar': avatar,
+      'birth_year': birthYear,
+      'performance': performance,
+      'level_id': level?.level_id,
+    };
+  }
+
+  Map<String, dynamic> toUpdateJson() {
+    return {
+      'first_name': firstName,
+      'last_name': lastName,
+      'gender': gender,
+      'level_id': level?.level_id,
+      'birth_year': birthYear,
     };
   }
 }

@@ -136,7 +136,7 @@ class ProfileContainer extends StatelessWidget {
   }
 
   _buildGender(ProfileState state) {
-    return state.user!.gender == 'Male'
+    return state.user!.gender == 'male'
         ? CustomIcon(icon: Icons.male_rounded, size: 32, color: AppColors.blue)
         : CustomIcon(
           icon: Icons.female_rounded,
