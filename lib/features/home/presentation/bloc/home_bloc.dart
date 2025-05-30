@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:dartz/dartz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:studia/core/data/datasources/local/drift/database.dart';
 import 'package:studia/core/domain/entities/user.dart';
@@ -44,7 +45,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     final questions = await fetchQuestionsUsecase.call(standardId: null);
     if (!questions.isEmpty) {
       emit(state.copyWith(isFirstPlay: true, questions: questions));
+      return;
     }
+
     final standards = await fetchStandardsUsecase.call(
       level: user.level!.level_id,
     );
@@ -87,6 +90,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     Emitter<HomeState> emit,
   ) async {
     emit(state.copyWith(isLoading: true));
+    if (state.selectedStandard == null) {
+      return;
+    }
     final questions = await fetchQuestionsUsecase.call(
       standardId: state.selectedStandard?.standard_id,
     );
