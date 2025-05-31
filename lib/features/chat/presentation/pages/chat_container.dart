@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:studia/core/core.dart';
 import 'package:studia/features/chat/domain/entities/message.dart';
 import 'package:studia/features/chat/presentation/bloc/chat_bloc.dart';
@@ -38,10 +39,28 @@ class ChatContainer extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 16),
       child: Column(
         spacing: 8,
-        children:
-            bloc.state.messageHistory
-                .map((message) => _ChatMessage(message))
-                .toList(),
+        children: [
+          SvgPicture.asset('assets/images/studia_logo_color.svg', height: 100),
+          SizedBox(height: 24),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Hello,',
+                style: AppTextStyles.h3.copyWith(color: AppColors.darkgray),
+              ),
+              SizedBox(width: 8),
+              Text(
+                bloc.userName,
+                style: AppTextStyles.h3.copyWith(color: AppColors.orange),
+              ),
+            ],
+          ),
+          SizedBox(height: 32),
+          ...bloc.state.messageHistory
+              .map((message) => _ChatMessage(message))
+              .toList(),
+        ],
       ),
     );
   }
@@ -51,10 +70,10 @@ class ChatContainer extends StatelessWidget {
       padding: EdgeInsets.all(16),
       child: Column(
         children: [
-          // _ChipBar(context, ['Chat', 'Chat', 'Chat'], (String item) {
-          //   bloc.add(ChatEvent.clickChip(item));
-          // }),
-          // SizedBox(height: 12),
+          _ChipBar(context, bloc.state.messageChips, (String item) {
+            bloc.add(ChatEvent.clickChip(item));
+          }),
+          SizedBox(height: 12),
           Row(
             children: [
               Expanded(
@@ -104,19 +123,22 @@ class ChatContainer extends StatelessWidget {
     List<String> items,
     void Function(String) onPressed,
   ) {
-    return Row(
-      spacing: 8,
-      children: [
-        ...List.generate(
-          items.length,
-          (index) => CustomIconChip(
-            text: items[index],
-            chipColor: CustomChipColor.orange,
-            onPressed: () => onPressed(items[index]),
-            chipSize: CustomChipSize.small,
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        spacing: 8,
+        children: [
+          ...List.generate(
+            items.length,
+            (index) => CustomIconChip(
+              text: items[index],
+              chipColor: CustomChipColor.orange,
+              onPressed: () => onPressed(items[index]),
+              chipSize: CustomChipSize.small,
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 

@@ -41,6 +41,8 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   final ScrollController _scrollController = ScrollController();
   ScrollController get scrollController => _scrollController;
 
+  String get userName => user.firstName;
+
   ChatBloc({
     required this.websocketUrl,
     required this.chipMessageUseCase,
@@ -152,7 +154,15 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   }
 
   Future<void> _onInitialEvent(_Initial event, Emitter<ChatState> emit) async {
-    emit(state.copyWith(isLoading: true, error: null));
+    final messageChips = [
+      'Help',
+      'Give advice',
+      'How to use',
+      'Can I learn this',
+    ];
+    emit(
+      state.copyWith(isLoading: true, error: null, messageChips: messageChips),
+    );
     final result = await getMessagesUseCase();
     result.fold(
       (failure) {
