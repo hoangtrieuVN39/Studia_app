@@ -1,5 +1,5 @@
 // App Text Constants
 
 class AppMainConstants {
-  static const double learned = 0.9;
+  static const double learnedThreshold = 0.9;
 }
