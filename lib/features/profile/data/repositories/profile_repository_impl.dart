@@ -1,7 +1,7 @@
 import 'package:studia/core/data/datasources/local/drift/database.dart';
 import 'package:studia/core/di/provider.dart';
 import 'package:studia/core/domain/entities/user.dart';
-import 'package:studia/features/auth/data/models/user_model.dart';
+import 'package:studia/features/profile/data/models/user_model.dart';
 import 'package:studia/features/profile/data/datasources/profile_datasource_remote.dart';
 import 'package:studia/features/profile/domain/repositories/profile_repository.dart';
 
@@ -29,11 +29,15 @@ class ProfileRepositoryImpl extends ProfileRepository {
 
   @override
   Future<void> updateProfile(User user) async {
+    // try {
     final updatedUser = await profileDatasourceRemote.updateProfile(
-      UserModel.fromUser(user),
+      UserUpdateModel.fromUser(user),
     );
-    final level = await appDatabase.selectLevels(id: updatedUser.parseLevelId);
-    final userWithLevel = updatedUser.copyWithResolvedLevel(level.first);
+    final level = await appDatabase.selectLevels(id: updatedUser.level);
+    final userWithLevel = user.copyWith(level: level.first);
     userProvider.setUser(userWithLevel);
+    // } catch (e) {
+    //   throw e;
+    // }
   }
 }

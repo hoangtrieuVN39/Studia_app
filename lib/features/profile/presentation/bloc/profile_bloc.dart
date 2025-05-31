@@ -96,9 +96,14 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     _SelectGrade event,
     Emitter<ProfileState> emit,
   ) async {
-    emit(state.copyWith(isLoading: true, selectedLevel: event.level));
-    await _onUIUpdateEvent(state, emit);
-    await editProfileUsecase.call(level: event.level);
+    emit(state.copyWith(isLoading: true));
+    try {
+      await editProfileUsecase.call(level: event.level);
+      await _onUIUpdateEvent(state, emit);
+      emit(state.copyWith(selectedLevel: event.level));
+    } catch (e) {
+      emit(state.copyWith(isLoading: false));
+    }
   }
 
   void _onEditProfileEvent(ProfileEvent event, Emitter<ProfileState> emit) {
