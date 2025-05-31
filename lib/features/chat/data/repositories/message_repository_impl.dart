@@ -12,18 +12,12 @@ class MessageRepositoryImpl implements MessageRepository {
 
   @override
   Future<List<Message>> getMessages(String userId) async {
-    final rawMessageMapList = await remoteDataSource.getMessages(userId);
     try {
-      return rawMessageMapList
-          .map(
-            (rawMessageMap) => MessageModel.fromJson(rawMessageMap),
-          )
-          .toList();
+      final List<Message> messages = await remoteDataSource.getMessages(userId);
+      return messages;
     } catch (e) {
-      print(
-        'Error parsing message from WebSocket: $e. Raw data: $rawMessageMapList',
-      );
-      return [];
+      print('Error parsing message from WebSocket: $e');
+      throw Exception(e);
     }
   }
 }

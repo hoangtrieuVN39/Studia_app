@@ -310,14 +310,14 @@ as String,
 
 
 class _MessageReceived implements ChatEvent {
-  const _MessageReceived({required final  List<Map<String, dynamic>> messages}): _messages = messages;
+  const _MessageReceived({required final  Map<String, dynamic> messages}): _messages = messages;
   
 
- final  List<Map<String, dynamic>> _messages;
- List<Map<String, dynamic>> get messages {
-  if (_messages is EqualUnmodifiableListView) return _messages;
+ final  Map<String, dynamic> _messages;
+ Map<String, dynamic> get messages {
+  if (_messages is EqualUnmodifiableMapView) return _messages;
   // ignore: implicit_dynamic_type
-  return EqualUnmodifiableListView(_messages);
+  return EqualUnmodifiableMapView(_messages);
 }
 
 
@@ -351,7 +351,7 @@ abstract mixin class _$MessageReceivedCopyWith<$Res> implements $ChatEventCopyWi
   factory _$MessageReceivedCopyWith(_MessageReceived value, $Res Function(_MessageReceived) _then) = __$MessageReceivedCopyWithImpl;
 @useResult
 $Res call({
- List<Map<String, dynamic>> messages
+ Map<String, dynamic> messages
 });
 
 
@@ -371,7 +371,7 @@ class __$MessageReceivedCopyWithImpl<$Res>
 @pragma('vm:prefer-inline') $Res call({Object? messages = null,}) {
   return _then(_MessageReceived(
 messages: null == messages ? _self._messages : messages // ignore: cast_nullable_to_non_nullable
-as List<Map<String, dynamic>>,
+as Map<String, dynamic>,
   ));
 }
 

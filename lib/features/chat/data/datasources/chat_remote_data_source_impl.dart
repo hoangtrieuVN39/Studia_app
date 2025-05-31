@@ -1,8 +1,10 @@
 import 'package:studia/core/constants/api_constants.dart';
 import 'package:studia/core/data/datasources/remote/datasource_remote.dart';
+import 'package:studia/features/chat/data/models/message_model.dart';
+import 'package:studia/features/chat/domain/entities/message.dart';
 
 abstract class ChatRemoteDataSource {
-  Future<List<dynamic>> getMessages(String userId);
+  Future<List<Message>> getMessages(String userId);
 }
 
 class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
@@ -10,12 +12,16 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
 
   ChatRemoteDataSourceImpl({required this.datasourceRemote});
 
-  Future<List<dynamic>> getMessages(String userId) async {
+  Future<List<Message>> getMessages(String userId) async {
     try {
       final jsonData = await datasourceRemote.get(ApiConstants.messages);
-      return jsonData;
+      final List<Message> messages = [];
+      for (var rawMessageMap in jsonData) {
+        messages.add(MessageModel.fromJson(rawMessageMap));
+      }
+      return messages;
     } catch (e) {
-      return [];
+      throw Exception(e);
     }
   }
 }

@@ -32,7 +32,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   final String websocketUrl;
   final GetMessagesUsecase getMessagesUseCase;
 
-  StreamSubscription<Either<Failure, String>>? _messageSubscription;
+  StreamSubscription? _messageSubscription;
   bool _isClosed = false;
 
   final TextEditingController _controller = TextEditingController();
@@ -81,39 +81,31 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
           // Cancel existing subscription if any
           _messageSubscription?.cancel();
 
-          _messageSubscription =
-              getWebSocketStreamUseCase().listen(
-                    (messageResult) {
-                      if (_isClosed) return;
-                      messageResult.fold(
-                        (failure) {
-                          print(
-                            "ChatBloc: Message stream error: ${failure.message}",
-                          );
-                          if (!_isClosed) {
-                            emit(state.copyWith(error: failure.toString()));
-                          }
-                        },
-                        (messageStr) {
-                          if (_isClosed) return;
-                          print("ChatBloc: Message received from stream");
-                          _processMessage(messageStr);
-                        },
-                      );
-                    },
-                    onError: (error) {
-                      print("ChatBloc: Message stream error: $error");
-                      if (!_isClosed) {
-                        emit(
-                          state.copyWith(
-                            error: "WebSocket stream error: $error",
-                          ),
-                        );
-                      }
-                    },
-                    cancelOnError: false,
-                  )
-                  as StreamSubscription<Either<Failure, String>>?;
+          _messageSubscription = getWebSocketStreamUseCase().listen(
+            (messageResult) {
+              if (_isClosed) return;
+              messageResult.fold(
+                (failure) {
+                  print("ChatBloc: Message stream error: ${failure.message}");
+                  if (!_isClosed) {
+                    emit(state.copyWith(error: failure.toString()));
+                  }
+                },
+                (messageStr) {
+                  if (_isClosed) return;
+                  print("ChatBloc: Message received from stream");
+                  _processMessage(messageStr);
+                },
+              );
+            },
+            onError: (error) {
+              print("ChatBloc: Message stream error: $error");
+              if (!_isClosed) {
+                emit(state.copyWith(error: "WebSocket stream error: $error"));
+              }
+            },
+            cancelOnError: false,
+          );
         },
       );
     });
@@ -125,23 +117,18 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     try {
       print("ChatBloc: Received raw message: $messageStr");
 
-      List<dynamic> messageData = [];
-      List<Map<String, dynamic>> encodedMessageData = [];
+      Map<String, dynamic> messageData = {};
 
       // Try parsing the message directly as JSON first
       try {
         messageData = jsonDecode(messageStr)['data'];
-        encodedMessageData =
-            messageData
-                .map((msgMap) => msgMap as Map<String, dynamic>)
-                .toList();
         print("ChatBloc: Successfully parsed as direct JSON");
       } catch (e) {
         print("ChatBloc: Failed to parse as direct JSON: $e");
       }
 
       if (!_isClosed) {
-        add(ChatEvent.messageReceived(messages: encodedMessageData));
+        add(ChatEvent.messageReceived(messages: messageData));
       }
     } catch (e) {
       print("ChatBloc: Error processing message: $e");
@@ -187,16 +174,17 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     try {
       print("ChatBloc: Processing received messages: ${event.messages}");
 
-      final List<Message> messages =
-          event.messages.map((msgMap) {
-            return MessageModel.fromJson(msgMap);
-          }).toList();
+      final Message message = MessageModel.fromJson(event.messages);
 
-      print("ChatBloc: Created message objects: $messages");
-      print("ChatBloc: Updated message history length: ${messages.length}");
+      print("ChatBloc: Created message objects: $message");
 
       if (!_isClosed) {
-        emit(state.copyWith(messageHistory: messages, error: null));
+        emit(
+          state.copyWith(
+            messageHistory: [...state.messageHistory, message],
+            error: null,
+          ),
+        );
         _scrollToBottom(emit);
       }
     } catch (e) {
