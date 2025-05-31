@@ -118,11 +118,7 @@ class HomeContainer extends StatelessWidget {
                     bottom: 16,
                     child: StandardBox(
                       state.selectedStandard!,
-                      type: getStandardBoxType(
-                        state.selectedStandard!,
-                        state.standards_performance[state.selectedStandard]!,
-                        state,
-                      ),
+                      type: getStandardBoxType(state),
                       isMinimized: false,
                       onTapViewInfo: () {
                         NavigatorService.push(
@@ -165,8 +161,9 @@ class HomeContainer extends StatelessWidget {
     return type;
   }
 
-  StandardBoxType getStandardBoxType(double performance, HomeState state) {
-    if (performance > AppMainConstants.learnedThreshold) {
+  StandardBoxType getStandardBoxType(HomeState state) {
+    if (state.standards_performance[state.selectedStandard]! >
+        AppMainConstants.learnedThreshold) {
       return StandardBoxType.done;
     }
     if (state.validActions.contains(state.selectedStandard!.standard_id)) {
