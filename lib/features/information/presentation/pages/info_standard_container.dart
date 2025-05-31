@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:studia/core/core.dart';
 import 'package:studia/features/information/domain/usecases/fetch_standard_details.dart';
 import 'package:studia/features/information/presentation/bloc/info_bloc.dart';
+import 'package:studia/main.dart';
 
 class InfoStandardContainer extends StatelessWidget {
   final StandardFullDetails standard;
@@ -22,7 +23,10 @@ class InfoStandardContainer extends StatelessWidget {
         children: [
           Text(standard.standard!.standard, style: AppTextStyles.h3),
           SizedBox(height: 16),
-          Text('Progress', style: AppTextStyles.subheading),
+          Text(
+            getIt.get<AppTextConstants>().progress,
+            style: AppTextStyles.subheading,
+          ),
           SizedBox(height: 8),
           CustomProgress(
             progress: standard.progress!,
@@ -30,11 +34,17 @@ class InfoStandardContainer extends StatelessWidget {
             showPercentage: true,
           ),
           SizedBox(height: 16),
-          Text('Description', style: AppTextStyles.subheading),
+          Text(
+            getIt.get<AppTextConstants>().description,
+            style: AppTextStyles.subheading,
+          ),
           SizedBox(height: 8),
           Text(standard.standard!.description!, style: AppTextStyles.body),
           SizedBox(height: 16),
-          Text('Skills', style: AppTextStyles.subheading),
+          Text(
+            getIt.get<AppTextConstants>().skills,
+            style: AppTextStyles.subheading,
+          ),
           SizedBox(height: 8),
           SkillItem(
             skill: standard.skill!,
@@ -43,7 +53,10 @@ class InfoStandardContainer extends StatelessWidget {
             },
           ),
           SizedBox(height: 16),
-          Text('Domains', style: AppTextStyles.subheading),
+          Text(
+            getIt.get<AppTextConstants>().domain,
+            style: AppTextStyles.subheading,
+          ),
           SizedBox(height: 8),
           DomainItem(
             domain: standard.domain!,
@@ -52,7 +65,10 @@ class InfoStandardContainer extends StatelessWidget {
             },
           ),
           SizedBox(height: 16),
-          Text('Levels', style: AppTextStyles.subheading),
+          Text(
+            getIt.get<AppTextConstants>().level,
+            style: AppTextStyles.subheading,
+          ),
           SizedBox(height: 8),
           LevelItem(
             level: standard.level!,

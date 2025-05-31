@@ -11,6 +11,7 @@ import 'package:studia/features/auth/data/datasources/login_datasource_local.dar
 import 'package:studia/features/auth/data/datasources/login_datasource_remote.dart';
 import 'package:studia/features/auth/data/repositories/login_repository_local_impl.dart';
 import 'package:studia/features/auth/data/repositories/login_repository_remote_impl.dart';
+import 'package:studia/features/auth/domain/usecases/get_language_usecase.dart';
 import 'package:studia/features/auth/domain/usecases/login_google_usecase.dart';
 import 'package:studia/features/auth/domain/usecases/login_remote_usecase.dart';
 import 'package:studia/features/auth/domain/usecases/login_shared-prefs_usecase.dart';
@@ -23,16 +24,23 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return BlocProvider(
       create:
           (context) => LoginBloc(
             loginSharedPrefsUsecase: LoginSharedPrefsUsecase(
               loginRepositoryLocal: LoginRepositoryLocalImpl(
-                loginDatasourceLocal: LoginDatasourceLocal(
+                LoginDatasourceLocal(
                   prefs: SharedPrefsManager(getIt.get<SharedPreferences>()),
                 ),
               ),
+            ),
+            getLanguageUsecase: GetLanguageUsecase(
+              LoginRepositoryLocalImpl(
+                LoginDatasourceLocal(
+                  prefs: SharedPrefsManager(getIt.get<SharedPreferences>()),
+                ),
+              ),
+              getIt.get<LanguageProvider>(),
             ),
             loginGoogleUsecase: LoginGoogleUsecase(),
             loginRemoteUsecase: LoginRemoteUsecase(
@@ -43,7 +51,7 @@ class LoginPage extends StatelessWidget {
                 appDatabase: getIt.get<AppDatabase>(),
               ),
               loginRepositoryLocal: LoginRepositoryLocalImpl(
-                loginDatasourceLocal: LoginDatasourceLocal(
+                LoginDatasourceLocal(
                   prefs: SharedPrefsManager(getIt.get<SharedPreferences>()),
                 ),
               ),

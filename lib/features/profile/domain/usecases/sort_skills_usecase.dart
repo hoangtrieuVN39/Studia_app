@@ -1,6 +1,8 @@
+import 'package:studia/core/core.dart';
 import 'package:studia/core/data/datasources/local/drift/database.dart';
 import 'package:studia/features/profile/domain/repositories/profile_repository.dart';
 import 'package:studia/features/profile/presentation/bloc/profile_bloc.dart';
+import 'package:studia/main.dart';
 
 class SortSkillsUsecase {
   final ProfileRepository profileRepository;
@@ -115,13 +117,13 @@ extension SkillsSortExtension on SkillsSort {
   String get name {
     switch (this) {
       case SkillsSort.latest:
-        return 'Latest';
+        return getIt.get<AppTextConstants>().latestSkills;
       case SkillsSort.oldest:
-        return 'Oldest';
+        return getIt.get<AppTextConstants>().oldestSkills;
       case SkillsSort.mostPerformance:
-        return 'Most Performance';
+        return getIt.get<AppTextConstants>().mostPerformancedSkills;
       case SkillsSort.leastPerformance:
-        return 'Least Performance';
+        return getIt.get<AppTextConstants>().leastPerformancedSkills;
     }
   }
 }

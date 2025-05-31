@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:studia/core/core.dart';
 import 'package:studia/features/chat/domain/entities/message.dart';
 import 'package:studia/features/chat/presentation/bloc/chat_bloc.dart';
+import 'package:studia/main.dart';
 
 class ChatContainer extends StatelessWidget {
   const ChatContainer({super.key});
@@ -15,7 +16,10 @@ class ChatContainer extends StatelessWidget {
       listener: (context, state) {},
       builder: (context, state) {
         return Scaffold(
-          appBar: CustomAppBarTitle.build(context, 'Chat'),
+          appBar: CustomAppBarTitle.build(
+            context,
+            getIt.get<AppTextConstants>().chat,
+          ),
           body: Column(
             children: [
               Expanded(
@@ -46,7 +50,7 @@ class ChatContainer extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Hello,',
+                getIt.get<AppTextConstants>().hello,
                 style: AppTextStyles.h3.copyWith(color: AppColors.darkgray),
               ),
               SizedBox(width: 8),
@@ -92,7 +96,7 @@ class ChatContainer extends StatelessWidget {
                       borderRadius: BorderRadius.circular(60),
                       borderSide: BorderSide(color: AppColors.coolgray),
                     ),
-                    hintText: 'Search',
+                    hintText: getIt.get<AppTextConstants>().chatPlaceholder,
                     hintStyle: AppTextStyles.body.copyWith(
                       color: AppColors.darkgray.withOpacity(0.5),
                     ),

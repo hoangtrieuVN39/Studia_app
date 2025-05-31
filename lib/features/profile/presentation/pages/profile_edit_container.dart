@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:studia/core/core.dart';
+import 'package:studia/core/di/injection.dart';
 import 'package:studia/features/profile/presentation/bloc/edit/profile_edit_bloc.dart';
 
 import 'package:studia/features/profile/presentation/bloc/profile_bloc.dart';
@@ -77,7 +78,7 @@ class ProfileEditContainer extends StatelessWidget {
           backgroundColor: AppColors.snow,
           appBar: CustomAppBarTitle.build(
             context,
-            'Profile Edit',
+            getIt.get<AppTextConstants>().editProfile,
             leading: CustomButton(
               onPressed: () {
                 profileEditBloc.add(const BackPressed());
@@ -100,8 +101,9 @@ class ProfileEditContainer extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         CustomTextField(
-                          label: 'First Name',
-                          hint: 'Input your first name',
+                          label: getIt.get<AppTextConstants>().firstName,
+                          hint:
+                              getIt.get<AppTextConstants>().inputYourFirstName,
                           initialValue: profileEditBloc.state.firstName,
                           onChanged: (value) {
                             profileEditBloc.add(
@@ -111,8 +113,8 @@ class ProfileEditContainer extends StatelessWidget {
                         ),
                         const SizedBox(height: 16),
                         CustomTextField(
-                          label: 'Last Name',
-                          hint: 'Input your last name',
+                          label: getIt.get<AppTextConstants>().lastName,
+                          hint: getIt.get<AppTextConstants>().inputYourLastName,
                           initialValue: profileEditBloc.state.lastName,
                           onChanged: (value) {
                             profileEditBloc.add(
@@ -121,7 +123,10 @@ class ProfileEditContainer extends StatelessWidget {
                           },
                         ),
                         const SizedBox(height: 16),
-                        Text('Gender', style: AppTextStyles.h3),
+                        Text(
+                          getIt.get<AppTextConstants>().gender,
+                          style: AppTextStyles.h3,
+                        ),
                         const SizedBox(height: 8),
                         Row(
                           children: [
@@ -160,10 +165,13 @@ class ProfileEditContainer extends StatelessWidget {
                           ],
                         ),
                         const SizedBox(height: 16),
-                        Text('Year of Birth', style: AppTextStyles.h3),
+                        Text(
+                          getIt.get<AppTextConstants>().yearOfBirth,
+                          style: AppTextStyles.h3,
+                        ),
                         const SizedBox(height: 8),
                         CustomPicker(
-                          label: 'Year of Birth',
+                          label: getIt.get<AppTextConstants>().yearOfBirth,
                           value: profileEditBloc.state.yearOfBirth.toString(),
                           onTap:
                               () => profileEditBloc.add(
@@ -171,10 +179,14 @@ class ProfileEditContainer extends StatelessWidget {
                               ),
                         ),
                         const SizedBox(height: 16),
-                        Text('Current school level', style: AppTextStyles.h3),
+                        Text(
+                          getIt.get<AppTextConstants>().currentSchoolLevel,
+                          style: AppTextStyles.h3,
+                        ),
                         const SizedBox(height: 8),
                         CustomPicker(
-                          label: 'Current school level',
+                          label:
+                              getIt.get<AppTextConstants>().currentSchoolLevel,
                           value:
                               state.selectedLevel != null
                                   ? state.selectedLevel!.level_name
@@ -197,7 +209,7 @@ class ProfileEditContainer extends StatelessWidget {
                     top: 8,
                   ),
                   child: CustomElevatedButton(
-                    text: 'Continue',
+                    text: getIt.get<AppTextConstants>().continueButton,
                     onPressed:
                         () => profileEditBloc.add(const ContinuePressed()),
                     active: isStep1Valid,

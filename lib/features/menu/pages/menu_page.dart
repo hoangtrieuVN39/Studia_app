@@ -21,9 +21,7 @@ class MenuPage extends StatelessWidget {
             getIt<UserProvider>().user!,
             LogoutUsecase(
               loginRepositoryLocal: LoginRepositoryLocalImpl(
-                loginDatasourceLocal: LoginDatasourceLocal(
-                  prefs: getIt.get<SharedPrefsManager>(),
-                ),
+                LoginDatasourceLocal(prefs: getIt.get<SharedPrefsManager>()),
               ),
             ),
           ),

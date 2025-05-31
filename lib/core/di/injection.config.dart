@@ -12,6 +12,7 @@
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:shared_preferences/shared_preferences.dart' as _i460;
+import 'package:studia/core/constants/text_constants.dart' as _i1027;
 import 'package:studia/core/data/datasources/local/drift/database.dart' as _i79;
 import 'package:studia/core/data/datasources/local/shared-prefs_manager.dart'
     as _i797;
@@ -42,6 +43,8 @@ extension GetItInjectableX on _i174.GetIt {
     final dioModule = _$DioModule();
     final userModule = _$UserModule();
     final appDatabaseModule = _$AppDatabaseModule();
+    final languageModule = _$LanguageModule();
+    final appTextConstantsModule = _$AppTextConstantsModule();
     await gh.singletonAsync<_i460.SharedPreferences>(
       () => sharedPrefsModule.prefs,
       preResolve: true,
@@ -60,6 +63,14 @@ extension GetItInjectableX on _i174.GetIt {
     );
     await gh.lazySingletonAsync<_i79.AppDatabase>(
       () => appDatabaseModule.appDatabase,
+      preResolve: true,
+    );
+    await gh.lazySingletonAsync<_i312.LanguageProvider>(
+      () => languageModule.languageProvider,
+      preResolve: true,
+    );
+    await gh.lazySingletonAsync<_i1027.AppTextConstants>(
+      () => appTextConstantsModule.appTextConstants,
       preResolve: true,
     );
     gh.lazySingleton<_i87.WebSocketRepository>(
@@ -90,3 +101,7 @@ class _$DioModule extends _i280.DioModule {}
 class _$UserModule extends _i312.UserModule {}
 
 class _$AppDatabaseModule extends _i312.AppDatabaseModule {}
+
+class _$LanguageModule extends _i312.LanguageModule {}
+
+class _$AppTextConstantsModule extends _i312.AppTextConstantsModule {}

@@ -8,6 +8,7 @@ import 'package:studia/features/information/presentation/pages/info_domain_conta
 import 'package:studia/features/information/presentation/pages/info_level_container.dart';
 import 'package:studia/features/information/presentation/pages/info_skill_container.dart';
 import 'package:studia/features/information/presentation/pages/info_standard_container.dart';
+import 'package:studia/main.dart';
 
 class InfoContainer extends StatelessWidget {
   const InfoContainer({super.key});
@@ -30,25 +31,25 @@ class InfoContainer extends StatelessWidget {
             level: state.levelDetails!,
             infoBloc: bloc,
           );
-          title = 'Level Details';
+          title = getIt.get<AppTextConstants>().levelDetails;
         } else if (state.selected is Skills) {
           content = InfoSkillContainer(
             skill: state.skillDetails!,
             infoBloc: bloc,
           );
-          title = 'Skill Details';
+          title = getIt.get<AppTextConstants>().skillDetails;
         } else if (state.selected is Domains) {
           content = InfoDomainContainer(
             domain: state.domainDetails!,
             infoBloc: bloc,
           );
-          title = 'Domain Details';
+          title = getIt.get<AppTextConstants>().domainDetails;
         } else if (state.selected is Standards) {
           content = InfoStandardContainer(
             standard: state.standardDetails!,
             infoBloc: bloc,
           );
-          title = 'Standard Details';
+          title = getIt.get<AppTextConstants>().standardDetails;
         } else {
           content = Container();
         }

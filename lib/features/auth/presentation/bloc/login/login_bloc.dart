@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:studia/core/di/provider.dart';
 import 'package:studia/core/error/exceptions.dart';
+import 'package:studia/features/auth/domain/usecases/get_language_usecase.dart';
 import 'package:studia/features/auth/domain/usecases/login_google_usecase.dart';
 import 'package:studia/features/auth/domain/usecases/login_remote_usecase.dart';
 import 'package:studia/features/auth/domain/usecases/login_shared-prefs_usecase.dart';
@@ -16,12 +17,14 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final LoginSharedPrefsUsecase loginSharedPrefsUsecase;
   final LoginGoogleUsecase loginGoogleUsecase;
   final LoginRemoteUsecase loginRemoteUsecase;
+  final GetLanguageUsecase getLanguageUsecase;
   final UserProvider userProvider;
 
   LoginBloc({
     required this.loginSharedPrefsUsecase,
     required this.loginGoogleUsecase,
     required this.loginRemoteUsecase,
+    required this.getLanguageUsecase,
     required this.userProvider,
   }) : super(const LoginState()) {
     on<LoginRequested>((event, emit) => _onLoginEvent(event, emit));
@@ -114,6 +117,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     Emitter<LoginState> emit,
   ) async {
     try {
+      await getLanguageUsecase();
       final googleUser = await loginSharedPrefsUsecase();
       print('Checking saved user: $googleUser');
       if (googleUser != null) {

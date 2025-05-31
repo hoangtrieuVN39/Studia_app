@@ -6,6 +6,7 @@ import 'package:studia/core/widgets.dart';
 import 'package:studia/core/widgets/standard_item.dart';
 import 'package:studia/features/information/domain/usecases/fetch_skill_details.dart';
 import 'package:studia/features/information/presentation/bloc/info_bloc.dart';
+import 'package:studia/main.dart';
 
 class InfoSkillContainer extends StatelessWidget {
   final SkillFullDetails skill;
@@ -26,7 +27,10 @@ class InfoSkillContainer extends StatelessWidget {
         children: [
           Text(skill.skill!.skill_name, style: AppTextStyles.h4),
           SizedBox(height: 16),
-          Text('Progress', style: AppTextStyles.subheading),
+          Text(
+            getIt.get<AppTextConstants>().progress,
+            style: AppTextStyles.subheading,
+          ),
           SizedBox(height: 8),
           CustomProgress(
             progress: skill.progress!,
@@ -35,7 +39,10 @@ class InfoSkillContainer extends StatelessWidget {
           ),
 
           SizedBox(height: 16),
-          Text('Skills', style: AppTextStyles.subheading),
+          Text(
+            getIt.get<AppTextConstants>().skills,
+            style: AppTextStyles.subheading,
+          ),
           SizedBox(height: 8),
           SkillItem(
             skill: skill.skill!,
@@ -44,7 +51,10 @@ class InfoSkillContainer extends StatelessWidget {
             },
           ),
           SizedBox(height: 16),
-          Text('Domains', style: AppTextStyles.subheading),
+          Text(
+            getIt.get<AppTextConstants>().domain,
+            style: AppTextStyles.subheading,
+          ),
           SizedBox(height: 8),
           DomainItem(
             domain: skill.domain!,
@@ -53,7 +63,10 @@ class InfoSkillContainer extends StatelessWidget {
             },
           ),
           SizedBox(height: 16),
-          Text('Levels', style: AppTextStyles.subheading),
+          Text(
+            getIt.get<AppTextConstants>().level,
+            style: AppTextStyles.subheading,
+          ),
           SizedBox(height: 8),
           LevelItem(
             level: skill.level!,
@@ -62,7 +75,10 @@ class InfoSkillContainer extends StatelessWidget {
             },
           ),
           SizedBox(height: 16),
-          Text('Standards', style: AppTextStyles.subheading),
+          Text(
+            getIt.get<AppTextConstants>().standards,
+            style: AppTextStyles.subheading,
+          ),
           SizedBox(height: 8),
           ...List<Widget>.generate(
             skill.standards!.length,

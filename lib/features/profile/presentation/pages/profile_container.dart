@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:studia/core/core.dart';
 import 'package:studia/features/profile/domain/usecases/sort_skills_usecase.dart';
 import 'package:studia/features/profile/presentation/bloc/profile_bloc.dart';
+import 'package:studia/main.dart';
 
 class ProfileContainer extends StatelessWidget {
   const ProfileContainer({super.key});
@@ -32,7 +33,7 @@ class ProfileContainer extends StatelessWidget {
         return Scaffold(
           appBar: CustomAppBarTitle.build(
             context,
-            'Profile',
+            getIt.get<AppTextConstants>().profile,
             leading: CustomButton(
               leading: Icon(Icons.arrow_back, color: AppColors.darkgray),
               onPressed:
@@ -48,7 +49,7 @@ class ProfileContainer extends StatelessWidget {
                   _buildHeader(context, state),
                   SizedBox(height: 8),
                   CustomButton(
-                    text: 'Edit Profile',
+                    text: getIt.get<AppTextConstants>().editProfile,
                     onPressed: () {
                       context.read<ProfileBloc>().add(
                         ProfileEvent.editProfile(),
@@ -105,7 +106,7 @@ class ProfileContainer extends StatelessWidget {
             ),
             SizedBox(height: 4),
             CustomPicker(
-              label: 'Level',
+              label: getIt.get<AppTextConstants>().level,
               value: state.selectedLevel?.level_name ?? '',
               onTap: () {
                 CustomBottomSheet.show(
@@ -150,9 +151,14 @@ class ProfileContainer extends StatelessWidget {
       children: [
         Row(
           children: [
-            Expanded(child: Text('Skills Overview', style: AppTextStyles.h4)),
+            Expanded(
+              child: Text(
+                getIt.get<AppTextConstants>().skillsOverview,
+                style: AppTextStyles.h4,
+              ),
+            ),
             CustomButton(
-              text: 'View All',
+              text: getIt.get<AppTextConstants>().viewAll,
               onPressed: () {
                 context.read<ProfileBloc>().add(ProfileEvent.viewAllSkills());
               },
@@ -201,7 +207,10 @@ class ProfileContainer extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Learned Skills', style: AppTextStyles.body),
+          Text(
+            getIt.get<AppTextConstants>().learnedSkills,
+            style: AppTextStyles.body,
+          ),
           SizedBox(height: 8),
           Row(
             children: [
@@ -232,7 +241,7 @@ class ProfileContainer extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            '''Avg.\nPerformance''',
+            getIt.get<AppTextConstants>().avgPerformance,
             style: AppTextStyles.body,
             textAlign: TextAlign.left,
           ),
@@ -252,9 +261,14 @@ class ProfileContainer extends StatelessWidget {
       children: [
         Row(
           children: [
-            Expanded(child: Text('Skills', style: AppTextStyles.h4)),
+            Expanded(
+              child: Text(
+                getIt.get<AppTextConstants>().skills,
+                style: AppTextStyles.h4,
+              ),
+            ),
             CustomPicker(
-              label: 'Sort by',
+              label: getIt.get<AppTextConstants>().sortBy,
               value: state.sortedSkills.name,
               onTap: () {
                 CustomBottomSheet.show(

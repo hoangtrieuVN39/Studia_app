@@ -6,6 +6,7 @@ import 'package:studia/core/core.dart';
 import 'package:studia/features/home/presentation/bloc/home_bloc.dart';
 import 'package:studia/features/home/presentation/widgets/standard_box.dart';
 import 'package:studia/features/home/presentation/widgets/standard_node.dart';
+import 'package:studia/main.dart';
 
 import '../../../../core/data/datasources/local/drift/database.dart';
 
@@ -44,7 +45,10 @@ class HomeContainer extends StatelessWidget {
           offsets.add(Offset(x.toDouble(), y.toDouble()));
         }
         return Scaffold(
-          appBar: CustomAppBarTitle.build(context, 'Home'),
+          appBar: CustomAppBarTitle.build(
+            context,
+            getIt.get<AppTextConstants>().home,
+          ),
           body: Container(
             alignment: Alignment.center,
             width: double.infinity,

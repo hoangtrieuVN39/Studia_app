@@ -1,10 +1,13 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:studia/core/core.dart';
 import 'package:studia/core/data/datasources/local/drift/database.dart';
 import 'package:studia/core/domain/entities/user.dart';
 import 'package:studia/features/skills/domain/usecases/fetch_domains_usecase.dart';
 import 'package:studia/features/skills/domain/usecases/fetch_levels_usecase.dart';
 import 'package:studia/features/skills/domain/usecases/fetch_skills_usecase.dart';
+
+import '../../../../main.dart';
 
 part 'skills_event.dart';
 part 'skills_state.dart';
@@ -92,9 +95,9 @@ extension NavItemExtension on NavItem {
   String get label {
     switch (this) {
       case NavItem.domains:
-        return 'Domains';
+        return getIt.get<AppTextConstants>().domain;
       case NavItem.skills:
-        return 'Skills';
+        return getIt.get<AppTextConstants>().skills;
     }
   }
 }

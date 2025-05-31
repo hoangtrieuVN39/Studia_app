@@ -5,6 +5,7 @@ import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:studia/core/core.dart';
 import 'package:studia/core/domain/entities/user.dart';
 import 'package:studia/core/error/failures.dart' hide Failure;
 import 'package:studia/core/domain/usecases/websocket/connect_websocket.dart';
@@ -16,6 +17,7 @@ import 'package:studia/features/chat/domain/entities/message.dart';
 import 'package:studia/features/chat/domain/usecases/chip_message.dart';
 import 'package:studia/features/chat/domain/usecases/create_message.dart';
 import 'package:studia/features/chat/domain/usecases/get_messages_usecase.dart';
+import 'package:studia/main.dart';
 
 part 'chat_event.dart';
 part 'chat_state.dart';
@@ -155,10 +157,10 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
 
   Future<void> _onInitialEvent(_Initial event, Emitter<ChatState> emit) async {
     final messageChips = [
-      'Help',
-      'Give advice',
-      'How to use',
-      'Can I learn this',
+      getIt.get<AppTextConstants>().help,
+      getIt.get<AppTextConstants>().giveAdvice,
+      getIt.get<AppTextConstants>().howToUse,
+      getIt.get<AppTextConstants>().canILearnThis,
     ];
     emit(
       state.copyWith(isLoading: true, error: null, messageChips: messageChips),

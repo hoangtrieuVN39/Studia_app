@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:studia/core/core.dart';
 import 'package:studia/features/playground/domain/entities/questions.dart';
 import 'package:studia/features/playground/presentation/bloc/play_bloc.dart';
+import 'package:studia/main.dart';
 
 class PlayChoiceContainer extends StatelessWidget {
   final PlayState state;
@@ -41,7 +42,7 @@ class PlayChoiceContainer extends StatelessWidget {
         ),
         SizedBox(height: 16),
         CustomButton(
-          text: 'Submit',
+          text: getIt.get<AppTextConstants>().submit,
           onPressed: () {
             if (state.selectedChoices[state.currentQuestionIndex] != -1) {
               bloc.add(PlayEvent.submit());

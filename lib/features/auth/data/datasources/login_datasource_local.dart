@@ -1,3 +1,4 @@
+import 'package:studia/core/constants/language_constants.dart';
 import 'package:studia/core/data/datasources/local/shared-prefs_manager.dart';
 
 class LoginDatasourceLocal {
@@ -23,6 +24,14 @@ class LoginDatasourceLocal {
   Future<void> removeUser() async {
     prefs.remove('user_id');
     prefs.remove('user_email');
+  }
+
+  Future<Language> getLanguage() async {
+    final language = await prefs.get('language');
+    return Language.values.firstWhere(
+      (e) => e.name == language,
+      orElse: () => Language.vi,
+    );
   }
 }
 

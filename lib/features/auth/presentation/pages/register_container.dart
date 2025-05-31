@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:studia/features/auth/presentation/pages/register_fav_container.dart';
+import 'package:studia/main.dart';
 import '../../../../core/core.dart';
 import '../bloc/register/register_bloc.dart';
 
@@ -72,7 +73,7 @@ class RegisterContainer extends StatelessWidget {
           backgroundColor: AppColors.snow,
           appBar: CustomAppBarTitle.build(
             context,
-            'Setup',
+            getIt.get<AppTextConstants>().setup,
             leading: CustomButton(
               onPressed: () {
                 registerBloc.add(RegisterEvent.backPressed());
@@ -102,8 +103,8 @@ class RegisterContainer extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 CustomTextField(
-                                  label: 'First Name',
-                                  hint: 'Input your first name',
+                                  label: getIt.get<AppTextConstants>().firstName,
+                                  hint: getIt.get<AppTextConstants>().inputYourFirstName,
                                   onChanged: (value) {
                                     registerBloc.add(
                                       RegisterEvent.setFirstName(value),
@@ -112,8 +113,8 @@ class RegisterContainer extends StatelessWidget {
                                 ),
                                 const SizedBox(height: 16),
                                 CustomTextField(
-                                  label: 'Last Name',
-                                  hint: 'Input your last name',
+                                  label: getIt.get<AppTextConstants>().lastName,
+                                  hint: getIt.get<AppTextConstants>().inputYourLastName,
                                   onChanged: (value) {
                                     registerBloc.add(
                                       RegisterEvent.setLastName(value),
@@ -121,7 +122,7 @@ class RegisterContainer extends StatelessWidget {
                                   },
                                 ),
                                 const SizedBox(height: 16),
-                                Text('Gender', style: AppTextStyles.h3),
+                                Text(getIt.get<AppTextConstants>().gender, style: AppTextStyles.h3),
                                 const SizedBox(height: 8),
                                 Row(
                                   children: [
@@ -175,10 +176,10 @@ class RegisterContainer extends StatelessWidget {
                                   ],
                                 ),
                                 const SizedBox(height: 16),
-                                Text('Year of Birth', style: AppTextStyles.h3),
+                                Text(getIt.get<AppTextConstants>().yearOfBirth, style: AppTextStyles.h3),
                                 const SizedBox(height: 8),
                                 CustomPicker(
-                                  label: 'Year of Birth',
+                                  label: getIt.get<AppTextConstants>().yearOfBirth,
                                   value:
                                       registerBloc.state.yearOfBirth.toString(),
                                   onTap: () {
@@ -189,12 +190,12 @@ class RegisterContainer extends StatelessWidget {
                                 ),
                                 const SizedBox(height: 16),
                                 Text(
-                                  'Current school level',
+                                  getIt.get<AppTextConstants>().currentSchoolLevel,
                                   style: AppTextStyles.h3,
                                 ),
                                 const SizedBox(height: 8),
                                 CustomPicker(
-                                  label: 'Current school level',
+                                  label: getIt.get<AppTextConstants>().currentSchoolLevel,
                                   value:
                                       state.selectedLevel != null
                                           ? state.selectedLevel!.level_name
@@ -218,7 +219,7 @@ class RegisterContainer extends StatelessWidget {
                             top: 8,
                           ),
                           child: CustomElevatedButton(
-                            text: 'Continue',
+                            text: getIt.get<AppTextConstants>().continueButton,
                             onPressed: () {
                               registerBloc.add(const ContinuePressed());
                             },

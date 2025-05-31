@@ -5,6 +5,7 @@ import '../../../../core/core.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../bloc/register/register_bloc.dart';
+import 'package:studia/main.dart';
 
 class RegisterFavContainer extends StatelessWidget {
   RegisterFavContainer({super.key, required this.state});
@@ -21,7 +22,10 @@ class RegisterFavContainer extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.max,
               children: [
-                Text('Favorite topics (Optional)', style: AppTextStyles.h3),
+                Text(
+                  getIt.get<AppTextConstants>().favoriteTopics,
+                  style: AppTextStyles.h3,
+                ),
                 const SizedBox(height: 8),
                 Container(
                   width: double.infinity,
@@ -41,7 +45,9 @@ class RegisterFavContainer extends StatelessWidget {
                             child: Row(
                               children: [
                                 Text(
-                                  'Pick topics below',
+                                  getIt
+                                      .get<AppTextConstants>()
+                                      .favoriteTopicsHint,
                                   style: AppTextStyles.subheading.copyWith(
                                     color: AppColors.gray,
                                   ),
@@ -78,7 +84,7 @@ class RegisterFavContainer extends StatelessWidget {
             top: 8,
           ),
           child: CustomElevatedButton(
-            text: 'Continue',
+            text: getIt.get<AppTextConstants>().continueButton,
             onPressed: () {
               context.read<RegisterBloc>().add(ContinueFavPressed());
             },

@@ -4,6 +4,7 @@ import 'package:studia/core/core.dart';
 import 'package:studia/core/widgets/app_nav_bar.dart';
 
 import 'package:studia/features/skills/presentation/bloc/skills_bloc.dart';
+import 'package:studia/main.dart';
 
 class SkillsContainer extends StatelessWidget {
   const SkillsContainer({super.key});
@@ -56,7 +57,7 @@ class SkillsContainer extends StatelessWidget {
         return Scaffold(
           appBar: CustomAppBarTitle.build(
             context,
-            'Skills',
+            getIt.get<AppTextConstants>().skills,
             leading: CustomButton(
               leading: Icon(Icons.arrow_back, color: AppColors.darkgray),
               onPressed: () => NavigatorService.pop(context),
@@ -70,7 +71,7 @@ class SkillsContainer extends StatelessWidget {
               child: Column(
                 children: [
                   CustomPicker(
-                    label: 'Level',
+                    label: getIt.get<AppTextConstants>().level,
                     value: state.selectedLevel?.level_name ?? '',
                     onTap: () => bloc.add(SkillsEvent.onSelectLevel()),
                   ),

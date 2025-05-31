@@ -4,6 +4,8 @@ import 'package:studia/core/data/datasources/local/drift/database.dart';
 import 'package:studia/features/information/domain/usecases/fetch_level_details.dart';
 import 'package:studia/features/information/presentation/bloc/info_bloc.dart';
 
+import '../../../../main.dart';
+
 class InfoLevelContainer extends StatefulWidget {
   final LevelFullDetails level;
   final InfoBloc infoBloc;
@@ -41,7 +43,7 @@ class _InfoLevelContainerState extends State<InfoLevelContainer> {
         children: [
           Text(level!.level.level_name, style: AppTextStyles.h3),
           SizedBox(height: 16),
-          Text('Progress', style: AppTextStyles.subheading),
+          Text(getIt.get<AppTextConstants>().progress, style: AppTextStyles.subheading),
           SizedBox(height: 8),
           CustomProgress(
             progress: level!.progress!,
@@ -50,7 +52,7 @@ class _InfoLevelContainerState extends State<InfoLevelContainer> {
           ),
           SizedBox(height: 16),
           CustomPicker(
-            label: 'Domain',
+            label: getIt.get<AppTextConstants>().domain,
             value: selectedDomain!.domain_name,
             onTap: () {
               CustomBottomSheet.show(
@@ -74,7 +76,7 @@ class _InfoLevelContainerState extends State<InfoLevelContainer> {
             },
           ),
           SizedBox(height: 16),
-          Text('Domain', style: AppTextStyles.subheading),
+          Text(getIt.get<AppTextConstants>().domain, style: AppTextStyles.subheading),
           SizedBox(height: 8),
           DomainItem(
             domain: selectedDomain!,
@@ -83,7 +85,7 @@ class _InfoLevelContainerState extends State<InfoLevelContainer> {
             },
           ),
           SizedBox(height: 16),
-          Text('Skills', style: AppTextStyles.subheading),
+          Text(getIt.get<AppTextConstants>().skills, style: AppTextStyles.subheading),
           SizedBox(height: 8),
           ...List<Widget>.generate(
             level!.domainsLevels

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:studia/core/core.dart';
 import 'package:studia/features/playground/presentation/bloc/play_bloc.dart';
+import 'package:studia/main.dart';
 
 class PlayResultsContainer extends StatelessWidget {
   final PlayState state;
@@ -41,12 +42,15 @@ class PlayResultsContainer extends StatelessWidget {
         ),
         SizedBox(height: 8),
         Text(
-          'Correct ${state.correctAnswers} out of ${state.questions.length}!',
+          getIt.get<AppTextConstants>().getResult(
+            state.correctAnswers,
+            state.questions.length,
+          ),
           style: AppTextStyles.h3.copyWith(color: AppColors.darkgray),
         ),
         SizedBox(height: 8),
         CustomButton(
-          text: "Done",
+          text: getIt.get<AppTextConstants>().done,
           onPressed: () {
             bloc.add(PlayEvent.quitConfirmed());
           },
@@ -108,12 +112,18 @@ class _ResultState extends State<Result> {
                 children: [
                   Text(widget.question, style: AppTextStyles.subheading),
                   SizedBox(height: 8),
-                  Text("Answer: ", style: AppTextStyles.subheading),
+                  Text(
+                    getIt.get<AppTextConstants>().answer,
+                    style: AppTextStyles.subheading,
+                  ),
                   SizedBox(height: 4),
                   Text(widget.answer, style: AppTextStyles.body),
                   if (isExpanded) ...[
                     SizedBox(height: 8),
-                    Text("Solution: ", style: AppTextStyles.subheading),
+                    Text(
+                      getIt.get<AppTextConstants>().solution,
+                      style: AppTextStyles.subheading,
+                    ),
                     SizedBox(height: 4),
                     Text(widget.explanation, style: AppTextStyles.body),
                   ],

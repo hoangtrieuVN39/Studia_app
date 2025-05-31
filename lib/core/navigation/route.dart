@@ -7,6 +7,7 @@ import 'package:studia/features/main/pages/main_page.dart';
 import 'package:studia/features/playground/presentation/pages/play_page.dart';
 import 'package:studia/features/profile/presentation/pages/profile_edit_page.dart';
 import 'package:studia/features/profile/presentation/pages/profile_page.dart';
+import 'package:studia/features/settings/presentation/pages/settings_page.dart';
 import 'package:studia/features/skills/presentation/pages/skills_page.dart';
 import 'package:studia/features/splash/presentation/pages/splash_page.dart';
 
@@ -22,6 +23,7 @@ class AppRoutes {
   static const String profileEdit = '$home/profile/edit';
   static const String skills = '$home/skills';
   static const String info = '$home/info';
+  static const String settings = 'settings';
 
   static Map<String, WidgetBuilder> routes({dynamic data}) {
     return {
@@ -35,7 +37,7 @@ class AppRoutes {
       profileEdit: (context) => const ProfileEditPage(),
       skills: (context) => const SkillsPage(),
       info: (context) => InfoPage(data: data),
-      // settings: (context) => const SettingsContainer(),
+      settings: (context) => const SettingsPage(),
     };
   }
 

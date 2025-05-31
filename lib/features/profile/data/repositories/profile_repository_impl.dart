@@ -29,15 +29,21 @@ class ProfileRepositoryImpl extends ProfileRepository {
 
   @override
   Future<void> updateProfile(User user) async {
-    // try {
-    final updatedUser = await profileDatasourceRemote.updateProfile(
-      UserUpdateModel.fromUser(user),
-    );
-    final level = await appDatabase.selectLevels(id: updatedUser.level);
-    final userWithLevel = user.copyWith(level: level.first);
-    userProvider.setUser(userWithLevel);
-    // } catch (e) {
-    //   throw e;
-    // }
+    try {
+      final updatedUser = await profileDatasourceRemote.updateProfile(
+        UserUpdateModel.fromUser(user),
+      );
+      final level = await appDatabase.selectLevels(id: updatedUser.level);
+      final userWithLevel = user.copyWith(
+        level: level.first,
+        firstName: updatedUser.firstName,
+        lastName: updatedUser.lastName,
+        gender: updatedUser.gender,
+        birthYear: updatedUser.birthYear,
+      );
+      userProvider.setUser(userWithLevel);
+    } catch (e) {
+      throw e;
+    }
   }
 }

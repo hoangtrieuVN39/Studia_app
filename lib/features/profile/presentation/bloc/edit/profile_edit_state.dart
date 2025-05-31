@@ -25,17 +25,17 @@ enum Gender { Male, Female, Other }
 extension GenderExtension on Gender {
   String get name {
     return switch (this) {
-      Gender.Male => 'male',
-      Gender.Female => 'female',
-      Gender.Other => 'other',
+      Gender.Male => getIt.get<AppTextConstants>().male,
+      Gender.Female => getIt.get<AppTextConstants>().female,
+      Gender.Other => getIt.get<AppTextConstants>().other,
     };
   }
 
   String get displayName {
     return switch (this) {
-      Gender.Male => 'Male',
-      Gender.Female => 'Female',
-      Gender.Other => 'Other',
+      Gender.Male => getIt.get<AppTextConstants>().maleDisplayName,
+      Gender.Female => getIt.get<AppTextConstants>().femaleDisplayName,
+      Gender.Other => getIt.get<AppTextConstants>().otherDisplayName,
     };
   }
 }

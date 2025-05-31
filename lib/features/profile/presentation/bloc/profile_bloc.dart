@@ -108,6 +108,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
   void _onEditProfileEvent(ProfileEvent event, Emitter<ProfileState> emit) {
     emit(state.copyWith(isLoading: true, isEditProfile: true));
+    emit(state.copyWith(isLoading: false, isEditProfile: false));
   }
 
   void _onViewAllSkillsEvent(ProfileEvent event, Emitter<ProfileState> emit) {
@@ -117,6 +118,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
   void _onViewSkillEvent(_ViewSkill event, Emitter<ProfileState> emit) {
     emit(state.copyWith(isLoading: true, viewSkill: event.skill));
+    emit(state.copyWith(isLoading: false, viewSkill: null));
   }
 
   Future<void> _onSelectSkillsSortEvent(
@@ -129,6 +131,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
   void _onBackEvent(ProfileEvent event, Emitter<ProfileState> emit) {
     emit(state.copyWith(isBack: true));
+    emit(state.copyWith(isBack: false));
   }
 
   double _onCalculateAvgPerformanceEvent(

@@ -7,6 +7,7 @@ import 'package:studia/core/domain/entities/user.dart';
 import 'package:studia/features/auth/domain/usecases/fetch_domains_usecase.dart';
 import 'package:studia/features/auth/domain/usecases/fetch_levels_usecase.dart';
 import 'package:studia/features/profile/domain/usecases/edit_usecase.dart';
+import 'package:studia/main.dart';
 
 part 'profile_edit_event.dart';
 part 'profile_edit_state.dart';

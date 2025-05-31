@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:studia/core/core.dart';
 import 'package:studia/features/playground/presentation/bloc/play_bloc.dart';
+import 'package:studia/main.dart';
 
 class PlayDoneContainer extends StatelessWidget {
   final PlayState state;
@@ -34,7 +35,10 @@ class PlayDoneContainer extends StatelessWidget {
                 ),
                 SizedBox(height: 16),
                 Text(
-                  'Correct ${state.correctAnswers} out of ${state.questions.length}!',
+                  getIt.get<AppTextConstants>().getResult(
+                    state.correctAnswers,
+                    state.questions.length,
+                  ),
                   style: AppTextStyles.h3.copyWith(color: AppColors.darkgray),
                 ),
               ],

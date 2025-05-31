@@ -6,6 +6,7 @@
 import 'dart:async' as _i3;
 
 import 'package:mockito/mockito.dart' as _i1;
+import 'package:studia/core/constants/language_constants.dart' as _i6;
 import 'package:studia/core/domain/entities/user.dart' as _i4;
 import 'package:studia/features/auth/domain/repositories/login_repository_local.dart'
     as _i5;
@@ -85,4 +86,15 @@ class MockLoginRepositoryLocal extends _i1.Mock
             returnValueForMissingStub: _i3.Future<void>.value(),
           )
           as _i3.Future<void>);
+
+  @override
+  _i3.Future<_i6.Language> getLanguage() =>
+      (super.noSuchMethod(
+            Invocation.method(#getLanguage, []),
+            returnValue: _i3.Future<_i6.Language>.value(_i6.Language.en),
+            returnValueForMissingStub: _i3.Future<_i6.Language>.value(
+              _i6.Language.en,
+            ),
+          )
+          as _i3.Future<_i6.Language>);
 }

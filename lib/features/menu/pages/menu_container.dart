@@ -4,6 +4,7 @@ import 'package:studia/core/core.dart';
 import 'package:studia/core/theme/app_text_styles.dart';
 import 'package:studia/core/widgets/app_bar.dart';
 import 'package:studia/features/menu/bloc/menu_bloc.dart';
+import 'package:studia/main.dart';
 
 class MenuContainer extends StatelessWidget {
   const MenuContainer({super.key});
@@ -21,11 +22,17 @@ class MenuContainer extends StatelessWidget {
         if (state.isLogout) {
           NavigatorService.pushReplacement(context, AppRoutes.login);
         }
+        if (state.isViewSettings) {
+          NavigatorService.push(context, AppRoutes.settings);
+        }
       },
       builder: (context, state) {
         final menuBloc = context.read<MenuBloc>();
         return Scaffold(
-          appBar: CustomAppBarTitle.build(context, 'Menu'),
+          appBar: CustomAppBarTitle.build(
+            context,
+            getIt.get<AppTextConstants>().menu,
+          ),
           body: Container(
             padding: EdgeInsets.all(16),
             child: Column(
@@ -61,7 +68,7 @@ class MenuContainer extends StatelessWidget {
                   child: Column(
                     children: [
                       _MenuItem(
-                        'Profile',
+                        getIt.get<AppTextConstants>().profile,
                         MenuItemColor.gray,
                         Icons.person_outline_rounded,
                         () {
@@ -70,7 +77,7 @@ class MenuContainer extends StatelessWidget {
                       ),
                       SizedBox(height: 8),
                       _MenuItem(
-                        'Skills',
+                        getIt.get<AppTextConstants>().skills,
                         MenuItemColor.gray,
                         Icons.extension_outlined,
                         () {
@@ -79,7 +86,7 @@ class MenuContainer extends StatelessWidget {
                       ),
                       SizedBox(height: 8),
                       _MenuItem(
-                        'Settings',
+                        getIt.get<AppTextConstants>().settings,
                         MenuItemColor.gray,
                         Icons.settings_outlined,
                         () {
@@ -93,7 +100,7 @@ class MenuContainer extends StatelessWidget {
                 Divider(),
                 SizedBox(height: 16),
                 _MenuItem(
-                  'Logout',
+                  getIt.get<AppTextConstants>().logout,
                   MenuItemColor.red,
                   Icons.logout_outlined,
                   () => menuBloc.add(MenuEvent.logout()),

@@ -7,6 +7,7 @@ import 'package:studia/features/playground/presentation/pages/play_choice_contai
 import 'package:studia/features/playground/presentation/pages/play_done_container.dart';
 import 'package:studia/features/playground/presentation/pages/play_results_container.dart';
 import 'package:studia/features/playground/presentation/pages/play_submit_container.dart';
+import 'package:studia/main.dart';
 
 class PlayContainer extends StatelessWidget {
   const PlayContainer({super.key});
@@ -19,7 +20,7 @@ class PlayContainer extends StatelessWidget {
           CustomDialog.show(
             context,
             icon: Icons.notes,
-            title: 'Solution',
+            title: getIt.get<AppTextConstants>().solution,
             description: state.questions[state.currentQuestionIndex].solution,
           );
         }
@@ -27,17 +28,17 @@ class PlayContainer extends StatelessWidget {
           CustomDialog.show(
             context,
             icon: Icons.warning_outlined,
-            title: 'If you quit, your progress will be lost!',
+            title: getIt.get<AppTextConstants>().quitWarning,
             buttons: [
               CustomButton(
-                text: 'Quit',
+                text: getIt.get<AppTextConstants>().quit,
                 onPressed:
                     () =>
                         context.read<PlayBloc>().add(PlayEvent.quitConfirmed()),
                 type: AppButtonType.transparent,
               ),
               CustomButton(
-                text: 'Stay',
+                text: getIt.get<AppTextConstants>().stay,
                 onPressed: () => Navigator.pop(context),
               ),
             ],

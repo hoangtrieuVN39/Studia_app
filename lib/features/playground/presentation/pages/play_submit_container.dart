@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:studia/core/core.dart';
 import 'package:studia/features/playground/domain/entities/questions.dart';
 import 'package:studia/features/playground/presentation/bloc/play_bloc.dart';
+import 'package:studia/main.dart';
 
 class PlaySubmitContainer extends StatelessWidget {
   final PlayBloc bloc;
@@ -42,7 +43,7 @@ class PlaySubmitContainer extends StatelessWidget {
           children: [
             Expanded(
               child: CustomButton(
-                text: 'View Solution',
+                text: getIt.get<AppTextConstants>().viewSolution,
                 onPressed: () {
                   bloc.add(PlayEvent.viewSolution());
                 },
@@ -56,8 +57,8 @@ class PlaySubmitContainer extends StatelessWidget {
               child: CustomButton(
                 text:
                     state.currentQuestionIndex == state.questions.length - 1
-                        ? 'Done'
-                        : 'Next',
+                        ? getIt.get<AppTextConstants>().done
+                        : getIt.get<AppTextConstants>().next,
                 onPressed: () {
                   if (state.currentQuestionIndex ==
                       state.questions.length - 1) {

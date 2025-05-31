@@ -33,7 +33,7 @@ class RegisterPage extends StatelessWidget {
             FetchLevelsUsecase(getIt.get<AppDatabase>()),
             LogoutUsecase(
               loginRepositoryLocal: LoginRepositoryLocalImpl(
-                loginDatasourceLocal: LoginDatasourceLocal(
+                LoginDatasourceLocal(
                   prefs: SharedPrefsManager(getIt.get<SharedPreferences>()),
                 ),
               ),
@@ -47,7 +47,7 @@ class RegisterPage extends StatelessWidget {
                 appDatabase: getIt.get<AppDatabase>(),
               ),
               LoginRepositoryLocalImpl(
-                loginDatasourceLocal: LoginDatasourceLocal(
+                LoginDatasourceLocal(
                   prefs: SharedPrefsManager(getIt.get<SharedPreferences>()),
                 ),
               ),
