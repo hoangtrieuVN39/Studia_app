@@ -7,6 +7,8 @@ import 'package:studia/features/home/presentation/bloc/home_bloc.dart';
 import 'package:studia/features/home/presentation/widgets/standard_box.dart';
 import 'package:studia/features/home/presentation/widgets/standard_node.dart';
 
+import '../../../../core/data/datasources/local/drift/database.dart';
+
 class HomeContainer extends StatelessWidget {
   const HomeContainer({super.key});
 
@@ -61,26 +63,6 @@ class HomeContainer extends StatelessWidget {
                           ...List<Widget>.generate(
                             state.standards_performance.length,
                             (index) {
-                              final standard =
-                                  state.standards_performance.keys
-                                      .toList()[index];
-
-                              StandardType type = StandardType.disabled;
-                              if (state.standards_performance.values
-                                      .toList()[index] >
-                                  AppMainConstants.learned) {
-                                type = StandardType.completed;
-                              } else if (state.recommendActions ==
-                                  standard.standard_id) {
-                                type = StandardType.recommended;
-                              } else if (state.validActions.contains(
-                                standard.standard_id,
-                              )) {
-                                type = StandardType.progress;
-                              } else {
-                                type = StandardType.disabled;
-                              }
-
                               return Container(
                                 height: 50,
                                 width: double.infinity,
@@ -102,7 +84,7 @@ class HomeContainer extends StatelessWidget {
                                       top: 0,
                                       bottom: 0,
                                       child: StandardNode(
-                                        type: type,
+                                        type: getStandardType(index, state),
                                         isSelected:
                                             state.standards_performance.keys
                                                 .toList()[index] ==
@@ -136,7 +118,11 @@ class HomeContainer extends StatelessWidget {
                     bottom: 16,
                     child: StandardBox(
                       state.selectedStandard!,
-                      type: StandardBoxType.progress,
+                      type: getStandardBoxType(
+                        state.selectedStandard!,
+                        state.standards_performance[state.selectedStandard]!,
+                        state,
+                      ),
                       isMinimized: false,
                       onTapViewInfo: () {
                         NavigatorService.push(
@@ -160,6 +146,33 @@ class HomeContainer extends StatelessWidget {
         );
       },
     );
+  }
+
+  StandardType getStandardType(int index, HomeState state) {
+    final standard = state.standards_performance.keys.toList()[index];
+
+    StandardType type = StandardType.disabled;
+    if (state.standards_performance.values.toList()[index] >
+        AppMainConstants.learnedThreshold) {
+      type = StandardType.completed;
+    } else if (state.recommendActions == standard.standard_id) {
+      type = StandardType.recommended;
+    } else if (state.validActions.contains(standard.standard_id)) {
+      type = StandardType.progress;
+    } else {
+      type = StandardType.disabled;
+    }
+    return type;
+  }
+
+  StandardBoxType getStandardBoxType(double performance, HomeState state) {
+    if (performance > AppMainConstants.learnedThreshold) {
+      return StandardBoxType.done;
+    }
+    if (state.validActions.contains(state.selectedStandard!.standard_id)) {
+      return StandardBoxType.progress;
+    }
+    return StandardBoxType.disabled;
   }
 }
 
