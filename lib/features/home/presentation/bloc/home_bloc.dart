@@ -97,9 +97,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       standardId: state.selectedStandard?.standard_id,
     );
     if (!questions.isEmpty) {
-      emit(state.copyWith(isFirstPlay: true, questions: questions));
+      emit(state.copyWith(questions: questions, isPlayTapped: true));
     }
-    emit(state.copyWith(isPlayTapped: true, isLoading: false));
+    emit(state.copyWith(isLoading: false));
   }
 
   Future<void> _onViewInfoButtonTappedEvent(

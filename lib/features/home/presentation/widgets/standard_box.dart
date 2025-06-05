@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:studia/core/core.dart';
 import 'package:studia/core/data/datasources/local/drift/database.dart';
+
+import '../../../../main.dart';
 
 enum StandardBoxType { progress, done, disabled, minimized }
 
@@ -59,7 +60,7 @@ class _StandardBoxState extends State<StandardBox> {
                     child: CustomButton(
                       onPressed: () => widget.onTapViewInfo(),
                       type: AppButtonType.transparent,
-                      text: 'View Info',
+                      text: getIt.get<AppTextConstants>().viewInfo,
                     ),
                   ),
                   Expanded(
@@ -71,7 +72,7 @@ class _StandardBoxState extends State<StandardBox> {
                                   ? null
                                   : widget.onTapPlay(),
                       type: AppButtonType.primary,
-                      text: 'Play',
+                      text: getIt.get<AppTextConstants>().play,
                     ),
                   ),
                 ],

@@ -50,7 +50,7 @@ class ChatContainer extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                getIt.get<AppTextConstants>().hello,
+                "${getIt.get<AppTextConstants>().hello},",
                 style: AppTextStyles.h3.copyWith(color: AppColors.darkgray),
               ),
               SizedBox(width: 8),

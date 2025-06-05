@@ -31,7 +31,7 @@ class UserUpdateModel {
               ?.map((e) => (e as num).toDouble())
               .toList() ??
           [],
-      level: json['level'] as int,
+      level: json['level_id'] as int,
     );
   }
 
