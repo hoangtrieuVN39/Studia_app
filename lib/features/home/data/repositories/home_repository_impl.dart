@@ -19,8 +19,9 @@ class HomeRepositoryImpl extends HomeRepository {
   }
 
   @override
-  Future<List<Question>> fetchQuestions({required int? standardId}) async {
-    return await remoteDataSource.fetchQuestions(standard: standardId);
+  Future<List<Question>> fetchQuestions(
+      {required int? standardId, required int languageId}) async {
+    return await remoteDataSource.fetchQuestions(standardId, languageId);
   }
 
   @override

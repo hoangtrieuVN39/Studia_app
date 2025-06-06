@@ -18,9 +18,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final FetchQuestionsUsecase fetchQuestionsUsecase;
   final FetchValidActionsUsecase fetchValidActionsUsecase;
   final FetchRecommendActionsUsecase fetchRecommendActionsUsecase;
+  final int languageId;
   final User user;
 
   HomeBloc({
+    required this.languageId,
     required this.fetchStandardsUsecase,
     required this.fetchQuestionsUsecase,
     required this.fetchValidActionsUsecase,
@@ -42,7 +44,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   Future<void> _onInitialEvent(Initial event, Emitter<HomeState> emit) async {
     emit(state.copyWith(isLoading: true));
-    final questions = await fetchQuestionsUsecase.call(standardId: null);
+    final questions = await fetchQuestionsUsecase(
+      standardId: null,
+      languageId: languageId,
+    );
     if (!questions.isEmpty) {
       emit(state.copyWith(isFirstPlay: true, questions: questions));
       return;
@@ -93,8 +98,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     if (state.selectedStandard == null) {
       return;
     }
-    final questions = await fetchQuestionsUsecase.call(
+    final questions = await fetchQuestionsUsecase(
       standardId: state.selectedStandard?.standard_id,
+      languageId: languageId,
     );
     if (!questions.isEmpty) {
       emit(state.copyWith(questions: questions, isPlayTapped: true));

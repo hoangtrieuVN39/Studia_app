@@ -8,8 +8,11 @@ class HomeDatasourceRemote {
 
   HomeDatasourceRemote({required this.datasourceRemote});
 
-  Future<List<Question>> fetchQuestions({int? standard}) async {
-    final data = {'standard_id': standard};
+  Future<List<Question>> fetchQuestions(int? standard, int language) async {
+    final data = {'language_id': language};
+    if (standard != null) {
+      data['standard_id'] = standard;
+    }
     final response = await datasourceRemote.get(
       '${ApiConstants.questions}',
       body: data,

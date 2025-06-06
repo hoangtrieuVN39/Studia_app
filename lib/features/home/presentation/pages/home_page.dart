@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:studia/core/constants/language_constants.dart';
 import 'package:studia/core/data/datasources/local/drift/database.dart';
 import 'package:studia/core/data/datasources/remote/dio_service.dart';
 import 'package:studia/core/di/provider.dart';
@@ -27,15 +28,14 @@ class HomePage extends StatelessWidget {
         BlocProvider(
           create:
               (context) => HomeBloc(
+                languageId: getIt<LanguageProvider>().language.code,
                 fetchValidActionsUsecase: FetchValidActionsUsecase(
                   repository: HomeRepositoryImpl(
                     localDataSource: HomeDatasourceLocal(
                       appDatabase: getIt.get<AppDatabase>(),
                     ),
                     remoteDataSource: HomeDatasourceRemote(
-                      datasourceRemote: ApiClient(
-                        getIt.get<DioService>().dio,
-                      ),
+                      datasourceRemote: ApiClient(getIt.get<DioService>().dio),
                     ),
                   ),
                 ),
@@ -45,18 +45,14 @@ class HomePage extends StatelessWidget {
                       appDatabase: getIt.get<AppDatabase>(),
                     ),
                     remoteDataSource: HomeDatasourceRemote(
-                      datasourceRemote: ApiClient(
-                        getIt.get<DioService>().dio,
-                      ),
+                      datasourceRemote: ApiClient(getIt.get<DioService>().dio),
                     ),
                   ),
                 ),
                 fetchQuestionsUsecase: FetchQuestionsUsecase(
                   homeRepository: HomeRepositoryImpl(
                     remoteDataSource: HomeDatasourceRemote(
-                      datasourceRemote: ApiClient(
-                        getIt.get<DioService>().dio,
-                      ),
+                      datasourceRemote: ApiClient(getIt.get<DioService>().dio),
                     ),
                     localDataSource: HomeDatasourceLocal(
                       appDatabase: getIt.get<AppDatabase>(),
@@ -70,9 +66,7 @@ class HomePage extends StatelessWidget {
                       appDatabase: getIt.get<AppDatabase>(),
                     ),
                     remoteDataSource: HomeDatasourceRemote(
-                      datasourceRemote: ApiClient(
-                        getIt.get<DioService>().dio,
-                      ),
+                      datasourceRemote: ApiClient(getIt.get<DioService>().dio),
                     ),
                   ),
                 ),
