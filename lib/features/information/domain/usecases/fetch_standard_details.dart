@@ -48,7 +48,11 @@ class FetchStandardDetails {
         substandardsInfo.add(
           StandardDetails(
             standard: substandard,
-            progress: userPerformance[substandard.standard_id],
+            progress:
+                substandard.standard_id > 0 &&
+                        substandard.standard_id <= userPerformance.length
+                    ? userPerformance[substandard.standard_id - 1]
+                    : 0.0,
           ),
         );
       }
@@ -56,7 +60,11 @@ class FetchStandardDetails {
 
     return StandardFullDetails(
       standard: selectedStandard,
-      progress: userPerformance[selectedStandard.standard_id],
+      progress:
+          selectedStandard.standard_id > 0 &&
+                  selectedStandard.standard_id <= userPerformance.length
+              ? userPerformance[selectedStandard.standard_id - 1]
+              : 0.0,
       skill: currentSkill!,
       level: currentLevel!,
       domain: currentDomain!,

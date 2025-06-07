@@ -55,9 +55,15 @@ class FetchLevelDetails {
   }
 
   double getProgress(List<double> userPerformance, List<Standards> standards) {
+    if (standards.isEmpty) {
+      return 0.0;
+    }
     double progress = 0;
     for (Standards standard in standards) {
-      progress += userPerformance[standard.standard_id];
+      if (standard.standard_id > 0 &&
+          standard.standard_id <= userPerformance.length) {
+        progress += userPerformance[standard.standard_id - 1];
+      }
     }
     return progress / standards.length;
   }

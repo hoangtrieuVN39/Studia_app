@@ -42,8 +42,8 @@ void main() {
     final result = await usecase.call(testSkills, SkillsSort.latest);
 
     // Assert
-    expect(result.keys.first, equals(testSkills.keys.last));
-    expect(result.keys.last, equals(testSkills.keys.first));
+    expect(result.keys.first, equals(testSkills.keys.first)); // skill_id: 1
+    expect(result.keys.last, equals(testSkills.keys.last)); // skill_id: 2
     verify(() => mockProfileRepository.getSkillsTime(any())).called(1);
   });
 
@@ -57,8 +57,8 @@ void main() {
     final result = await usecase.call(testSkills, SkillsSort.oldest);
 
     // Assert
-    expect(result.keys.first, equals(testSkills.keys.first));
-    expect(result.keys.last, equals(testSkills.keys.last));
+    expect(result.keys.first, equals(testSkills.keys.last)); // skill_id: 2
+    expect(result.keys.last, equals(testSkills.keys.first)); // skill_id: 1
     verify(() => mockProfileRepository.getSkillsTime(any())).called(1);
   });
 

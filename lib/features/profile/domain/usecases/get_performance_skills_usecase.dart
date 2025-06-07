@@ -10,8 +10,16 @@ class GetPerformanceSkillsUsecase {
     final standards = await appDatabase.selectStandards(skill: skill.skill_id);
     final standardsId = standards.map((standard) => standard.standard_id);
     final standardsPerformances = standardsId.map(
-      (standard_id) => standardsPerformance[standard_id],
+      (standard_id) =>
+          standard_id > 0 && standard_id <= standardsPerformance.length
+              ? standardsPerformance[standard_id - 1]
+              : 0.0,
     );
+
+    if (standardsPerformances.isEmpty) {
+      return 0.0;
+    }
+
     int count = 0;
     for (var performance in standardsPerformances) {
       if (performance >= standardsThreshold) {

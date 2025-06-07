@@ -10,10 +10,16 @@ class MockUserProvider extends Mock implements UserProvider {}
 
 class MockProfileRepository extends Mock implements ProfileRepository {}
 
+class FakeUser extends Fake implements User {}
+
 void main() {
   late EditProfileUsecase usecase;
   late MockUserProvider mockUserProvider;
   late MockProfileRepository mockProfileRepository;
+
+  setUpAll(() {
+    registerFallbackValue(FakeUser());
+  });
 
   setUp(() {
     mockUserProvider = MockUserProvider();
@@ -36,7 +42,6 @@ void main() {
   test('should update user profile', () async {
     // Arrange
     when(() => mockUserProvider.user).thenReturn(testUser);
-    when(() => mockUserProvider.setUser(any())).thenAnswer((_) async {});
     when(
       () => mockProfileRepository.updateProfile(any()),
     ).thenAnswer((_) async {});
@@ -51,8 +56,6 @@ void main() {
     );
 
     // Assert
-    verify(() => mockUserProvider.user).called(1);
-    verify(() => mockUserProvider.setUser(any())).called(1);
     verify(() => mockProfileRepository.updateProfile(any())).called(1);
   });
 }

@@ -56,9 +56,9 @@ void main() {
     expect(result.skill, equals(testSkill));
     expect(result.level, equals(testLevel));
     expect(result.domain, equals(testDomain));
-    expect(result.standardsInfo, isNotEmpty);
-    expect(result.standardsInfo.first.standard, equals(testStandard));
-    expect(result.standardsInfo.first.progress, equals(0.8));
+    expect(result.standards, isNotEmpty);
+    expect(result.standards.first.standard, equals(testStandard));
+    expect(result.standards.first.progress, equals(0.8));
 
     verify(() => mockDatabase.selectStandards()).called(1);
     verify(() => mockDatabase.selectLevels()).called(1);
@@ -83,7 +83,7 @@ void main() {
     expect(result.skill, equals(testSkill));
     expect(result.level, equals(testLevel));
     expect(result.domain, equals(testDomain));
-    expect(result.standardsInfo, isEmpty);
+    expect(result.standards, isEmpty);
 
     verify(() => mockDatabase.selectStandards()).called(1);
     verify(() => mockDatabase.selectLevels()).called(1);

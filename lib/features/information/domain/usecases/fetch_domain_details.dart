@@ -41,7 +41,9 @@ class FetchDomainDetails {
               )
               .toList();
       if (levelSkills.isNotEmpty) {
-        levelsDomains.add(LevelDomainDetails(level: level, skills: levelSkills));
+        levelsDomains.add(
+          LevelDomainDetails(level: level, skills: levelSkills),
+        );
       }
     }
 
@@ -53,9 +55,15 @@ class FetchDomainDetails {
   }
 
   double getProgress(List<double> userPerformance, List<Standards> standards) {
+    if (standards.isEmpty) {
+      return 0.0;
+    }
     double progress = 0;
     for (Standards standard in standards) {
-      progress += userPerformance[standard.standard_id];
+      if (standard.standard_id > 0 &&
+          standard.standard_id <= userPerformance.length) {
+        progress += userPerformance[standard.standard_id - 1];
+      }
     }
     return progress / standards.length;
   }
