@@ -17,7 +17,7 @@ class UserProvider {
 }
 
 class LanguageProvider {
-  Language _language = Language.vi;
+  Language _language = Language.en;
   Language get language => _language;
 
   LanguageProvider();
